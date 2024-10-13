@@ -7,12 +7,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    padding: 16,
   },
   title: {
     fontSize: 24,
+    marginBottom: 16,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+  },
+  infoContainer: {
+    marginTop: 20,
+    width: '100%',
+  },
+  infoTitle: {
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 8,
   },
 });
 
