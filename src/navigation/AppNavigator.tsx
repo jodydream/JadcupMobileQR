@@ -7,14 +7,14 @@ import LoginScreen from '../screens/LoginScreen';
 
 import MainScreen from '../screens/MainScreen'; // 导入主屏幕
 import SecondScreen from '../screens/SecondScreen'; // 导入次屏幕
-import MainTestScreen from '../screens/MainTestScreen';
+import TemplateScreen from '../screens/TemplateScreen';
 import TestScreen from '../screens/TestScreen';
 
 
 // 定义导航栈参数类型
 export type RootStackParamList = {
   LoginScreen:undefined;
-  MainTestScreen:undefined;
+  TemplateScreen:undefined;
   MainScreen: undefined;
   SecondScreen: undefined;
   TestScreen: undefined;
@@ -27,15 +27,15 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Navigator initialRouteName="TemplateScreen">
       <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
           options={{headerShown: false}} // 隐藏系统导航栏
         />
       <Stack.Screen
-          name="MainTestScreen"
-          component={MainTestScreen}
+          name="TemplateScreen"
+          component={TemplateScreen}
           options={{headerShown: false}} // 隐藏系统导航栏
         />
 
