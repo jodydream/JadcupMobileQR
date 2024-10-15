@@ -5,16 +5,17 @@ const customTheme: MD3Theme = {
   ...DefaultTheme,  // 基于默认主题进行定制
   colors: {
     ...DefaultTheme.colors,
-    primary: '#1976d2',            // 蓝色：主要颜色，应用于按钮、AppBar等
-    secondary: '#ff9800',          // 橙色：次要颜色，应用于次级操作
-    background: '#f5f5f5',         // 浅灰色背景，用于整个应用背景
-    surface: '#ffffff',            // 白色表面，卡片等表面使用
-    error: '#d32f2f',              // 红色错误提示颜色
-    onBackground: '#212121',       // 背景上的文本颜色（深色文本）
-    onSurface: '#000000',          // 表面上的文本颜色（黑色文本）
-    primaryContainer: '#bbdefb',   // 淡蓝色，用于主要容器
-    secondaryContainer: '#ffe0b2', // 浅橙色，用于次要容器
+    primary: '#7AC391',            // 绿色：主要颜色，应用于按钮、AppBar等
+    secondary: '#7AC391',          // 绿色：次要颜色，应用于次级操作
+    background: '#ffffff',         // 白色：背景，用于整个应用背景
+    onBackground: '#ffffff',       // 白色：背景，上的文本颜色（深色文本）
+    surface: '#EFEFEF',            // 浅灰1：表面背景，卡片等表面使用--输入框边框
+    onSurface: '#CECECE',          // 深灰1：表面，上的文本，颜色（黑色文本--输入框文字
+    // primaryContainer: '#bbdefb',   // 淡蓝色：用于主要容器
+    // secondaryContainer: '#ffe0b2', // 浅橙色：用于次要容器
+    // error: '#d32f2f',              // 红色：错误提示颜色
   },
+  
   fonts: {
     ...DefaultTheme.fonts,
     bodyMedium: {

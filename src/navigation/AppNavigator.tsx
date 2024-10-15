@@ -5,12 +5,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
 
-
 import MainScreen from '../screens/MainScreen'; // 导入主屏幕
 import SecondScreen from '../screens/SecondScreen'; // 导入次屏幕
 import MainTestScreen from '../screens/MainTestScreen';
 import TestScreen from '../screens/TestScreen';
-
 
 
 // 定义导航栈参数类型
