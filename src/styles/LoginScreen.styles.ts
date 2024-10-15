@@ -1,34 +1,77 @@
 // src/screens/MainScreen.styles.ts
-
 import { StyleSheet } from 'react-native';
+import { LAYOUT, SPACING } from '../styles/theme/dimensions'; // 尺寸常量
+import theme from '../styles/theme/theme'; // 自定义主题
 
 const styles = StyleSheet.create({
-  container: {
+  wholeContaine: {
+    backgroundColor: '#ffffff',
+    width: '100%',
+    height: '100%',
+  },
+  mainContainer: {
     flex: 1,
+    marginTop: LAYOUT.statusBarHeight,
+    marginHorizontal: LAYOUT.margingHorizontal,
+    marginBottom: LAYOUT.marginBottom,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 44,
+  },
+  logoContainer: {
+    width: 44,
+    height: 44,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
   },
-  title: {
+  logo: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  headline: {
+    marginTop: 30,
     fontSize: 24,
-    marginBottom: 16,
+    // fontWeight: 'bold',
+    textAlign: 'center',
+    color: theme.colors.onBackground,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#CECECE',
+    borderRadius: theme.roundness,
+    marginTop: 30,
+    marginBottom: SPACING.medium,
+    paddingHorizontal: 10,
+    backgroundColor: '#FFFFFF',
   },
   input: {
-    width: '100%',
-    height: 40,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
-    borderRadius: 4,
+    flex: 1,
+    height: 50,
+    fontSize: 16,
+    color: theme.colors.onSurface,
   },
-  infoContainer: {
-    marginTop: 20,
+
+  loginButton: {
+    marginTop: 60,
+    height: 60,
     width: '100%',
+    alignSelf: 'center',
+    borderRadius: theme.roundness,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.primary,
   },
-  infoTitle: {
-    fontWeight: 'bold',
-    marginBottom: 8,
+  buttonText: {
+    color: 'white',
+    fontSize: 20
+  },
+  icon: {
+    marginRight: 10,
   },
 });
 
