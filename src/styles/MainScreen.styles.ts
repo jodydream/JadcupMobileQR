@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   headline: {
     marginTop: 30,
     fontSize: 24,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     textAlign: 'center',
     color: theme.colors.onBackground,
   },
@@ -55,9 +55,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: theme.colors.onSurface,
   },
+
   loginButton: {
     marginTop: 60,
-    height: 50,
+    height: 60,
     width: '100%',
     alignSelf: 'center',
     borderRadius: theme.roundness,
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontWeight: 'bold',
+    fontSize: 20
   },
   icon: {
     marginRight: 10,
