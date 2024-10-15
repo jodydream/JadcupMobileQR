@@ -23,6 +23,9 @@ target 'JadcupMobileQR' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # 添加 react-native-vector-icons 的 pod 配置
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'JadcupMobileQRTests' do
     inherit! :complete
     # Pods for testing
@@ -37,4 +40,5 @@ target 'JadcupMobileQR' do
       # :ccache_enabled => true
     )
   end
+
 end
