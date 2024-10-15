@@ -1,22 +1,24 @@
 // src/screens/MainScreen.styles.ts
-
 import { StyleSheet } from 'react-native';
-import { LAYOUT, SPACING, SCREEN } from '../styles/theme/dimensions'; // 尺寸常量
+import { LAYOUT, SPACING } from '../styles/theme/dimensions'; // 尺寸常量
 import theme from '../styles/theme/theme'; // 自定义主题
 
 const styles = StyleSheet.create({
+  wholeContaine: {
+    backgroundColor: '#ffffff',
+    width: '100%',
+    height: '100%',
+  },
   mainContainer: {
     flex: 1,
-    paddingTop: LAYOUT.statusBarHeight,
-    paddingHorizontal: LAYOUT.paddingHorizontal,
-    paddingBottom: LAYOUT.paddingBottom,
-    backgroundColor: theme.colors.background,
+    marginTop: LAYOUT.statusBarHeight,
+    marginHorizontal: LAYOUT.margingHorizontal,
+    marginBottom: LAYOUT.marginBottom,
   },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     height: 44,
-    marginBottom: SPACING.medium,
   },
   logoContainer: {
     width: 44,
@@ -29,28 +31,46 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'contain',
   },
-  title: {
+  headline: {
+    marginTop: 30,
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-    flex: 1,
+    color: theme.colors.onBackground,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#CECECE',
+    borderRadius: theme.roundness,
+    marginTop: 30,
+    marginBottom: SPACING.medium,
+    paddingHorizontal: 10,
+    backgroundColor: '#FFFFFF',
   },
   input: {
+    flex: 1,
     height: 50,
-    marginBottom: SPACING.medium,
-    borderRadius: theme.roundness,
-    backgroundColor: theme.colors.surface,
+    fontSize: 16,
+    color: theme.colors.onSurface,
   },
   loginButton: {
+    marginTop: 60,
     height: 50,
-    width: SCREEN.width * 0.8,
+    width: '100%',
     alignSelf: 'center',
     borderRadius: theme.roundness,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.primary,
   },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  icon: {
+    marginRight: 10,
   },
 });
 

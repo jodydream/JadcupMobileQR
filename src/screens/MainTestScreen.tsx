@@ -10,7 +10,7 @@ type Props = StackScreenProps<RootStackParamList, 'MainTestScreen'>;
 
 const MainTestScreen = ({navigation}: Props) => {
   return (
-    <View style={styles.container}>
+    <View >
       <Text style={styles.title}>Welcome to the Main Test Screen</Text>
 
       <Button

@@ -8,7 +8,7 @@ const customTheme: MD3Theme = {
     primary: '#7AC391',            // 绿色：主要颜色，应用于按钮、AppBar等
     secondary: '#7AC391',          // 绿色：次要颜色，应用于次级操作
     background: '#ffffff',         // 白色：背景，用于整个应用背景
-    onBackground: '#ffffff',       // 白色：背景，上的文本颜色（深色文本）
+    onBackground: 'black',       // 白色：背景上的,文本颜色（深色文本）
     surface: '#EFEFEF',            // 浅灰1：表面背景，卡片等表面使用--输入框边框
     onSurface: '#CECECE',          // 深灰1：表面，上的文本，颜色（黑色文本--输入框文字
     // primaryContainer: '#bbdefb',   // 淡蓝色：用于主要容器

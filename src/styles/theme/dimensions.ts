@@ -13,9 +13,10 @@ export const SPACING = {
 };
 
 export const LAYOUT = {
-  paddingHorizontal: 82, // 水平边距
-  paddingBottom: 82, // 底部边距
+  margingHorizontal: 20, // 水平边距
+  marginBottom: 10, // 底部边距
   statusBarHeight: StatusBar.currentHeight || 20, // 状态栏高度
+  mainTitleHeight : 44
 };
 
 export const SCREEN = {
