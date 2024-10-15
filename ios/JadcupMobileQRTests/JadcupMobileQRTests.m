@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface BasicRnProjTests : XCTestCase
+@interface JadcupMobileQRTests : XCTestCase
 
 @end
 
-@implementation BasicRnProjTests
+@implementation JadcupMobileQRTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {

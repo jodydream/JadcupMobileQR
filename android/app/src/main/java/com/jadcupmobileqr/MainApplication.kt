@@ -1,4 +1,4 @@
-package com.basicrnproj
+package com.jadcupmobileqr
 
 import android.app.Application
 import com.facebook.react.PackageList
