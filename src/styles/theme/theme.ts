@@ -1,7 +1,7 @@
-import { MD3LightTheme as DefaultTheme, MD3Theme } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme } from 'react-native-paper';
 
 // 定制主题对象
-const customTheme: MD3Theme = {
+const customTheme = {
   ...DefaultTheme,  // 基于默认主题进行定制
   colors: {
     ...DefaultTheme.colors,
@@ -14,6 +14,13 @@ const customTheme: MD3Theme = {
     // primaryContainer: '#bbdefb',   // 淡蓝色：用于主要容器
     // secondaryContainer: '#ffe0b2', // 浅橙色：用于次要容器
     // error: '#d32f2f',              // 红色：错误提示颜色
+     
+    //从深到浅色
+    textfontcolorblack:'#ffffff', 
+    textfontcolorgreydark1:'#4F4F4F',
+    textfontcolorgreydark2:'#6C6C6C', //
+    textfontcolorgreydark3:'#CECECE', //onSurface: '#CECECE',   深
+    textfontcolorgreylight:'#EFEFEF', //surface: '#EFEFEF',浅
   },
   
   fonts: {
@@ -38,5 +45,7 @@ const customTheme: MD3Theme = {
     scale: 1.2,   // 设置动画速度稍快，放大动画速度为1.2倍
   },
 };
+
+
 
 export default customTheme;

@@ -4,23 +4,22 @@ import {
   View,
   Text,
   Image,
-  ScrollView,
   StatusBar,
-  StyleSheet,
   TouchableOpacity,
   FlatList,
+  ListRenderItem,
 } from 'react-native';
-import {LAYOUT, SPACING} from '../styles/theme/dimensions';
-import theme from '../styles/theme/theme';
-import AntDesign from 'react-native-vector-icons/AntDesign'; // 图标库
-import styles from '../styles/TestScreen.styles';
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
+import AntDesign from 'react-native-vector-icons/AntDesign'; // 引入图标库
+import styles from '../styles/TestScreen.styles'; // 样式文件
 
-type Props = StackScreenProps<RootStackParamList, 'SecondScreen'>;
+// 定义 Section 类型
+interface Section {
+  title: string;
+  items: string[];
+}
 
-// 功能区的示例数据
-const sections = [
+// 示例数据
+const sections: Section[] = [
   {
     title: '生产车间',
     items: ['Storeto Pallet上托盘'],
@@ -28,10 +27,10 @@ const sections = [
   {
     title: '存储货物',
     items: [
-      'Storeto Pallet上托盘',
-      'PalletRelocate移托盘',
-      'MergingPallets合托盘',
-      'ItemRelocate移货',
+      'Pallet Inbound入仓库',
+      'Pallet Relocate移托盘',
+      'Merging Pallets合托盘',
+      'Item Relocate移货',
     ],
   },
   {
@@ -39,8 +38,8 @@ const sections = [
     items: ['PickingList拣货'],
   },
   {
-    title: '司机交货',
-    items: ['Confirm Delivery确定交货'],
+    title: '其他',
+    items: ['Item Scanner查条码', 'Defect缺陷管理'],
   },
   {
     title: '其他',
@@ -48,57 +47,68 @@ const sections = [
   },
 ];
 
-const MainScreen = ({navigation}: Props) => {
+const MainScreen = ({navigation}: any) => {
+  // 使用 ListRenderItem<Section> 注解 renderSection 函数
+  const renderSection: ListRenderItem<Section> = ({item}) => (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>{item.title}</Text>
+      {item.items.map((subItem, idx) => (
+        <View key={idx} style={styles.item}>
+          <Text style={styles.itemText}>{subItem}</Text>
+        </View>
+      ))}
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       {/* 状态栏 */}
       <StatusBar
         barStyle="dark-content"
-        backgroundColor={theme.colors.background}
+        backgroundColor="transparent"
         translucent
       />
 
       {/* 标题栏 */}
       <View style={styles.headerBar}>
-        <TouchableOpacity style={styles.gobackbtn} onPress={() => navigation.goBack()}>
-          <AntDesign name="left" size={24} color={theme.colors.onBackground} />
+        <TouchableOpacity
+          style={styles.gobackbtn}
+          onPress={() => navigation.goBack()}>
+          <AntDesign name="left" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.headerText}>主页</Text>
+
+        <View style={styles.headerTitleContainer}>
+          <Text style={styles.headerText}>主页</Text>
+        </View>
+
         <TouchableOpacity style={styles.settingbtn}>
-          <AntDesign name="setting" size={24} color={theme.colors.onBackground}/>
+          <AntDesign name="setting" size={24} color="black" />
         </TouchableOpacity>
       </View>
 
-      {/* 滚动内容 */}
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* 用户信息 */}
-        <View style={styles.userInfoSection}>
-          <Image
-            source={require('../../assets/images/head.png')} // 头像路径
-            style={styles.userAvatar}
-          />
-          <View>
-            <Text style={styles.userName}>Jody Jia</Text>
-            <Text style={styles.userRole}>IT Programmer</Text>
-          </View>
+      {/* 用户信息 */}
+      <View style={styles.userInfoSection}>
+        <Image
+          source={require('../../assets/images/head.png')}
+          style={styles.userAvatar}
+        />
+        <View>
+          <Text style={styles.userName}>Jody Jia</Text>
+          <Text style={styles.userRole}>IT Programmer</Text>
         </View>
+      </View >
 
-        {/* 渲染功能区 */}
-        {sections.map((section, index) => (
-          <View key={index} style={styles.section}>
-            <Text style={styles.sectionTitle}>{section.title}</Text>
-            <FlatList
-              data={section.items}
-              renderItem={({item}) => (
-                <View style={styles.item}>
-                  <Text style={styles.itemText}>{item}</Text>
-                </View>
-              )}
-              keyExtractor={(item, idx) => `${item}-${idx}`}
-            />
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.lineview}>
+      </View>
+
+      {/* 使用 FlatList 渲染内容 */}
+      <FlatList
+        
+        data={sections}
+        renderItem={renderSection}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.scrollContent}
+      />
     </View>
   );
 };

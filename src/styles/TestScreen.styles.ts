@@ -9,38 +9,42 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
 
-
-  // 1 标题栏
+  // 标题区
   headerBar: {
+    marginTop:10,
     height: 80,
     paddingHorizontal: SPACING.medium,
     backgroundColor: theme.colors.surface,
-
-    flexDirection: 'row', // 水平排列
-    justifyContent: 'space-between',// 左中右对齐
-    alignItems: 'center',// 垂直居中
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  gobackbtn:{
-    backgroundColor:'red',
+  gobackbtn: {
+    backgroundColor: 'red',
+    padding: 10,
+  },
+  headerTitleContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
   headerText: {
-    backgroundColor:'red',
+    // backgroundColor: 'red',
     fontSize: 18,
     fontWeight: 'bold',
     color: theme.colors.primary,
   },
-  settingbtn:{
-    backgroundColor:'red',
+  settingbtn: {
+    // backgroundColor: 'red',
+    padding: 10,
   },
 
-  // 2 滑动区域
-  scrollContent: {
-    padding: SPACING.medium,
-  },
+
+
+  // 用户区
   userInfoSection: {
+    padding: SPACING.medium,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SPACING.large,
   },
   userAvatar: {
     width: 80,
@@ -57,6 +61,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     // color: theme.colors.onBackgroundSecondary,
   },
+
+  // 分割线
+  lineview:{
+    width:'100%',
+    height:5,
+    backgroundColor:theme.colors.surface,
+
+  },
+
+  // 功能区
+  scrollContent: {
+    padding: SPACING.medium,
+  },
   section: {
     marginBottom: SPACING.large,
   },
@@ -69,12 +86,12 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: theme.colors.surface,
     padding: SPACING.medium,
-    borderRadius: theme.roundness,
+    borderRadius: 5,
     marginBottom: SPACING.small,
   },
   itemText: {
     fontSize: 16,
-    color: theme.colors.onSurface,
+    color: theme.colors.textfontcolorgreydark2,
   },
 });
 
