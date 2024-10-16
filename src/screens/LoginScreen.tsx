@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import styles from '../styles/MainScreen.styles';
+import styles from '../styles/LoginScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
 import {postData} from '../services/api'; // 引入 API 服务
 import { StackScreenProps } from '@react-navigation/stack';
