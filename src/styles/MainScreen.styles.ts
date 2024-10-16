@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
 
   // 标题区
   headerBar: {
+    marginTop:10,
     padding: SPACING.medium,
     flexDirection: 'row',
     justifyContent: 'space-between',

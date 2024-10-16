@@ -10,13 +10,11 @@ import SecondScreen from '../screens/SecondScreen'; // 导入次屏幕
 import TemplateScreen from '../screens/TemplateScreen';
 import TestScreen from '../screens/TestScreen';
 
-
 // 定义导航栈参数类型
 export type RootStackParamList = {
-  //Record<string, any> | undefined
-  LoginScreen:Record<string, any> | undefined;
-  MainScreen: Record<string, any> | undefined;
-  TemplateScreen:undefined;
+  LoginScreen:undefined;
+  MainScreen:  { sections: MainSection[] };
+  TemplateScreen: undefined;
   SecondScreen: undefined;
   TestScreen: undefined;
 };
@@ -24,17 +22,17 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
-  const isTestModeEnabled = true;  // 控制是否显示 TestScreen
+  const isTestModeEnabled = true; // 控制是否显示 TestScreen
 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginScreen">
-      <Stack.Screen
+        <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
           options={{headerShown: false}} // 隐藏系统导航栏
         />
-      <Stack.Screen
+        <Stack.Screen
           name="TemplateScreen"
           component={TemplateScreen}
           options={{headerShown: false}} // 隐藏系统导航栏

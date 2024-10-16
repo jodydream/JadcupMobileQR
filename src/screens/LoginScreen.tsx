@@ -26,6 +26,47 @@ const LoginScreen = ({ navigation }: Props) => {
   const [loading, setLoading] = useState(false);
   const [loginInfo, setLoginInfo] = useState(null); // 存储返回的登录信息
 
+//   // 定义 Section 类型
+// interface Section {
+//   title: string;
+//   items: string[];
+// }
+  const sections: MainSection[] = [
+    {
+      title: '生产车间',
+      items: ['Storeto Pallet上托盘'],
+    },
+    {
+      title: '存储货物',
+      items: [
+        'Pallet Inbound入仓库',
+        'Pallet Relocate移托盘',
+        'Merging Pallets合托盘',
+        'Item Relocate移货',
+      ],
+    },
+    {
+      title: '订单处理中',
+      items: ['PickingList拣货'],
+    },
+    {
+      title: '其他1',
+      items: ['Item Scanner查条码', 'Defect缺陷管理'],
+    },
+    {
+      title: '其他2',
+      items: ['Item Scanner查条码', 'Defect缺陷管理'],
+    },
+    {
+      title: '其他3',
+      items: ['Item Scanner查条码', 'Defect缺陷管理'],
+    },
+    {
+      title: '',
+      items: ['', ''],
+    },
+  ];
+
   // 登录请求函数
   const handleLogin = async () => {
     setLoading(true); // 开启加载状态
@@ -37,7 +78,8 @@ const LoginScreen = ({ navigation }: Props) => {
       const response = await postData('/api/Employee/EmployeeLogin', data);
       //setLoginInfo(response); // 设置登录信息
       // Alert.alert('Login Success', JSON.stringify(response)); // 成功提示
-      navigation.navigate('MainScreen')
+
+      navigation.navigate('MainScreen',{ sections })
 
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示

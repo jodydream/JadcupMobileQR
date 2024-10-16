@@ -12,54 +12,14 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign'; // 引入图标库
 import styles from '../styles/MainScreen.styles'; // 样式文件
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/AppNavigator';  // 导入导航类型
+import { RootStackParamList } from '../navigation/AppNavigator'; 
 
 type Props = StackScreenProps<RootStackParamList, 'MainScreen'>;
 
-// 定义 Section 类型
-interface Section {
-  title: string;
-  items: string[];
-}
 
-// 示例数据
-const sections: Section[] = [
-  {
-    title: '生产车间',
-    items: ['Storeto Pallet上托盘'],
-  },
-  {
-    title: '存储货物',
-    items: [
-      'Pallet Inbound入仓库',
-      'Pallet Relocate移托盘',
-      'Merging Pallets合托盘',
-      'Item Relocate移货',
-    ],
-  },
-  {
-    title: '订单处理中',
-    items: ['PickingList拣货'],
-  },
-  {
-    title: '其他1',
-    items: ['Item Scanner查条码', 'Defect缺陷管理'],
-  },
-  {
-    title: '其他2',
-    items: ['Item Scanner查条码', 'Defect缺陷管理'],
-  },
-  {
-    title: '其他3',
-    items: ['Item Scanner查条码', 'Defect缺陷管理'],
-  },
-  {
-    title: '',
-    items: ['', ''],
-  },
-];
+const MainScreen: React.FC<Props> = ({route}) => {
+  const { sections } = route.params; // 获取传递过来的 JSON 数据
 
-const MainScreen = ({navigation}: Props) => {
   // 使用 ListRenderItem<Section> 注解 renderSection 函数
   const renderSection: ListRenderItem<Section> = ({item}) => (
     <View style={styles.section}>
@@ -74,9 +34,8 @@ const MainScreen = ({navigation}: Props) => {
 
   const goBack = () => { 
     console.log("xxxxxxxxxxx");
-    navigation.goBack();
+    console.log(sections);
   }
-
 
   return (
     <View style={styles.container}>
