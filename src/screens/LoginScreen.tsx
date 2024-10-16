@@ -13,12 +13,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import styles from '../styles/LoginScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
 import {postData} from '../services/api'; // 引入 API 服务
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/AppNavigator';  // 导入导航类型
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
 
 type Props = StackScreenProps<RootStackParamList, 'LoginScreen'>;
 
-const LoginScreen = ({ navigation }: Props) => {
+const LoginScreen = ({navigation}: Props) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // 密码可见性
 
   const [username, setUsername] = useState('');
@@ -26,12 +26,7 @@ const LoginScreen = ({ navigation }: Props) => {
   const [loading, setLoading] = useState(false);
   const [loginInfo, setLoginInfo] = useState(null); // 存储返回的登录信息
 
-//   // 定义 Section 类型
-// interface Section {
-//   title: string;
-//   items: string[];
-// }
-  const sections: MainSection[] = [
+  let sections: MainSection[] = [
     {
       title: '生产车间',
       items: ['Storeto Pallet上托盘'],
@@ -79,8 +74,33 @@ const LoginScreen = ({ navigation }: Props) => {
       //setLoginInfo(response); // 设置登录信息
       // Alert.alert('Login Success', JSON.stringify(response)); // 成功提示
 
-      navigation.navigate('MainScreen',{ sections })
 
+      const responsejson: any = response;
+      // 获取第一级键 "data" 的值
+      const datapages = responsejson['data']['pages'];
+      const mobilePages = datapages.filter(
+        (page: {group: {groupName: string}}) =>
+          page.group?.groupName === 'Mobile',
+      );
+      // 只提取需要的字段
+      interface Page {
+        pageId: number;
+        pageName: string;
+        pageUrl: string;
+        sortingOrder: number;
+        groupId: number;
+      }
+      const  mobileresult = mobilePages.map((page: Page) => ({
+        pageId: page.pageId,
+        pageName: page.pageName,
+        pageUrl: page.pageUrl,
+        sortingOrder: page.sortingOrder,
+        groupId: page.groupId,
+      }));
+      console.log(mobileresult);
+
+
+      //navigation.navigate('MainScreen', {sections});
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
     } finally {
@@ -154,9 +174,7 @@ const LoginScreen = ({ navigation }: Props) => {
         </View>
 
         {/* 登录按钮 */}
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={handleLogin}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.buttonText}>Agree and Sign In</Text>
         </TouchableOpacity>
       </View>
