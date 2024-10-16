@@ -21,7 +21,7 @@ const MainScreen: React.FC<Props> = ({route}) => {
   const { sections } = route.params; // 获取传递过来的 JSON 数据
 
   // 使用 ListRenderItem<Section> 注解 renderSection 函数
-  const renderSection: ListRenderItem<Section> = ({item}) => (
+  const renderSection: ListRenderItem<MainSection> = ({item}) => (
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{item.title}</Text>
       {item.items.map((subItem, idx) => (
