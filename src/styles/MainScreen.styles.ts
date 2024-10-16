@@ -29,7 +29,9 @@ const styles = StyleSheet.create({
   },
   gobackbtn: {
   },
+
   settingbtn: {
+    alignSelf:'flex-end'
   },
 
   // 用户区
@@ -41,15 +43,19 @@ const styles = StyleSheet.create({
   userAvatar: {
     width: 80,
     height: 80,
-    borderRadius: 40,
+    // borderRadius: 40,
     marginRight: SPACING.medium,
   },
-  userName: {
+  userTextContainer:{
+    flex:1
+  },
+
+  userNametext: {
     fontSize: 24,
     fontWeight: 'bold',
     color: theme.colors.onBackground,
   },
-  userRole: {
+  userRoletext: {
     fontSize: 16,
   },
 

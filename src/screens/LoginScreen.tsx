@@ -40,7 +40,14 @@ const LoginScreen = ({navigation}: Props) => {
       const responsejson: any = response;
       const mobileresult = loginHelpers.getMobiledata(responsejson);
       let sections: MainSection[] = loginHelpers.convertToSections(mobileresult);
-      navigation.navigate('MainScreen', {sections});
+      //获取用户信息
+      let userInfo = {
+        "employeeId": responsejson["data"]["employeeId"],
+        "name": responsejson["data"]["name"]
+      };
+      console.log(userInfo);
+
+      navigation.navigate('MainScreen', {sections,userInfo});
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
     } finally {

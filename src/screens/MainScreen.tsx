@@ -10,6 +10,9 @@ import {
   ListRenderItem,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'; // 引入图标库
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 引入图标库
+import Entypo from 'react-native-vector-icons/Entypo'; // 引入图标库
+
 import styles from '../styles/MainScreen.styles'; // 样式文件
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/AppNavigator'; 
@@ -17,8 +20,8 @@ import { RootStackParamList } from '../navigation/AppNavigator';
 type Props = StackScreenProps<RootStackParamList, 'MainScreen'>;
 
 
-const MainScreen: React.FC<Props> = ({route}) => {
-  const { sections } = route.params; // 获取传递过来的 JSON 数据
+const MainScreen: React.FC<Props> = ({navigation,route}) => {
+  const { sections,userInfo } = route.params; // 获取传递过来的 JSON 数据
 
   // 使用 ListRenderItem<Section> 注解 renderSection 函数
   const renderSection: ListRenderItem<MainSection> = ({item}) => (
@@ -32,28 +35,18 @@ const MainScreen: React.FC<Props> = ({route}) => {
     </View>
   );
 
-  const goBack = () => { 
-    console.log("xxxxxxxxxxx");
-    console.log(sections);
+  const logout = () => { 
+    navigation.navigate('LoginScreen');
   }
 
   return (
     <View style={styles.container}>
       {/* 1 标题栏 */}
       <View style={styles.headerBar}>
-        <TouchableOpacity
-          style={styles.gobackbtn}
-          onPress={goBack}>
-          <AntDesign name="left" size={20} color="black" />
-        </TouchableOpacity>
-
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerText}>主页</Text>
         </View>
 
-        <TouchableOpacity style={styles.settingbtn}>
-          <AntDesign name="setting" size={20} color="black" />
-        </TouchableOpacity>
       </View>
 
       {/* 2 用户信息 */}
@@ -62,10 +55,14 @@ const MainScreen: React.FC<Props> = ({route}) => {
           source={require('../../assets/images/head.png')}
           style={styles.userAvatar}
         />
-        <View>
-          <Text style={styles.userName}>Jody Jia</Text>
-          <Text style={styles.userRole}>IT Programmer</Text>
+
+        <View style={styles.userTextContainer}>
+          <Text style={styles.userNametext}>{userInfo.name}</Text>
+          <Text style={styles.userRoletext}>employeeId: {userInfo.employeeId}</Text>
         </View>
+        <TouchableOpacity style={styles.settingbtn} onPress={logout}>
+          <MaterialIcons name="logout" size={20} color="black" />
+        </TouchableOpacity>
       </View >
       <View style={styles.lineview}>
       </View>
