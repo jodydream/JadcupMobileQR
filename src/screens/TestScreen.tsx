@@ -62,19 +62,12 @@ const MainScreen = ({navigation}: any) => {
 
   return (
     <View style={styles.container}>
-      {/* 状态栏 */}
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent
-      />
-
       {/* 标题栏 */}
       <View style={styles.headerBar}>
         <TouchableOpacity
           style={styles.gobackbtn}
           onPress={() => navigation.goBack()}>
-          <AntDesign name="left" size={24} color="black" />
+          <AntDesign name="left" size={20} color="black" />
         </TouchableOpacity>
 
         <View style={styles.headerTitleContainer}>
@@ -82,7 +75,7 @@ const MainScreen = ({navigation}: any) => {
         </View>
 
         <TouchableOpacity style={styles.settingbtn}>
-          <AntDesign name="setting" size={24} color="black" />
+          <AntDesign name="setting" size={20} color="black" />
         </TouchableOpacity>
       </View>
 

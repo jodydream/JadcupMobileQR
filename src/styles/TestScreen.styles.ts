@@ -5,24 +5,18 @@ import theme from '../styles/theme/theme';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // backgroundColor:'red',
     backgroundColor: theme.colors.background,
   },
 
   // 标题区
   headerBar: {
-    marginTop:10,
-    height: 80,
-    paddingHorizontal: SPACING.medium,
-    backgroundColor: theme.colors.surface,
+    padding: SPACING.medium,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  gobackbtn: {
-    backgroundColor: 'red',
-    padding: 10,
-  },
+
   headerTitleContainer: {
     flex: 1,
     alignItems: 'center',
@@ -33,12 +27,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: theme.colors.primary,
   },
-  settingbtn: {
-    // backgroundColor: 'red',
-    padding: 10,
+  gobackbtn: {
   },
-
-
+  settingbtn: {
+  },
 
   // 用户区
   userInfoSection: {
