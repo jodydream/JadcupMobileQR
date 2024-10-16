@@ -5,6 +5,7 @@ import theme from '../styles/theme/theme';
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1, //如果不设置会导致FlatList 最后几项不能滑动到屏幕上。
     backgroundColor: theme.colors.background,
   },
 
@@ -50,7 +51,6 @@ const styles = StyleSheet.create({
   },
   userRole: {
     fontSize: 16,
-    // color: theme.colors.onBackgroundSecondary,
   },
 
   // 分割线

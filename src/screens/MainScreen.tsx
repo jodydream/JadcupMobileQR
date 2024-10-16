@@ -39,7 +39,7 @@ const MainScreen: React.FC<Props> = ({route}) => {
 
   return (
     <View style={styles.container}>
-      {/* 标题栏 */}
+      {/* 1 标题栏 */}
       <View style={styles.headerBar}>
         <TouchableOpacity
           style={styles.gobackbtn}
@@ -56,7 +56,7 @@ const MainScreen: React.FC<Props> = ({route}) => {
         </TouchableOpacity>
       </View>
 
-      {/* 用户信息 */}
+      {/* 2 用户信息 */}
       <View style={styles.userInfoSection}>
         <Image
           source={require('../../assets/images/head.png')}
@@ -67,16 +67,16 @@ const MainScreen: React.FC<Props> = ({route}) => {
           <Text style={styles.userRole}>IT Programmer</Text>
         </View>
       </View >
-
       <View style={styles.lineview}>
       </View>
 
-      {/* 使用 FlatList 渲染内容 */}
+      {/* 3 FlatList功能列表 */}
       <FlatList
         data={sections}
         renderItem={renderSection}
         keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: 10 }]} // 确保有足够的底部填充
+        ListFooterComponent={<View style={{ height: 10 }} />} // 添加额外的底部空白区域
       />
     </View>
   );
