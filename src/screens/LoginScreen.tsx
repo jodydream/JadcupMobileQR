@@ -14,7 +14,8 @@ import styles from '../styles/LoginScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
 import {postData} from '../services/api'; // 引入 API 服务
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
+import {RootStackParamList} from '../navigation/AppNavigator'; 
+import * as loginHelpers from '../utils/loginHelpers'; // 导入处理函数
 
 type Props = StackScreenProps<RootStackParamList, 'LoginScreen'>;
 
@@ -23,44 +24,8 @@ const LoginScreen = ({navigation}: Props) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);    //加载状态：是否加载完毕
   const [loginInfo, setLoginInfo] = useState(null); // 存储返回的登录信息
-
-  let sections: MainSection[] = [
-    {
-      title: '生产车间',
-      items: ['Storeto Pallet上托盘'],
-    },
-    {
-      title: '存储货物',
-      items: [
-        'Pallet Inbound入仓库',
-        'Pallet Relocate移托盘',
-        'Merging Pallets合托盘',
-        'Item Relocate移货',
-      ],
-    },
-    {
-      title: '订单处理中',
-      items: ['PickingList拣货'],
-    },
-    {
-      title: '其他1',
-      items: ['Item Scanner查条码', 'Defect缺陷管理'],
-    },
-    {
-      title: '其他2',
-      items: ['Item Scanner查条码', 'Defect缺陷管理'],
-    },
-    {
-      title: '其他3',
-      items: ['Item Scanner查条码', 'Defect缺陷管理'],
-    },
-    {
-      title: '',
-      items: ['', ''],
-    },
-  ];
 
   // 登录请求函数
   const handleLogin = async () => {
@@ -71,36 +36,11 @@ const LoginScreen = ({navigation}: Props) => {
         Password: password,
       };
       const response = await postData('/api/Employee/EmployeeLogin', data);
-      //setLoginInfo(response); // 设置登录信息
-      // Alert.alert('Login Success', JSON.stringify(response)); // 成功提示
-
-
+      Alert.alert('Login Success', 'Go to Home page!'); // 成功提示
       const responsejson: any = response;
-      // 获取第一级键 "data" 的值
-      const datapages = responsejson['data']['pages'];
-      const mobilePages = datapages.filter(
-        (page: {group: {groupName: string}}) =>
-          page.group?.groupName === 'Mobile',
-      );
-      // 只提取需要的字段
-      interface Page {
-        pageId: number;
-        pageName: string;
-        pageUrl: string;
-        sortingOrder: number;
-        groupId: number;
-      }
-      const  mobileresult = mobilePages.map((page: Page) => ({
-        pageId: page.pageId,
-        pageName: page.pageName,
-        pageUrl: page.pageUrl,
-        sortingOrder: page.sortingOrder,
-        groupId: page.groupId,
-      }));
-      console.log(mobileresult);
-
-
-      //navigation.navigate('MainScreen', {sections});
+      const mobileresult = loginHelpers.getMobiledata(responsejson);
+      let sections: MainSection[] = loginHelpers.convertToSections(mobileresult);
+      navigation.navigate('MainScreen', {sections});
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
     } finally {

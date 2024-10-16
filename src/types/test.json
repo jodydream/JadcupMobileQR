@@ -1,0 +1,25 @@
+[
+  {"items": ["Store to Pallet上托盘"], "title": "生产车间"},
+  {
+    "items": [
+      "Pallet Relocate移托盘",
+      "Item Relocate移货",
+      "Pallet Inbound入仓库",
+      "Merging Pallets合托盘"
+    ],
+    "title": "存储货物"
+  },
+  {"items": ["Picking List拣货"], "title": "订单处理中"},
+  {"items": ["Item Scanner查条码", "Defect缺陷管理"], "title": "其他"},
+  {
+    "items": [
+      "Customers",
+      "Create Customer",
+      "Create Order",
+      "My Products List",
+      "All Products",
+      "Search Slip"
+    ],
+    "title": "Customer"
+  }
+]

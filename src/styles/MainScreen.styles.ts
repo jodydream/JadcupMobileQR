@@ -5,7 +5,6 @@ import theme from '../styles/theme/theme';
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor:'red',
     backgroundColor: theme.colors.background,
   },
 
@@ -23,7 +22,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerText: {
-    // backgroundColor: 'red',
     fontSize: 18,
     fontWeight: 'bold',
     color: theme.colors.primary,
