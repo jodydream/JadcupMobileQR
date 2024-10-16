@@ -13,8 +13,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import styles from '../styles/MainScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
 import {postData} from '../services/api'; // 引入 API 服务
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/AppNavigator';  // 导入导航类型
 
-const LoginScreen = () => {
+type Props = StackScreenProps<RootStackParamList, 'LoginScreen'>;
+
+const LoginScreen = ({ navigation }: Props) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // 密码可见性
 
   const [username, setUsername] = useState('');
@@ -32,7 +36,9 @@ const LoginScreen = () => {
       };
       const response = await postData('/api/Employee/EmployeeLogin', data);
       //setLoginInfo(response); // 设置登录信息
-      Alert.alert('Login Success', JSON.stringify(response)); // 成功提示
+      // Alert.alert('Login Success', JSON.stringify(response)); // 成功提示
+      navigation.navigate('TestScreen')
+
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
     } finally {

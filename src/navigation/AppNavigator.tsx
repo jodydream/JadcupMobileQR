@@ -13,7 +13,8 @@ import TestScreen from '../screens/TestScreen';
 
 // 定义导航栈参数类型
 export type RootStackParamList = {
-  LoginScreen:undefined;
+  //Record<string, any> | undefined
+  LoginScreen:Record<string, any> | undefined;
   TemplateScreen:undefined;
   MainScreen: undefined;
   SecondScreen: undefined;
@@ -27,7 +28,7 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="TestScreen">
+      <Stack.Navigator initialRouteName="LoginScreen">
       <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}

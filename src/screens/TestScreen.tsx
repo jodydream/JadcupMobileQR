@@ -11,6 +11,10 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'; // 引入图标库
 import styles from '../styles/TestScreen.styles'; // 样式文件
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/AppNavigator';  // 导入导航类型
+
+type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
 
 // 定义 Section 类型
 interface Section {
@@ -38,16 +42,24 @@ const sections: Section[] = [
     items: ['PickingList拣货'],
   },
   {
-    title: '其他',
+    title: '其他1',
     items: ['Item Scanner查条码', 'Defect缺陷管理'],
   },
   {
-    title: '其他',
+    title: '其他2',
     items: ['Item Scanner查条码', 'Defect缺陷管理'],
+  },
+  {
+    title: '其他3',
+    items: ['Item Scanner查条码', 'Defect缺陷管理'],
+  },
+  {
+    title: '',
+    items: ['', ''],
   },
 ];
 
-const MainScreen = ({navigation}: any) => {
+const TestScreen = ({navigation}: Props) => {
   // 使用 ListRenderItem<Section> 注解 renderSection 函数
   const renderSection: ListRenderItem<Section> = ({item}) => (
     <View style={styles.section}>
@@ -60,13 +72,19 @@ const MainScreen = ({navigation}: any) => {
     </View>
   );
 
+  const goBack = () => { 
+    console.log("xxxxxxxxxxx");
+    navigation.goBack();
+  }
+
+
   return (
     <View style={styles.container}>
       {/* 标题栏 */}
       <View style={styles.headerBar}>
         <TouchableOpacity
           style={styles.gobackbtn}
-          onPress={() => navigation.goBack()}>
+          onPress={goBack}>
           <AntDesign name="left" size={20} color="black" />
         </TouchableOpacity>
 
@@ -96,7 +114,6 @@ const MainScreen = ({navigation}: any) => {
 
       {/* 使用 FlatList 渲染内容 */}
       <FlatList
-        
         data={sections}
         renderItem={renderSection}
         keyExtractor={(item, index) => index.toString()}
@@ -106,4 +123,4 @@ const MainScreen = ({navigation}: any) => {
   );
 };
 
-export default MainScreen;
+export default TestScreen;

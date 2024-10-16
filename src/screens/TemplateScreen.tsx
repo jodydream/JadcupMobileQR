@@ -11,16 +11,8 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import styles from '../styles/MainScreen.styles';
-import theme from '../styles/theme/theme'; // 自定义主题
-import {postData} from '../services/api'; // 引入 API 服务
 
 const LoginScreen = () => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // 密码可见性
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [loginInfo, setLoginInfo] = useState(null); // 存储返回的登录信息
 
   return (
     <View style={styles.wholeContaine}>
