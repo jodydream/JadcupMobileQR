@@ -37,7 +37,7 @@ const LoginScreen = ({ navigation }: Props) => {
       const response = await postData('/api/Employee/EmployeeLogin', data);
       //setLoginInfo(response); // 设置登录信息
       // Alert.alert('Login Success', JSON.stringify(response)); // 成功提示
-      navigation.navigate('TestScreen')
+      navigation.navigate('MainScreen')
 
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示

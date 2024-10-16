@@ -15,8 +15,8 @@ import TestScreen from '../screens/TestScreen';
 export type RootStackParamList = {
   //Record<string, any> | undefined
   LoginScreen:Record<string, any> | undefined;
+  MainScreen: Record<string, any> | undefined;
   TemplateScreen:undefined;
-  MainScreen: undefined;
   SecondScreen: undefined;
   TestScreen: undefined;
 };
