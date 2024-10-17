@@ -16,6 +16,7 @@ import {postData} from '../services/api'; // 引入 API 服务
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; 
 import * as loginHelpers from '../utils/loginHelpers'; // 导入处理函数
+import Toast from 'react-native-toast-message';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginScreen'>;
 
@@ -36,7 +37,13 @@ const LoginScreen = ({navigation}: Props) => {
         Password: password,
       };
       const response = await postData('/api/Employee/EmployeeLogin', data);
-      Alert.alert('Login Success', 'Go to Home page!'); // 成功提示
+      //Alert.alert('Login Success', 'Go to Home page!'); // 成功提示
+      Toast.show({
+        type: 'success',
+        text1: 'Login Success',
+        text2: 'Go to Home page!',
+        visibilityTime: 1000,  // 显示时间为1秒
+      });
       const responsejson: any = response;
       const mobileresult = loginHelpers.getMobiledata(responsejson);
       let sections: MainSection[] = loginHelpers.convertToSections(mobileresult);
@@ -45,7 +52,7 @@ const LoginScreen = ({navigation}: Props) => {
         "employeeId": responsejson["data"]["employeeId"],
         "name": responsejson["data"]["name"]
       };
-      console.log(userInfo);
+      //console.log(userInfo);
 
       navigation.navigate('MainScreen', {sections,userInfo});
     } catch (error) {
@@ -122,7 +129,7 @@ const LoginScreen = ({navigation}: Props) => {
 
         {/* 登录按钮 */}
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Agree and Sign In</Text>
+          <Text style={styles.buttonText}>LogIn</Text>
         </TouchableOpacity>
       </View>
     </View>

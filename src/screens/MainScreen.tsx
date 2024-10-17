@@ -4,7 +4,6 @@ import {
   View,
   Text,
   Image,
-  StatusBar,
   TouchableOpacity,
   FlatList,
   ListRenderItem,
@@ -12,7 +11,6 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign'; // 引入图标库
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 引入图标库
 import Entypo from 'react-native-vector-icons/Entypo'; // 引入图标库
-
 import styles from '../styles/MainScreen.styles'; // 样式文件
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/AppNavigator'; 
