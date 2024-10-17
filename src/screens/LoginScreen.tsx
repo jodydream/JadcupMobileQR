@@ -40,7 +40,7 @@ const LoginScreen = ({navigation, route}: Props) => {
   useFocusEffect(
     React.useCallback(() => {
       console.log('----------------');
-      const isLogout = route.params?.isLogout ?? false; 
+      const isLogout = route.params?.isLogout ?? false;
       if (isLogout == true) {
         //清理掉本地登录数据
         // 定义一个内部的异步函数来清理登录数据
@@ -140,7 +140,14 @@ const LoginScreen = ({navigation, route}: Props) => {
   return (
     <View style={styles.wholeContaine}>
       <View style={styles.mainContainer}>
-        {/* 标题和 Logo 区域 */}
+        {/* 1 状态栏 */}
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={theme.colors.primary}
+          translucent={false} // 如果不希望内容重叠在状态栏下，关闭透明??
+        />
+
+        {/* 2 标题 */}
         <View style={styles.titleContainer}>
           <View style={styles.logoContainer}>
             <Image

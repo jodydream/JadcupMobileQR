@@ -15,6 +15,7 @@ import Entypo from 'react-native-vector-icons/Entypo'; // 引入图标库
 import styles from '../styles/MainScreen.styles'; // 样式文件
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
+import theme from '../styles/theme/theme'; // 自定义主题
 
 type Props = StackScreenProps<RootStackParamList, 'MainScreen'>;
 
@@ -28,7 +29,6 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
     // 你可以在这里添加导航或其他逻辑
     if(item == "Store to Pallet上托盘") {
       navigation.navigate("TestScreen");
-
     }
     
   };
@@ -69,14 +69,14 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
   //========================分割线===========================================
   return (
     <View style={styles.container}>
-      {/* 修改自带的-状态栏StatusBar */}
-      {/* <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent
-      /> */}
+        {/* 1 状态栏 */}
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={theme.colors.primary}
+          translucent={false} // 如果不希望内容重叠在状态栏下，关闭透明??
+        />
 
-      {/* 1 标题栏 */}
+      {/* 2 标题栏 */}
       <View style={styles.headerBar}>
         <View style={styles.logoContainer}>
           <Image
@@ -84,9 +84,11 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
             style={styles.logo}
           />
         </View>
+        
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerText}>主页</Text>
         </View>
+
         <View style={styles.logoContainer}></View>
       </View>
 

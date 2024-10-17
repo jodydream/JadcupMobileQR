@@ -16,8 +16,10 @@ export const SPACING = {
 export const LAYOUT = {
   margingHorizontal: 20, // 水平边距
   marginBottom: 10, // 底部边距
+
   statusBarHeight: StatusBar.currentHeight || 20, // 状态栏高度
-  mainTitleHeight : 44
+  nav_height : 44, //导航栏高度
+  mainTitleHeight : 44,
 };
 
 // 图标尺寸(宽高)
