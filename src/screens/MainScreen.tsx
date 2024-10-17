@@ -17,7 +17,6 @@ import { RootStackParamList } from '../navigation/AppNavigator';
 
 type Props = StackScreenProps<RootStackParamList, 'MainScreen'>;
 
-
 const MainScreen: React.FC<Props> = ({navigation,route}) => {
   const { sections,userInfo } = route.params; // 获取传递过来的 JSON 数据
 

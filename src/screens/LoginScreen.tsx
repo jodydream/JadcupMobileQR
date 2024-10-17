@@ -1,5 +1,5 @@
 // src/screens/LoginScreen.tsx
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StatusBar,
@@ -14,8 +14,8 @@ import styles from '../styles/LoginScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
 import {postData} from '../services/api'; // 引入 API 服务
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../navigation/AppNavigator'; 
-import * as loginHelpers from '../utils/loginHelpers'; // 导入处理函数
+import {RootStackParamList} from '../navigation/AppNavigator';
+import * as loginHelpers from '../utils/loginHelpers'; // 导入--整个文件内容
 import Toast from 'react-native-toast-message';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginScreen'>;
@@ -25,10 +25,16 @@ const LoginScreen = ({navigation}: Props) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);    //加载状态：是否加载完毕
-  const [loginInfo, setLoginInfo] = useState(null); // 存储返回的登录信息
+  const [loading, setLoading] = useState(false); //加载状态：只记录每一次动态加载前后的状态
+  // const [loginInfo, setLoginInfo] = useState<UserAccount | null>(null); // 存储返回的登录信息
 
-  // 登录请求函数
+  // ====================系统Hooks====================
+  useEffect(() => {
+    loadUserAccount();
+  }, []);
+
+  // ====================自定义操作====================
+  // 1 登录操作
   const handleLogin = async () => {
     setLoading(true); // 开启加载状态
     try {
@@ -36,31 +42,69 @@ const LoginScreen = ({navigation}: Props) => {
         Username: username,
         Password: password,
       };
-      const response = await postData('/api/Employee/EmployeeLogin', data);
-      //Alert.alert('Login Success', 'Go to Home page!'); // 成功提示
+      // 1 拉取登录数据
+      const responsejson: any = await postData(
+        '/api/Employee/EmployeeLogin',
+        data,
+      );
       Toast.show({
         type: 'success',
         text1: 'Login Success',
         text2: 'Go to Home page!',
-        visibilityTime: 1000,  // 显示时间为1秒
+        visibilityTime: 1000,
       });
-      const responsejson: any = response;
-      const mobileresult = loginHelpers.getMobiledata(responsejson);
-      let sections: MainSection[] = loginHelpers.convertToSections(mobileresult);
-      //获取用户信息
-      let userInfo = {
-        "employeeId": responsejson["data"]["employeeId"],
-        "name": responsejson["data"]["name"]
-      };
-      //console.log(userInfo);
 
-      navigation.navigate('MainScreen', {sections,userInfo});
+      // 2 获得Home页面所用的数据
+      // 2-1 功能表数量
+      const mobileresult = loginHelpers.getMobiledata(responsejson);
+      let sections: MainSection[] =
+        loginHelpers.convertToSections(mobileresult);
+
+      // 2-2 用户展示信息
+      let userInfo = {
+        employeeId: responsejson['data']['employeeId'],
+        name: responsejson['data']['name'],
+      };
+
+      //#存储---登录信息
+      loginHelpers.loginUser(data.Username, data.Password);
+
+      // 3 跳转到Home页面(传入2获得数据)
+      navigation.navigate('MainScreen', {sections, userInfo});
     } catch (error) {
-      Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
+      //Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
+      Toast.show({
+        type: 'Failed',
+        text1: 'Login Failed',
+        text2: 'Invalid credentials or server error!',
+        visibilityTime: 1000,
+      });
     } finally {
       setLoading(false); // 完成加载
     }
   };
+
+  // 2 获取：存在本地的登录数据
+  const loadUserAccount = async () => {
+    try {
+      // 使用 await 来等待异步结果
+      let userAccount: UserAccount = await loginHelpers.getLoginStatus();
+      console.log('LoginScreen用户信息:', userAccount);
+      if (userAccount && userAccount.userName && userAccount.password) {
+        //a 本地有登录信息--登录状态
+        setUsername(userAccount.userName);
+        setPassword(userAccount.password);
+        //handleLogin();
+      } else {
+        //b 无登录信息--退登状态
+        // do nothing，用自己输入信息登录
+      }
+      
+    } catch (error) {
+      console.error('LoginScreen获取用户登录状态出错:', error);
+    }
+  };
+
 
   return (
     <View style={styles.wholeContaine}>
