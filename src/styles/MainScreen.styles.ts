@@ -11,16 +11,18 @@ const styles = StyleSheet.create({
 
   // 标题区
   headerBar: {
-    marginTop:10,
-    padding: SPACING.medium,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    // backgroundColor:'red',
+    marginHorizontal: SPACING.medium,
+    flexDirection: 'row', //水平排列
+    alignItems: 'center', //子节点：垂直居中
+    height:LAYOUT.mainTitleHeight
   },
 
   headerTitleContainer: {
-    flex: 1,
+    // backgroundColor:'blue',
     alignItems: 'center',
+    textAlign:'center',
+    alignSelf:'auto'
   },
   headerText: {
     fontSize: 18,
@@ -32,6 +34,26 @@ const styles = StyleSheet.create({
 
   settingbtn: {
     alignSelf:'flex-end'
+  },
+
+  //临时添加
+  titleContainer: {
+    // backgroundColor:'blue',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 44,
+  },
+  logoContainer: {
+    backgroundColor:'blue',
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
 
   // 用户区

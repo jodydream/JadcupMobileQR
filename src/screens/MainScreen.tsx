@@ -39,13 +39,21 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar
+      {/* 修改自带的-状态栏StatusBar */}
+      {/* <StatusBar
         barStyle="dark-content"
         backgroundColor="transparent"
         translucent
-      />
+      /> */}
+
       {/* 1 标题栏 */}
       <View style={styles.headerBar}>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require('../../assets/images/jadcup_logo.png')}
+            style={styles.logo}
+          />
+        </View>
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerText}>主页</Text>
         </View>

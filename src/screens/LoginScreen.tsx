@@ -140,7 +140,6 @@ const LoginScreen = ({navigation, route}: Props) => {
   return (
     <View style={styles.wholeContaine}>
       <View style={styles.mainContainer}>
-
         {/* 标题和 Logo 区域 */}
         <View style={styles.titleContainer}>
           <View style={styles.logoContainer}>

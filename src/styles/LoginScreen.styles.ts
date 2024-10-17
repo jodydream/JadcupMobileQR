@@ -10,19 +10,22 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   mainContainer: {
+
     flex: 1,
-    marginTop: LAYOUT.statusBarHeight,
+    // marginTop: LAYOUT.statusBarHeight,
     marginHorizontal: LAYOUT.margingHorizontal,
     marginBottom: LAYOUT.marginBottom,
+    // backgroundColor:'red',
   },
   titleContainer: {
+    // backgroundColor:'blue',
     flexDirection: 'row',
     alignItems: 'center',
-    height: 44,
+    height: LAYOUT.mainTitleHeight,
   },
   logoContainer: {
-    width: 44,
-    height: 44,
+    width: LAYOUT.mainTitleHeight,
+    height: LAYOUT.mainTitleHeight,
     justifyContent: 'center',
     alignItems: 'center',
   },
