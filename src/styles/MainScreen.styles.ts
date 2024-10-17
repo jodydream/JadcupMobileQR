@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     marginHorizontal: SPACING.medium,
     flexDirection: 'row', //水平排列
     alignItems: 'center', //子节点：垂直居中
+    justifyContent: 'space-between',
     height:LAYOUT.mainTitleHeight
   },
 
@@ -44,9 +45,9 @@ const styles = StyleSheet.create({
     height: 44,
   },
   logoContainer: {
-    backgroundColor:'blue',
+    // backgroundColor:'blue',
     width: 44,
-    height: 44,
+    height: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
   },

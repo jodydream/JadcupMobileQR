@@ -57,6 +57,8 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerText}>主页</Text>
         </View>
+        <View style={styles.logoContainer}>
+        </View>
       </View>
 
       {/* 2 用户信息 */}
