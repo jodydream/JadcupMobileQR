@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import styles from '../styles/MainScreen.styles';
+import styles from '../styles/TemplateScreen.styles';
 
 const LoginScreen = () => {
 

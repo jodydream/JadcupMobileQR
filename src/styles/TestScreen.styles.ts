@@ -1,90 +1,36 @@
-// src/styles/TestScreen.styles.ts
+// src/screens/MainScreen.styles.ts
 import { StyleSheet } from 'react-native';
-import { LAYOUT, SPACING } from '../styles/theme/dimensions';
-import theme from '../styles/theme/theme';
+import { LAYOUT, SPACING } from '../styles/theme/dimensions'; // 尺寸常量
+import theme from '../styles/theme/theme'; // 自定义主题
 
 const styles = StyleSheet.create({
-  container: {
-    // backgroundColor:'red',
-    backgroundColor: theme.colors.background,
+  wholeContaine: {
+    backgroundColor: '#ffffff',
+    width: '100%',
+    height: '100%',
   },
-
-  // 标题区
-  headerBar: {
-    padding: SPACING.medium,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-
-  headerTitleContainer: {
+  mainContainer: {
     flex: 1,
-    alignItems: 'center',
+    marginTop: LAYOUT.statusBarHeight,
+    marginHorizontal: LAYOUT.margingHorizontal,
+    marginBottom: LAYOUT.marginBottom,
   },
-  headerText: {
-    // backgroundColor: 'red',
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: theme.colors.primary,
-  },
-  gobackbtn: {
-  },
-  settingbtn: {
-  },
-
-  // 用户区
-  userInfoSection: {
-    padding: SPACING.medium,
+  titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: 44,
   },
-  userAvatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginRight: SPACING.medium,
+  logoContainer: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  userName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: theme.colors.onBackground,
-  },
-  userRole: {
-    fontSize: 16,
-    // color: theme.colors.onBackgroundSecondary,
-  },
-
-  // 分割线
-  lineview:{
-    width:'100%',
-    height:5,
-    backgroundColor:theme.colors.surface,
-
-  },
-
-  // 功能区
-  scrollContent: {
-    padding: SPACING.medium,
-  },
-  section: {
-    marginBottom: SPACING.large,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: SPACING.small,
-    color: theme.colors.primary,
-  },
-  item: {
-    backgroundColor: theme.colors.surface,
-    padding: SPACING.medium,
-    borderRadius: 5,
-    marginBottom: SPACING.small,
-  },
-  itemText: {
-    fontSize: 16,
-    color: theme.colors.textfontcolorgreydark2,
-  },
+  logo: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  }
 });
 
 export default styles;
