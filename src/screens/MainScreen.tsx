@@ -1,5 +1,5 @@
 // src/screens/MainScreen.tsx
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,18 +7,19 @@ import {
   TouchableOpacity,
   FlatList,
   ListRenderItem,
+  StatusBar,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'; // 引入图标库
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 引入图标库
 import Entypo from 'react-native-vector-icons/Entypo'; // 引入图标库
 import styles from '../styles/MainScreen.styles'; // 样式文件
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/AppNavigator'; 
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParamList} from '../navigation/AppNavigator';
 
 type Props = StackScreenProps<RootStackParamList, 'MainScreen'>;
 
-const MainScreen: React.FC<Props> = ({navigation,route}) => {
-  const { sections,userInfo } = route.params; // 获取传递过来的 JSON 数据
+const MainScreen: React.FC<Props> = ({navigation, route}) => {
+  const {sections, userInfo} = route.params; // 获取传递过来的 JSON 数据
 
   // 使用 ListRenderItem<Section> 注解 renderSection 函数
   const renderSection: ListRenderItem<MainSection> = ({item}) => (
@@ -32,18 +33,22 @@ const MainScreen: React.FC<Props> = ({navigation,route}) => {
     </View>
   );
 
-  const logout = () => { 
-    navigation.replace('LoginScreen',{ isLogout: true});
-  }
+  const logout = () => {
+    navigation.replace('LoginScreen', {isLogout: true});
+  };
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
       {/* 1 标题栏 */}
       <View style={styles.headerBar}>
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerText}>主页</Text>
         </View>
-
       </View>
 
       {/* 2 用户信息 */}
@@ -55,22 +60,23 @@ const MainScreen: React.FC<Props> = ({navigation,route}) => {
 
         <View style={styles.userTextContainer}>
           <Text style={styles.userNametext}>{userInfo.name}</Text>
-          <Text style={styles.userRoletext}>employeeId: {userInfo.employeeId}</Text>
+          <Text style={styles.userRoletext}>
+            employeeId: {userInfo.employeeId}
+          </Text>
         </View>
         <TouchableOpacity style={styles.settingbtn} onPress={logout}>
           <MaterialIcons name="logout" size={20} color="black" />
         </TouchableOpacity>
-      </View >
-      <View style={styles.lineview}>
       </View>
+      <View style={styles.lineview}></View>
 
       {/* 3 FlatList功能列表 */}
       <FlatList
         data={sections}
         renderItem={renderSection}
         keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={[styles.scrollContent, { paddingBottom: 10 }]} // 确保有足够的底部填充
-        ListFooterComponent={<View style={{ height: 10 }} />} // 添加额外的底部空白区域
+        contentContainerStyle={[styles.scrollContent, {paddingBottom: 10}]} // 确保有足够的底部填充
+        ListFooterComponent={<View style={{height: 10}} />} // 添加额外的底部空白区域
       />
     </View>
   );

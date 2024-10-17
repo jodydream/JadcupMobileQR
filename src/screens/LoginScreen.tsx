@@ -140,11 +140,6 @@ const LoginScreen = ({navigation, route}: Props) => {
   return (
     <View style={styles.wholeContaine}>
       <View style={styles.mainContainer}>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor="transparent"
-          translucent
-        />
 
         {/* 标题和 Logo 区域 */}
         <View style={styles.titleContainer}>
