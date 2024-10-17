@@ -33,7 +33,8 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
     navigation.replace('LoginScreen', {isLogout: true});
   };
   //========================part2:自定义函数(除了点击外)========================
-
+  // To do ....
+  
   //========================part3:框架函数====================================
   //1 renderSection函数：每一项ListRenderItem的类型是Section
   const renderSection: ListRenderItem<MainSection> = ({item}) => (
