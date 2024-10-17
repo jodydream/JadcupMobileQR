@@ -12,7 +12,7 @@ import TestScreen from '../screens/TestScreen';
 
 // 定义导航栈参数类型
 export type RootStackParamList = {
-  LoginScreen:undefined;
+  LoginScreen:{isLogout:boolean};
   MainScreen:  { sections: MainSection[], userInfo:any }; //传递的参数名，必须是sections
   TemplateScreen: undefined;
   SecondScreen: undefined;

@@ -17,10 +17,11 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
 import * as loginHelpers from '../utils/loginHelpers'; // 导入--整个文件内容
 import Toast from 'react-native-toast-message';
+import {useFocusEffect} from '@react-navigation/native';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginScreen'>;
 
-const LoginScreen = ({navigation}: Props) => {
+const LoginScreen = ({navigation, route}: Props) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // 密码可见性
 
   const [username, setUsername] = useState('');
@@ -29,9 +30,40 @@ const LoginScreen = ({navigation}: Props) => {
   // const [loginInfo, setLoginInfo] = useState<UserAccount | null>(null); // 存储返回的登录信息
 
   // ====================系统Hooks====================
+  // 首次进入页面，调用一次
   useEffect(() => {
+    //读本地的登录信息
     loadUserAccount();
   }, []);
+
+  // 通过退回上级页面形式，回到本页面，调用一次
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('----------------');
+      const isLogout = route.params?.isLogout ?? false; 
+      if (isLogout == true) {
+        //清理掉本地登录数据
+        // 定义一个内部的异步函数来清理登录数据
+        const clearLoginData = async () => {
+          try {
+            // 调用 logoutUser 来清理本地存储的登录数据
+            await loginHelpers.logoutUser(); // 假设这是你定义的函数
+            console.log('本地登录数据已清理');
+            setUsername('');
+            setPassword('');
+          } catch (error) {
+            console.error('清理本地登录数据时出错:', error);
+          }
+        };
+        // 调用清理登录数据的函数
+        clearLoginData();
+      }
+
+      return () => {
+        console.log('LoginScreen is unfocused');
+      };
+    }, []),
+  );
 
   // ====================自定义操作====================
   // 1 登录操作
@@ -89,6 +121,7 @@ const LoginScreen = ({navigation}: Props) => {
     try {
       // 使用 await 来等待异步结果
       let userAccount: UserAccount = await loginHelpers.getLoginStatus();
+
       console.log('LoginScreen用户信息:', userAccount);
       if (userAccount && userAccount.userName && userAccount.password) {
         //a 本地有登录信息--登录状态
@@ -99,12 +132,10 @@ const LoginScreen = ({navigation}: Props) => {
         //b 无登录信息--退登状态
         // do nothing，用自己输入信息登录
       }
-      
     } catch (error) {
       console.error('LoginScreen获取用户登录状态出错:', error);
     }
   };
-
 
   return (
     <View style={styles.wholeContaine}>

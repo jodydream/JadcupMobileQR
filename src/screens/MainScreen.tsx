@@ -1,5 +1,5 @@
 // src/screens/MainScreen.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -33,7 +33,7 @@ const MainScreen: React.FC<Props> = ({navigation,route}) => {
   );
 
   const logout = () => { 
-    navigation.navigate('LoginScreen');
+    navigation.replace('LoginScreen',{ isLogout: true});
   }
 
   return (
