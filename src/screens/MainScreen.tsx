@@ -21,7 +21,21 @@ type Props = StackScreenProps<RootStackParamList, 'MainScreen'>;
 const MainScreen: React.FC<Props> = ({navigation, route}) => {
   const {sections, userInfo} = route.params; // 获取传递过来的 JSON 数据
 
-  // 使用 ListRenderItem<Section> 注解 renderSection 函数
+  //========================part1:点击事件处理=================================
+  // 1 点击-功能行
+  const handleItemPress = (item: string) => {
+    console.log('Item clicked:', item);
+    // 你可以在这里添加导航或其他逻辑
+  };
+
+  // 2 点击-退出登录
+  const logout = () => {
+    navigation.replace('LoginScreen', {isLogout: true});
+  };
+  //========================part2:自定义函数(除了点击外)========================
+
+  //========================part3:框架函数====================================
+  //1 renderSection函数：每一项ListRenderItem的类型是Section
   const renderSection: ListRenderItem<MainSection> = ({item}) => (
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{item.title}</Text>
@@ -33,10 +47,7 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
     </View>
   );
 
-  const logout = () => {
-    navigation.replace('LoginScreen', {isLogout: true});
-  };
-
+  //========================分割线===========================================
   return (
     <View style={styles.container}>
       {/* 修改自带的-状态栏StatusBar */}
@@ -57,8 +68,7 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerText}>主页</Text>
         </View>
-        <View style={styles.logoContainer}>
-        </View>
+        <View style={styles.logoContainer}></View>
       </View>
 
       {/* 2 用户信息 */}
