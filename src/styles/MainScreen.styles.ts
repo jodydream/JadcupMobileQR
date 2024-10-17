@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     width:'100%',
     height:5,
     backgroundColor:theme.colors.surface,
-
   },
 
   // 功能区
@@ -75,10 +74,12 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.large,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: SPACING.small,
-    color: theme.colors.primary,
+    //color: theme.colors.primary,
+    color:theme.colors.onBackground
+
   },
   item: {
     backgroundColor: theme.colors.surface,
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
-    color: theme.colors.textfontcolorgreydark2,
+    color: theme.colors.textfontcolorgreydark1,
   },
 });
 
