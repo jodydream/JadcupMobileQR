@@ -32,18 +32,16 @@ export const WH = {
 };
 
 // 字体大小:从小到大
-export const FRONTSIZE = { 
+export const FONT_SIZE = { 
   //1 small:
-  // FRONTSIZESMALL1: 10,
+  // SMALL1: 14,
 
   //2 meidium:按钮、内容
-  // FRONTSIZEMEDI1: 10, 
-  FRONTSIZEMEDI2:16,
-
+  MEDI2:16,
 
   //3 big:标题类
-  FRONTSIZEBIG1: 18, //小标题：
-  FRONTSIZEBIG2: 24, //大标题：主页-用户名;
+  BIG1: 18, //小标题：
+  BIG2: 24, //大标题：主页-用户名;
 }
 
 // 圆角

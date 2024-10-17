@@ -1,6 +1,6 @@
 // src/styles/TestScreen.styles.ts
 import { StyleSheet } from 'react-native';
-import { LAYOUT, SPACING, WH,FRONTSIZE} from '../styles/theme/dimensions';
+import { LAYOUT, SPACING, WH, FONT_SIZE} from '../styles/theme/dimensions';
 import theme from '../styles/theme/theme';
 
 const styles = StyleSheet.create({
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     alignSelf:'auto'
   },
   headerText: {
-    fontSize: FRONTSIZE.FRONTSIZEBIG1,
+    fontSize: FONT_SIZE.BIG1,
     fontWeight: 'bold',
     color: theme.colors.primary,
   },
@@ -74,12 +74,12 @@ const styles = StyleSheet.create({
   },
 
   userNameText: {
-    fontSize: FRONTSIZE.FRONTSIZEBIG2,
+    fontSize: FONT_SIZE.BIG2,
     fontWeight: 'bold',
     color: theme.colors.onBackground,
   },
   userDetialText: {
-    fontSize: FRONTSIZE.FRONTSIZEMEDI2,
+    fontSize: FONT_SIZE.MEDI2,
   },
 
   // 分割线
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.large,
   },
   sectionTitle: {
-    fontSize: FRONTSIZE.FRONTSIZEBIG1,
+    fontSize: FONT_SIZE.BIG1,
     fontWeight: 'bold',
     marginBottom: SPACING.small,
     //color: theme.colors.primary,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     marginRight: 15, // 图标和文字之间的间距
   },
   itemText: {
-    fontSize: FRONTSIZE.FRONTSIZEMEDI2,
+    fontSize: FONT_SIZE.MEDI2,
     color: theme.colors.textfontcolorgreydark1,
   },
 });

@@ -26,6 +26,11 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
   const handleItemPress = (item: string) => {
     console.log('Item clicked:', item);
     // 你可以在这里添加导航或其他逻辑
+    if(item == "Store to Pallet上托盘") {
+      navigation.navigate("TestScreen");
+
+    }
+    
   };
 
   // 2 点击-退出登录
