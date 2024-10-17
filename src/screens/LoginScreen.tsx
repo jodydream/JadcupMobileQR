@@ -49,8 +49,8 @@ const LoginScreen = ({navigation, route}: Props) => {
             // 调用 logoutUser 来清理本地存储的登录数据
             await loginHelpers.logoutUser(); // 假设这是你定义的函数
             console.log('本地登录数据已清理');
-            setUsername('');
-            setPassword('');
+            // setUsername('');
+            // setPassword('');
           } catch (error) {
             console.error('清理本地登录数据时出错:', error);
           }
