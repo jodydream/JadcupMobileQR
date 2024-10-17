@@ -43,10 +43,19 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
 
       {/* 2 功能项目 */}
       {item.items.map((subItem, idx) => (
-        <View key={idx} style={styles.item}>
-          <AntDesign style={styles.itemIcon} name="checkcircleo" size={20} color="black" /> 
+        //原本的容器view改成TouchableOpacity
+        <TouchableOpacity
+          key={idx}
+          style={styles.item}
+          onPress={() => handleItemPress(subItem)}>
+          <AntDesign
+            style={styles.itemIcon}
+            name="checkcircleo"
+            size={20}
+            color="black"
+          />
           <Text style={styles.itemText}>{subItem}</Text>
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   );
