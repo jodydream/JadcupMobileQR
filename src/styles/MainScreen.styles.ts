@@ -1,6 +1,6 @@
 // src/styles/TestScreen.styles.ts
 import { StyleSheet } from 'react-native';
-import { LAYOUT, SPACING } from '../styles/theme/dimensions';
+import { LAYOUT, SPACING, WH,FRONTSIZE} from '../styles/theme/dimensions';
 import theme from '../styles/theme/theme';
 
 const styles = StyleSheet.create({
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     alignSelf:'auto'
   },
   headerText: {
-    fontSize: 18,
+    fontSize: FRONTSIZE.FRONTSIZEBIG1,
     fontWeight: 'bold',
     color: theme.colors.primary,
   },
@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
     // backgroundColor:'blue',
     flexDirection: 'row',
     alignItems: 'center',
-    height: 44,
+    height: LAYOUT.mainTitleHeight,
   },
   logoContainer: {
     // backgroundColor:'blue',
-    width: 44,
-    height: 'auto',
+    width: WH.logoW,
+    height: WH.logoH,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userAvatar: {
-    width: 80,
-    height: 80,
+    width: WH.userAvatarW,
+    height: WH.userAvatarH,
     // borderRadius: 40,
     marginRight: SPACING.medium,
   },
@@ -73,13 +73,13 @@ const styles = StyleSheet.create({
     flex:1
   },
 
-  userNametext: {
-    fontSize: 24,
+  userNameText: {
+    fontSize: FRONTSIZE.FRONTSIZEBIG2,
     fontWeight: 'bold',
     color: theme.colors.onBackground,
   },
-  userRoletext: {
-    fontSize: 16,
+  userDetialText: {
+    fontSize: FRONTSIZE.FRONTSIZEMEDI2,
   },
 
   // 分割线
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.large,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: FRONTSIZE.FRONTSIZEBIG1,
     fontWeight: 'bold',
     marginBottom: SPACING.small,
     //color: theme.colors.primary,
@@ -109,9 +109,13 @@ const styles = StyleSheet.create({
     padding: SPACING.medium,
     borderRadius: 5,
     marginBottom: SPACING.small,
+    flexDirection:'row',
+  },
+  itemIcon: {
+    marginRight: 15, // 图标和文字之间的间距
   },
   itemText: {
-    fontSize: 16,
+    fontSize: FRONTSIZE.FRONTSIZEMEDI2,
     color: theme.colors.textfontcolorgreydark1,
   },
 });

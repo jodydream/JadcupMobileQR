@@ -38,9 +38,13 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
   //1 renderSection函数：每一项ListRenderItem的类型是Section
   const renderSection: ListRenderItem<MainSection> = ({item}) => (
     <View style={styles.section}>
+      {/* 1 title */}
       <Text style={styles.sectionTitle}>{item.title}</Text>
+
+      {/* 2 功能项目 */}
       {item.items.map((subItem, idx) => (
         <View key={idx} style={styles.item}>
+          <AntDesign style={styles.itemIcon} name="checkcircleo" size={20} color="black" /> 
           <Text style={styles.itemText}>{subItem}</Text>
         </View>
       ))}
@@ -79,8 +83,8 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
         />
 
         <View style={styles.userTextContainer}>
-          <Text style={styles.userNametext}>{userInfo.name}</Text>
-          <Text style={styles.userRoletext}>
+          <Text style={styles.userNameText}>{userInfo.name}</Text>
+          <Text style={styles.userDetialText}>
             employeeId: {userInfo.employeeId}
           </Text>
         </View>
