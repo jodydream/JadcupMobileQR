@@ -28,7 +28,7 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
     console.log('Item clicked:', item);
     // 你可以在这里添加导航或其他逻辑
     if(item == "Store to Pallet上托盘") {
-      navigation.navigate("TestScreen", {title:item});
+      navigation.navigate("StoreToPalletScreen", {title:item});
     }
     
   };
