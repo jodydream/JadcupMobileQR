@@ -15,7 +15,7 @@ import globalStyles from '../styles/globalStyles';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
 import theme from '../styles/theme/theme'; // 自定义主题
-type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
+type Props = StackScreenProps<RootStackParamList, 'TemplateScreen'>;
 
 const TemplateScreen = ({navigation, route}: Props) => {
   const goBack = () => {

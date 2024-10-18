@@ -63,7 +63,7 @@ const TestScreen = ({navigation, route}: Props) => {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.nav_title_text}>入仓库</Text>
+          <Text style={styles.nav_title_text}>上托盘</Text>
 
           <TouchableOpacity onPress={goBack}>
             <AntDesign name="setting" size={20} color="white" />

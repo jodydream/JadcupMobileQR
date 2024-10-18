@@ -4,9 +4,9 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
-
 import MainScreen from '../screens/MainScreen'; // 导入主屏幕
-import SecondScreen from '../screens/SecondScreen'; // 导入次屏幕
+
+
 import TemplateScreen from '../screens/TemplateScreen';
 import TestScreen from '../screens/TestScreen';
 
@@ -15,8 +15,7 @@ export type RootStackParamList = {
   LoginScreen:{isLogout:boolean};
   MainScreen:  { sections: MainSection[], userInfo:any }; //传递的参数名，必须是sections
   TemplateScreen: undefined;
-  SecondScreen: undefined;
-  TestScreen: undefined;
+  TestScreen: {title:string|null};
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -41,12 +40,6 @@ const AppNavigator = () => {
         <Stack.Screen
           name="MainScreen"
           component={MainScreen}
-          options={{headerShown: false}} // 隐藏系统导航栏
-        />
-
-        <Stack.Screen
-          name="SecondScreen"
-          component={SecondScreen}
           options={{headerShown: false}} // 隐藏系统导航栏
         />
 
