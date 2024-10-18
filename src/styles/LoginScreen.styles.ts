@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   mainContainer: {
 
     flex: 1,
-    // marginTop: LAYOUT.statusBarHeight,
+    marginTop: LAYOUT.statusBarHeight,
     marginHorizontal: LAYOUT.margingHorizontal,
     marginBottom: LAYOUT.marginBottom,
     // backgroundColor:'red',

@@ -17,7 +17,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
 import * as loginHelpers from '../utils/loginHelpers'; // 导入--整个文件内容
 import Toast from 'react-native-toast-message';
-import {useFocusEffect} from '@react-navigation/native';
+import {TabRouter, useFocusEffect} from '@react-navigation/native';
 
 type Props = StackScreenProps<RootStackParamList, 'LoginScreen'>;
 
@@ -144,7 +144,7 @@ const LoginScreen = ({navigation, route}: Props) => {
         <StatusBar
           barStyle="light-content"
           backgroundColor={theme.colors.primary}
-          translucent={false} // 如果不希望内容重叠在状态栏下，关闭透明??
+          translucent={true} // 如果不希望内容重叠在状态栏下，关闭透明??
         />
 
         {/* 2 标题 */}
