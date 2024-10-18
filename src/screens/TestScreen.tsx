@@ -1,5 +1,5 @@
 // src/screens/LoginScreen.tsx
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StatusBar,
@@ -15,24 +15,31 @@ import globalStyles from '../styles/globalStyles';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
 import theme from '../styles/theme/theme'; // 自定义主题
+import {getData} from '../services/api'; // 引入 API 服务
+
 type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
 
 const TestScreen = ({navigation, route}: Props) => {
+  // ====================系统Hooks====================
+  // 首次进入页面，调用一次
+  useEffect(() => {
+    //读本地的登录信息
+    getAllProductionOptions();
+    
+  }, []);
+
   // 1 拉取Product信息--->本地操作
-  const getAllProductionOption = async () => {
+  const getAllProductionOptions = async () => {
     try {
-      
-    } catch (error) {
-      
-    }
-
-  }
-
-
-
-
-
-
+      console.log("----------------------");
+      const data: any = {};
+      const responsejson: any = await getData(
+        '/api/ProductOption/GetAllProductOption',
+        data,
+      );
+      console.log(responsejson);
+    } catch (error) {}
+  };
 
   const goBack = () => {
     navigation.goBack();

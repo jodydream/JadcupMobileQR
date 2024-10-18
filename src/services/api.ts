@@ -11,7 +11,7 @@ const api = axios.create({
 });
 
 // GET 请求封装
-export const fetchData = async (endpoint: string) => {
+export const getData = async (endpoint: string, data: any) => {
   try {
     const response = await api.get(endpoint);
     return response.data; // 返回数据

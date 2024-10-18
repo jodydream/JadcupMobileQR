@@ -122,10 +122,10 @@ const LoginScreen = ({navigation, route}: Props) => {
       let userAccount: UserAccount = await loginHelpers.getLoginStatus();
 
       console.log('LoginScreen用户信息:', userAccount);
-      if (userAccount && userAccount.userName && userAccount.password) {
+      if (userAccount && userAccount.userName && userAccount.passWord) {
         //a 本地有登录信息--登录状态
         setUsername(userAccount.userName);
-        setPassword(userAccount.password);
+        setPassword(userAccount.passWord);
         //handleLogin();
       } else {
         //b 无登录信息--退登状态
