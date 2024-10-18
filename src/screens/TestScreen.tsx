@@ -18,6 +18,22 @@ import theme from '../styles/theme/theme'; // 自定义主题
 type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
 
 const TestScreen = ({navigation, route}: Props) => {
+  // 1 拉取Product信息--->本地操作
+  const getAllProductionOption = async () => {
+    try {
+      
+    } catch (error) {
+      
+    }
+
+  }
+
+
+
+
+
+
+
   const goBack = () => {
     navigation.goBack();
   };

@@ -66,19 +66,18 @@ const LoginScreen = ({navigation, route}: Props) => {
   );
 
   // ====================自定义操作====================
-  // 1 登录操作
+  // 1 拉取数据-->本地操作
   const handleLogin = async () => {
     setLoading(true); // 开启加载状态
     try {
-      const data = {
-        Username: username,
-        Password: password,
+      const data: UserAccount = {
+        userName: username,
+        passWord: password,
       };
-      // 1 拉取登录数据
-      const responsejson: any = await postData(
-        '/api/Employee/EmployeeLogin',
-        data,
-      );
+      // part1 拉取登录数据==================
+      const responsejson: any = await postData( '/api/Employee/EmployeeLogin',data, );
+
+      // part2 处理数据====================
       Toast.show({
         type: 'success',
         text1: 'Login Success',
@@ -86,23 +85,23 @@ const LoginScreen = ({navigation, route}: Props) => {
         visibilityTime: 1000,
       });
 
-      // 2 获得Home页面所用的数据
-      // 2-1 功能表数量
+      // 1 获得Home页面所用的数据
+      // 1-1 功能表数量
       const mobileresult = loginHelpers.getMobiledata(responsejson);
       let sections: MainSection[] =
         loginHelpers.convertToSections(mobileresult);
 
-      // 2-2 用户展示信息
+      // 1-2 用户展示信息
       let userInfo = {
         employeeId: responsejson['data']['employeeId'],
         name: responsejson['data']['name'],
       };
-
       //#存储---登录信息
-      loginHelpers.loginUser(data.Username, data.Password);
+      loginHelpers.loginUser(data.userName, data.passWord);
 
-      // 3 跳转到Home页面(传入2获得数据)
+      // 2 跳转到Home页面(传入2获得数据)
       navigation.navigate('MainScreen', {sections, userInfo});
+
     } catch (error) {
       //Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
       Toast.show({

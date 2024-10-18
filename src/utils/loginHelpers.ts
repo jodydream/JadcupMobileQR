@@ -105,14 +105,14 @@ const USER_ACCOUNT_KEY = '@userAccount';
 // 初始化未登录状态
 export const initialUserAccount: UserAccount = {
   userName: null,
-  password: null,
+  passWord: null,
 };
 
 // 登录逻辑：存储用户信息
-export const loginUser = async (userName: string, password: string): Promise<void> => {
+export const loginUser = async (userName: string|null, passWord: string|null): Promise<void> => {
   const userAccount: UserAccount = {
     userName,
-    password,
+    passWord,
   };
   // 将 userAccount 存储到本地
   await AsyncStorageService.setData(USER_ACCOUNT_KEY, userAccount);
@@ -129,7 +129,7 @@ export const logoutUser = async (): Promise<void> => {
 // 获取登录状态
 export const getLoginStatus = async (): Promise<UserAccount> => {
   const userAccount = await AsyncStorageService.getData<UserAccount>(USER_ACCOUNT_KEY);
-  if (userAccount && userAccount.userName && userAccount.password) {
+  if (userAccount && userAccount.userName && userAccount.passWord) {
     console.log('loginHelpers用户已登录:', userAccount);
     return userAccount; // 已登录
   } else {
@@ -137,4 +137,6 @@ export const getLoginStatus = async (): Promise<UserAccount> => {
     return initialUserAccount; // 未登录
   }
 };
+
+
 
