@@ -33,14 +33,10 @@ const styles = StyleSheet.create({
     
   },
   logoContainer: {
+    width:20,
+    height:20,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor:'red'
-  },
-  logo: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
   },
   nav_title_text: {
     fontSize: FONT_SIZE.BIG1,

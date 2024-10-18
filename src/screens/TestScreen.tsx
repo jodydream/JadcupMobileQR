@@ -32,14 +32,16 @@ const TestScreen = ({navigation, route}: Props) => {
   const getAllProductionOptions = async () => {
     try {
       console.log("----------------------");
-      const data: any = {};
-      const responsejson: any = await getData(
-        '/api/ProductOption/GetAllProductOption',
-        data,
-      );
-      console.log(responsejson);
+      //const data: any = {};
+      // const responsejson: any = await getData(
+      //   '/api/ProductOption/GetAllProductOption',
+      //   data,
+      // );
+      // console.log(responsejson);
     } catch (error) {}
   };
+
+
 
   const goBack = () => {
     navigation.goBack();
@@ -63,11 +65,12 @@ const TestScreen = ({navigation, route}: Props) => {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.nav_title_text}>上托盘</Text>
+          <Text style={styles.nav_title_text}>{route.params.title}</Text>
 
-          <TouchableOpacity onPress={goBack}>
-            <AntDesign name="setting" size={20} color="white" />
-          </TouchableOpacity>
+
+          <View style={styles.logoContainer}>
+          </View>
+
         </View>
       </View>
 
