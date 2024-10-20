@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { LAYOUT, SPACING, FONT_SIZE } from '../styles/theme/dimensions'; // 尺寸常量
+import { LAYOUT, SPACING, FONT_SIZE,BUTTON_SIZE } from '../styles/theme/dimensions'; // 尺寸常量
 import theme from '../styles/theme/theme'; // 自定义主题
 
 const styles = StyleSheet.create({
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   // 主要内容部分 核心布局
   scanPrompt: {
     // fontSize: FONT_SIZE.MEDIUM,
+    marginTop: SPACING.medium,
     fontWeight: 'bold',
     marginBottom: SPACING.small,
     color: theme.colors.onBackground,
@@ -62,21 +63,26 @@ const styles = StyleSheet.create({
   },
 
   // 列表头部样式
-  listHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: SPACING.small,
-  },
-  headerType: {
-    // fontSize: FONT_SIZE.MEDIUM,
-    fontWeight: 'bold',
-    color: theme.colors.onBackground,
-  },
-  headerNumber: {
-    // fontSize: FONT_SIZE.MEDIUM,
-    fontWeight: 'bold',
-    color: theme.colors.onBackground,
-  },
+  // listHeader: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   paddingVertical: SPACING.small,
+  // },
+  // headerType: {
+  //   flex:1,
+  //   fontSize: FONT_SIZE.MEDI2,
+  //   fontWeight: 'bold',
+  //   color: theme.colors.onBackground,
+  // },
+  // headerNumber: {
+  //   flex:1,
+  //   fontSize: FONT_SIZE.MEDI2,
+  //   fontWeight: 'bold',
+  //   color: theme.colors.onBackground,
+  // },
+  // headerspace: {
+  //   width:BUTTON_SIZE.SMALL_W
+  // },
 
   // 列表项样式
   listItemContainer: {
@@ -89,14 +95,18 @@ const styles = StyleSheet.create({
     borderBottomColor: theme.colors.surface,
   },
   itemType: {
-    // fontSize: FONT_SIZE.MEDIUM,
+    flex:1,
+    fontWeight: 'bold',
+    fontSize: FONT_SIZE.MEDI2,
     color: theme.colors.onBackground,
   },
   itemNumber: {
-    // fontSize: FONT_SIZE.MEDIUM,
+    flex:1,
+    fontSize: FONT_SIZE.MEDI2,
     color: theme.colors.onBackground,
   },
   resetButton: {
+    width:BUTTON_SIZE.SMALL_W,
     backgroundColor: '#b22222',
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -104,7 +114,8 @@ const styles = StyleSheet.create({
   },
   resetButtonText: {
     color: 'white',
-    // fontSize: FONT_SIZE.SMALL,
+    fontSize: FONT_SIZE.MEDI2,
+    textAlign:'center'
   },
 
   // 底部按钮样式

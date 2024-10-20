@@ -31,7 +31,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     {type: 'Product', No: '123456789'},
     {type: 'Product', No: '123456789'},
     {type: 'Pallet', No: '987654321'},
-    {type: null, No: null}, // 可以包含空值
+    // {type: null, No: null}, // 可以包含空值
   ];
 
   const [items, setItems] = useState<QRType[]>(qrList);
@@ -62,7 +62,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   // 渲染每个item的行
   const renderItem = ({item, index}: {item: QRType; index: number}) => (
     <View style={styles.listItemContainer}>
-      <Text style={styles.itemType}>{item.type}:</Text>
+      <Text style={styles.itemType}>{item.type}</Text>
       <Text style={styles.itemNumber}>{item.No}</Text>
       <TouchableOpacity
         style={styles.resetButton}
@@ -102,8 +102,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
       {/* part 2: 输入框和列表 */}
       <View style={styles.mainContainer}>
-        <Text style={styles.scanPrompt}>点击输入框扫码</Text>
-        <TextInput style={styles.inputBox} placeholder="请输入" />
+
+        <Text style={styles.scanPrompt}>点击框扫码</Text>
+        <TextInput style={styles.inputBox} placeholder="扫码" />
 
         {/* 列表部分 */}
         <FlatList
@@ -111,14 +112,15 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           //scrollEnabled={true}
           data={items}
           keyExtractor={(item, index) => index.toString()}
-          onScroll={() => console.log('Scrolling...')}
+          // onScroll={() => console.log('Scrolling...')}
           //每一个项目
           renderItem={renderItem}
           // 在列表的顶部添加一个自定义的组件或视图：可用来显示标题、过滤器等
           ListHeaderComponent={() => (
-            <View style={styles.listHeader}>
-              <Text style={styles.headerType}>Type</Text>
-              <Text style={styles.headerNumber}>No.</Text>
+            <View style={styles.listItemContainer}>
+              <Text style={styles.itemType}>Type</Text>
+              <Text style={styles.itemNumber}>No.</Text>
+              <Text style={[styles.resetButton,{ display: 'none' }]}> </Text>
             </View>
           )}
         />

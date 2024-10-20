@@ -36,7 +36,7 @@ export const WH = {
 // 字体大小:从小到大
 export const FONT_SIZE = { 
   //1 small:
-  // SMALL1: 14,
+  SMALL1: 14,
 
   //2 meidium:按钮、内容
   MEDI2:16,
@@ -44,6 +44,13 @@ export const FONT_SIZE = {
   //3 big:标题类
   BIG1: 18, //小标题：
   BIG2: 24, //大标题：主页-用户名;
+}
+
+//按钮大小：
+export const BUTTON_SIZE = { 
+//1 SMALL
+// SMALL_H: 
+SMALL_W: 65
 }
 
 // 圆角
