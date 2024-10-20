@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     color: theme.colors.onBackground,
   },
   itemNumber: {
-    flex:1,
+    flex:2,
     fontSize: FONT_SIZE.MEDI2,
     color: theme.colors.onBackground,
   },
