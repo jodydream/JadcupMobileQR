@@ -19,22 +19,9 @@ import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航�
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
 const StoreToPalletScreen = ({navigation, route}: Props) => {
-  const qrList: QRType[] = [
-    {type: 'Product', No: '123456789'},
-    {type: 'Product', No: '123456789'},
-    {type: 'Product', No: '123456789'},
-    {type: 'Product', No: '123456789'},
-    {type: 'Product', No: '123456789'},
-    {type: 'Product', No: '123456789'},
-    {type: 'Product', No: '123456789'},
-    {type: 'Product', No: '123456789'},
-    {type: 'Product', No: '123456789'},
-    {type: 'Product', No: '123456789'},
-    {type: 'Pallet', No: '987654321'},
-    // {type: null, No: null}, // 可以包含空值
-  ];
-
+  const qrList: QRType[] = [];
   const [items, setItems] = useState<QRType[]>(qrList);
+  const [inputValue, setInputValue] = useState<string>('');
 
   // 重置单个item
   const resetItem = (index: number) => {
@@ -59,6 +46,28 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     navigation.goBack();
   };
 
+    // 处理用户输入内容
+    const handleInputChange = (text: string) => {
+      setInputValue(text);  // 更新输入框中的值
+    };
+  
+    // 将输入框中的内容添加到列表中
+    const handleAddItem = () => {
+      if (!inputValue) return; // 如果输入框为空，则不进行操作
+  
+      const newType = inputValue.length > 6 ? 'Pallet' : 'Product'; // 判断type
+      const newItem: QRType = {
+        type: newType,
+        No: inputValue,  // No 是输入框的值
+      };
+  
+      // 更新 items 列表
+      setItems([...items, newItem]);
+  
+      // 清空输入框
+      setInputValue('');
+    };
+
   // 渲染每个item的行
   const renderItem = ({item, index}: {item: QRType; index: number}) => (
     <View style={styles.listItemContainer}>
@@ -67,8 +76,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       <TouchableOpacity
         style={styles.resetButton}
         onPress={() => resetItem(index)}
-        activeOpacity={0.3}
-        >
+        activeOpacity={0.3}>
         <Text style={styles.resetButtonText}>Reset</Text>
       </TouchableOpacity>
     </View>
@@ -102,13 +110,25 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
       {/* part 2: 输入框和列表 */}
       <View style={styles.mainContainer}>
-
         <Text style={styles.scanPrompt}>点击框扫码</Text>
-        <TextInput style={styles.inputBox} placeholder="扫码" />
+        <TextInput 
+          style={styles.inputBox} 
+          placeholder="扫码" 
+          value={inputValue} 
+          onChangeText={(text) => {
+            console.log('Input Changed:', text);  // 调试用，确保每次输入时捕获变化
+            handleInputChange(text);
+          }} 
+          onSubmitEditing={() => {
+            console.log('Submit Editing');  // 调试用，确保按下回车键时事件被触发
+            handleAddItem();
+          }} 
+          // keyboardType="numeric" // 数字键盘
+        />
 
         {/* 列表部分 */}
         <FlatList
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerStyle={{flexGrow: 1}}
           //scrollEnabled={true}
           data={items}
           keyExtractor={(item, index) => index.toString()}
@@ -120,7 +140,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
             <View style={styles.listItemContainer}>
               <Text style={styles.itemType}>Type</Text>
               <Text style={styles.itemNumber}>No.</Text>
-              <Text style={[styles.resetButton,{ display: 'none' }]}> </Text>
+              <Text style={[styles.resetButton, {display: 'none'}]}> </Text>
             </View>
           )}
         />
