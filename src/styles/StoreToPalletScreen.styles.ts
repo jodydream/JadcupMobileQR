@@ -1,11 +1,16 @@
-import { StyleSheet } from 'react-native';
-import { LAYOUT, SPACING, FONT_SIZE,BUTTON_SIZE } from '../styles/theme/dimensions'; // 尺寸常量
+import {StyleSheet} from 'react-native';
+import {
+  LAYOUT,
+  SPACING,
+  FONT_SIZE,
+  BUTTON_SIZE,
+} from '../styles/theme/dimensions'; // 尺寸常量
 import theme from '../styles/theme/theme'; // 自定义主题
 
 const styles = StyleSheet.create({
   // 1级别
   wholeContaine: {
-    flex:1,
+    flex: 1,
     backgroundColor: '#ffffff',
     width: '100%',
     height: '100%',
@@ -16,12 +21,11 @@ const styles = StyleSheet.create({
     marginTop: LAYOUT.statusBarHeight,
     backgroundColor: theme.colors.primary,
   },
-  
+
   mainContainer: {
     flex: 1, // 沾满剩下的区域
     marginHorizontal: LAYOUT.margingHorizontal,
     marginBottom: LAYOUT.marginBottom,
-    // backgroundColor: 'blue',
   },
 
   // =================
@@ -62,31 +66,9 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.medium,
   },
 
-  // 列表头部样式
-  // listHeader: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   paddingVertical: SPACING.small,
-  // },
-  // headerType: {
-  //   flex:1,
-  //   fontSize: FONT_SIZE.MEDI2,
-  //   fontWeight: 'bold',
-  //   color: theme.colors.onBackground,
-  // },
-  // headerNumber: {
-  //   flex:1,
-  //   fontSize: FONT_SIZE.MEDI2,
-  //   fontWeight: 'bold',
-  //   color: theme.colors.onBackground,
-  // },
-  // headerspace: {
-  //   width:BUTTON_SIZE.SMALL_W
-  // },
-
   // 列表项样式
   listItemContainer: {
-    flex:1,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -95,18 +77,18 @@ const styles = StyleSheet.create({
     borderBottomColor: theme.colors.surface,
   },
   itemType: {
-    flex:1,
+    flex: 1,
     fontWeight: 'bold',
     fontSize: FONT_SIZE.MEDI2,
     color: theme.colors.onBackground,
   },
   itemNumber: {
-    flex:2,
+    flex: 2,
     fontSize: FONT_SIZE.MEDI2,
     color: theme.colors.onBackground,
   },
   resetButton: {
-    width:BUTTON_SIZE.SMALL_W,
+    width: BUTTON_SIZE.SMALL_W,
     backgroundColor: '#b22222',
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -115,7 +97,7 @@ const styles = StyleSheet.create({
   resetButtonText: {
     color: 'white',
     fontSize: FONT_SIZE.MEDI2,
-    textAlign:'center'
+    textAlign: 'center',
   },
 
   // 底部按钮样式
@@ -146,6 +128,45 @@ const styles = StyleSheet.create({
     // fontSize: FONT_SIZE.MEDIUM,
     fontWeight: 'bold',
   },
+
+  // ====================
+  // 新增样式
+  // 输入状态按钮样式
+  inpu_btn_container: {
+    marginVertical:10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    
+  },
+
+  // 按钮--扫码状态
+  scanButton: {
+    flex:1,
+    paddingVertical: SPACING.small,
+    alignItems: 'center',
+    borderRadius: 5,
+    marginHorizontal:10
+  },
+  scanButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: FONT_SIZE.MEDI2,
+  },
+
+  // // 按钮：手动输入状态
+  // inputButton: {
+  //   flex:1,
+  //   paddingVertical: SPACING.small,
+  //   alignItems: 'center',
+  //   borderRadius: 5,
+
+  // },
+  // inputButtonText: {
+  //   color: 'white',
+  //   fontWeight: 'bold',
+  //   fontSize: FONT_SIZE.MEDI2,
+  // },
 });
 
 export default styles;
