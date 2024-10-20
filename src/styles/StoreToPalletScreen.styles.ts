@@ -5,6 +5,7 @@ import theme from '../styles/theme/theme'; // 自定义主题
 const styles = StyleSheet.create({
   // 1级别
   wholeContaine: {
+    flex:1,
     backgroundColor: '#ffffff',
     width: '100%',
     height: '100%',
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
     marginTop: LAYOUT.statusBarHeight,
     backgroundColor: theme.colors.primary,
   },
+  
   mainContainer: {
     flex: 1, // 沾满剩下的区域
     marginHorizontal: LAYOUT.margingHorizontal,
@@ -78,6 +80,7 @@ const styles = StyleSheet.create({
 
   // 列表项样式
   listItemContainer: {
+    flex:1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

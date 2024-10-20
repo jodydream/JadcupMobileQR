@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     //color: theme.colors.primary,
     color:theme.colors.onBackground
 
+
   },
   item: {
     backgroundColor: theme.colors.surface,

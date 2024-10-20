@@ -53,7 +53,8 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
         <TouchableOpacity
           key={idx}
           style={styles.item}
-          onPress={() => handleItemPress(subItem)}>
+          onPress={() => handleItemPress(subItem)}
+          activeOpacity={0.1} >
           <AntDesign
             style={styles.itemIcon}
             name="checkcircleo"

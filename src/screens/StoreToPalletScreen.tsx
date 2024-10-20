@@ -7,6 +7,7 @@ import {
   FlatList,
   Alert,
   StatusBar,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../styles/globalStyles';
@@ -37,7 +38,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   // 重置单个item
   const resetItem = (index: number) => {
-    const updatedItems = items.filter((_, i) => i !== index); 
+    const updatedItems = items.filter((_, i) => i !== index);
     setItems(updatedItems);
     Alert.alert('Reset', `Item at index ${index} has been reset.`);
   };
@@ -59,15 +60,18 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   };
 
   // 渲染每个item的行
-  const renderItem = ({item, index}:{ item: QRType; index: number }) => (
+  const renderItem = ({item, index}: {item: QRType; index: number}) => (
     <View style={styles.listItemContainer}>
       <Text style={styles.itemType}>{item.type}:</Text>
       <Text style={styles.itemNumber}>{item.No}</Text>
-      <TouchableOpacity
+      <TouchableWithoutFeedback
         style={styles.resetButton}
-        onPress={() => resetItem(index)}>
+        onPress={() => resetItem(index)}
+        // activeOpacity={1}
+        >
         <Text style={styles.resetButtonText}>Reset</Text>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
+
     </View>
   );
 
@@ -104,16 +108,19 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
         {/* 列表部分 */}
         <FlatList
+          scrollEnabled={true}
           data={items}
-          renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
+          onScroll={() => console.log('Scrolling...')}
+          //每一个项目
+          renderItem={renderItem}
+          // 在列表的顶部添加一个自定义的组件或视图：可用来显示标题、过滤器等
           ListHeaderComponent={() => (
             <View style={styles.listHeader}>
               <Text style={styles.headerType}>Type</Text>
               <Text style={styles.headerNumber}>No.</Text>
             </View>
           )}
-          contentContainerStyle={{ paddingBottom: 10 }}  // 添加底部填充，避免遮挡
         />
       </View>
 
