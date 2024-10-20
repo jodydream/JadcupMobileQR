@@ -20,8 +20,7 @@ type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 const StoreToPalletScreen = ({navigation, route}: Props) => {
   const [items, setItems] = useState<QRType[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
-  const [isScanning, setIsScanning] = useState<boolean>(false); // 扫码状态
-  const [isInputEnabled, setIsInputEnabled] = useState<boolean>(false); // 输入状态
+  const [isInputMode, setIsInputMode] = useState<boolean>(false); // 互斥状态标记
 
   // 重置单个item
   const resetItem = (index: number) => {
@@ -61,6 +60,11 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     };
     setItems([...items, newItem]);
     setInputValue('');
+  };
+
+  // 切换模式（扫码与键盘输入）
+  const toggleInputMode = () => {
+    setIsInputMode(!isInputMode); // 切换状态
   };
 
   // 渲染每个item的行
@@ -103,29 +107,27 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
       {/* part 2: 输入框和列表 */}
       <View style={styles.mainContainer}>
-        {/* 俩按钮 */}
+        {/* 状态切换按钮 */}
         <View style={styles.inpu_btn_container}>
-          {/* 按钮1：扫码状态按钮 */}
           <TouchableOpacity
             style={[
               styles.scanButton,
-              {backgroundColor: isScanning ? theme.colors.primary : 'gray'},
+              {backgroundColor: isInputMode ? 'gray' : theme.colors.primary},
             ]}
-            onPress={() => setIsScanning(!isScanning)}>
+            onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
-              {isScanning ? '扫码中' : '开启扫码'}
+              {isInputMode ? '开启扫码' : '扫码输入'}
             </Text>
           </TouchableOpacity>
 
-          {/* 按钮2：输入状态控制按钮 */}
           <TouchableOpacity
             style={[
               styles.scanButton,
-              {backgroundColor: isInputEnabled ? theme.colors.primary : 'gray'},
+              {backgroundColor: isInputMode ? theme.colors.primary : 'gray'},
             ]}
-            onPress={() => setIsInputEnabled(!isInputEnabled)}>
+            onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
-              {isInputEnabled ? '禁用输入' : '开启输入'}
+              {isInputMode ? '键盘输入' : '开启键盘'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -135,7 +137,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           placeholder="输入内容"
           value={inputValue}
           onChangeText={handleInputChange}
-          editable={isInputEnabled} // 根据按钮控制是否允许输入
+          editable={isInputMode} // 根据按钮控制是否允许输入
         />
 
         {/* 列表部分 */}

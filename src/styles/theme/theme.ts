@@ -19,7 +19,7 @@ const customTheme = {
     textfontcolorblack:'#ffffff', 
     textfontcolorgreydark1:'#4F4F4F',
     textfontcolorgreydark2:'#6C6C6C', //
-    textfontcolorgreydark3:'#CECECE', //onSurface: '#CECECE',   深
+    textfontcolorgreydark3:'#CECECE', //onSurface: '#CECECE', 深
     textfontcolorgreylight:'#EFEFEF', //surface: '#EFEFEF',浅
   },
   
