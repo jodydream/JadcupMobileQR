@@ -64,14 +64,13 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     <View style={styles.listItemContainer}>
       <Text style={styles.itemType}>{item.type}:</Text>
       <Text style={styles.itemNumber}>{item.No}</Text>
-      <TouchableWithoutFeedback
+      <TouchableOpacity
         style={styles.resetButton}
         onPress={() => resetItem(index)}
-        // activeOpacity={1}
+        activeOpacity={0.3}
         >
         <Text style={styles.resetButtonText}>Reset</Text>
-      </TouchableWithoutFeedback>
-
+      </TouchableOpacity>
     </View>
   );
 
@@ -108,7 +107,8 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
         {/* 列表部分 */}
         <FlatList
-          scrollEnabled={true}
+          contentContainerStyle={{ flexGrow: 1 }}
+          //scrollEnabled={true}
           data={items}
           keyExtractor={(item, index) => index.toString()}
           onScroll={() => console.log('Scrolling...')}
