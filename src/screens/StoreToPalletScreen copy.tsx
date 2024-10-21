@@ -76,22 +76,39 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     Alert.alert('Clear', `Item at index ${index} has been cleared.`);
   };
 
-  // 键盘键入:添加一条
-  const keyInputAddItem = ()=> {
-    Alert.alert('按钮点击', '你点击了输入框旁边的按钮');
-  }
+  // // 键盘键入:添加一条
+  // const keyInputAddItem = ()=> {
+  //   Alert.alert('按钮点击', '你点击了输入框旁边的按钮');
+  // }
 
   //========================part2:自定义函数(除了点击外)========================
   // 把一行，添加到列表
   const handleAddItem = () => {
     if (!inputValue) return;
-    const newType = inputValue.length > 6 ? 'Product' : 'Pallet'; // 判断type
+    const typeCode = identifyCode(inputValue);
+    let newType;
+    if (typeCode == 2) {
+      newType = 'Pallet';
+    } else if (typeCode == 1) { 
+      newType = 'Product';
+    } else {
+      newType = '';
+      Alert.alert('Please sweep into the correct QR code', '');
+      setInputValue('');
+    }
+
     const newItem: QRType = {
       type: newType,
       No: inputValue,
     };
-    setItems([...items, newItem]);
-    setInputValue('');
+
+    //托盘:第一个必须是托盘---托盘不可单独删除
+    if(items.length == 0 && newItem.type != 'Pallet') {
+      Alert.alert('Please sweep into the Pallet first', '');
+    } else {
+      setItems([...items, newItem]);
+      setInputValue('');
+    }
   };
 
   //========================part3:框架函数====================================
@@ -110,7 +127,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     console.log('-------初始化页面');
     setIsInputMode(true);
     inputRef.current?.focus(); //点亮焦点 且 弹出键盘
-    //Keyboard.dismiss();//隐藏键盘
     console.log('------输入状态:', isInputMode);
   }, []);
 
@@ -119,6 +135,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     <View style={styles.listItemContainer}>
       <Text style={styles.itemType}>{item.type}</Text>
       <Text style={styles.itemNumber}>{item.No}</Text>
+      if (isInputMode) {
+        
+      }
       <TouchableOpacity
         style={styles.resetButton}
         onPress={() => resetItem(index)}
@@ -208,16 +227,19 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
             }}
           />
           <TouchableOpacity
-            style={[styles.inputButton,             {
-              backgroundColor: isInputMode
-                ? theme.colors.textfontcolorgreydark3
-                : theme.colors.primary,
-            },]} // 定义按钮的样式
+            style={[
+              styles.inputButton,
+              {
+                backgroundColor: isInputMode
+                  ? theme.colors.textfontcolorgreydark3
+                  : theme.colors.primary,
+              },
+              // {display: identifyCode(inputValue) ? 'none' : 'flex'}
+            ]} // 定义按钮的样式
             onPress={handleAddItem}>
             <AntDesign name="plus" size={20} color="white" />
           </TouchableOpacity>
         </View>
-
 
         {/* 列表部分 */}
         <FlatList
