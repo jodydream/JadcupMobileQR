@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,21 +12,22 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../styles/globalStyles';
 import styles from '../styles/StoreToPalletScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/AppNavigator'; // 导入导航类型
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
-const StoreToPalletScreen = ({navigation, route}: Props) => {
+const StoreToPalletScreen = ({ navigation, route }: Props) => {
   const [items, setItems] = useState<QRType[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [isInputMode, setIsInputMode] = useState<boolean>(false); // 互斥状态标记
+  const [inputSource, setInputSource] = useState<'scan' | 'keyboard'>('scan'); // 区分输入来源
 
   // 重置单个item
   const resetItem = (index: number) => {
     const updatedItems = items.filter((_, i) => i !== index);
     setItems(updatedItems);
-    Alert.alert('Clear', `Item at index ${index} has been clear.`);
+    Alert.alert('Clear', `Item at index ${index} has been cleared.`);
   };
 
   // 重置所有项
@@ -50,25 +51,34 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     setInputValue(text);
   };
 
-  // 添加到列表
-  const handleAddItem = () => {
-    if (!inputValue) return;
-    const newType = inputValue.length > 6 ? 'Product' : 'Pallet'; // 判断type
+  // 立即处理输入的逻辑
+  useEffect(() => {
+    if (inputValue === '') return;
+
+    // 立刻处理输入逻辑
+    if (inputSource === 'scan') {
+      console.log('Processing scanned input:', inputValue);
+    } else if (inputSource === 'keyboard') {
+      console.log('Processing manual input:', inputValue);
+    }
+
+    const newType = inputValue.length > 6 ? 'Product' : 'Pallet';
     const newItem: QRType = {
       type: newType,
       No: inputValue,
     };
     setItems([...items, newItem]);
-    setInputValue('');
-  };
+    setInputValue(''); // 清空输入框
+  }, [inputValue]);
 
   // 切换模式（扫码与键盘输入）
   const toggleInputMode = () => {
     setIsInputMode(!isInputMode); // 切换状态
+    setInputSource(!isInputMode ? 'keyboard' : 'scan'); // 切换输入来源标记
   };
 
   // 渲染每个item的行
-  const renderItem = ({item, index}: {item: QRType; index: number}) => (
+  const renderItem = ({ item, index }: { item: QRType; index: number }) => (
     <View style={styles.listItemContainer}>
       <Text style={styles.itemType}>{item.type}</Text>
       <Text style={styles.itemNumber}>{item.No}</Text>
@@ -112,7 +122,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           <TouchableOpacity
             style={[
               styles.scanButton,
-              {backgroundColor: isInputMode ? 'gray' : theme.colors.primary},
+              { backgroundColor: isInputMode ? theme.colors.textfontcolorgreydark3 : theme.colors.primary },
             ]}
             onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
@@ -123,7 +133,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           <TouchableOpacity
             style={[
               styles.scanButton,
-              {backgroundColor: isInputMode ? theme.colors.primary : 'gray'},
+              { backgroundColor: isInputMode ? theme.colors.primary : theme.colors.textfontcolorgreydark3 },
             ]}
             onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
@@ -137,12 +147,13 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           placeholder="输入内容"
           value={inputValue}
           onChangeText={handleInputChange}
-          editable={isInputMode} // 根据按钮控制是否允许输入
+          editable={true} // 无论扫码或键盘，输入框都允许输入
+          // 以便接受扫码器的内容或手动输入
         />
 
         {/* 列表部分 */}
         <FlatList
-          contentContainerStyle={{flexGrow: 1}}
+          contentContainerStyle={{ flexGrow: 1 }}
           data={items}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
@@ -150,7 +161,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
             <View style={styles.listItemContainer}>
               <Text style={styles.itemType}>Type</Text>
               <Text style={styles.itemNumber}>No.</Text>
-              <Text style={[styles.resetButton, {display: 'none'}]}> </Text>
+              <Text style={[styles.resetButton, { display: 'none' }]}> </Text>
             </View>
           )}
         />
