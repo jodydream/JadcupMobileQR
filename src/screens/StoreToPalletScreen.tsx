@@ -59,14 +59,13 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   // 处理用户输入内容
   const handleInputChange = (text: string) => {
-    console.log('xxxxxxxx输入状态:', isInputMode);
     setInputValue(text);
-
-    if (isInputMode) {
-      //扫码输入
-    } else {
-      //键盘输入
-    }
+    // console.log('xxxxxxxx输入状态:', isInputMode);
+    // if (isInputMode) {
+    //   //扫码输入
+    // } else {
+    //   //键盘输入
+    // }
   };
 
   // 重置单个item
