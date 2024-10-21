@@ -54,6 +54,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       newType = 'Product';
     } else {
       Alert.alert('Please enter the correct QR code', '');
+      inputRefScan.current?.focus(); // 每次输入改变时重新获取焦点
       return;
     }
 
@@ -74,7 +75,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     } else {
       Alert.alert('Please enter the correct QR code', '');
     }
-
+    inputRefScan.current?.focus(); // 每次输入改变时重新获取焦点
   
   };
 
@@ -115,13 +116,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   //setScanValue后:
   useEffect(() => {
     console.log('-------------scanValue:', scanValue);
-
     if(scanValue) {
       addItem(scanValue); // 将扫码值添加到列表
-      if (inputRefScan.current) {
-        inputRefScan.current.focus(); // 每次输入改变时重新获取焦点
-      }
     }
+    
+    //获取焦点
+    inputRefScan.current?.focus(); 
   }, [scanValue]);
 
   return (
