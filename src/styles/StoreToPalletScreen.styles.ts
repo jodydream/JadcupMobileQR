@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.small,
     alignItems: 'center',
     borderRadius: 5,
+    backgroundColor:'green'
   },
   scanButtonText: {
     color: 'white',

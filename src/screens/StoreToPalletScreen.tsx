@@ -24,9 +24,7 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
   const [items, setItems] = useState<QRType[]>([]);
   const [inputValue, setInputValue] = useState<string>(''); // 键盘输入值
   const [scanValue, setScanValue] = useState<string>(''); // 用于显示的扫码结果
-  const [isInputMode, setIsInputMode] = useState<boolean>(true); // 控制输入模式（扫码/键盘）
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
-  const inputRefKeybord = useRef<TextInput>(null); // TextInput 的引用
 
   //========================part1:点击事件处理=================================
   // 重置所有项
@@ -43,29 +41,6 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
   // 返回上一页
   const goBack = () => {
     navigation.goBack();
-  };
-
-  // 切换模式（扫码与键盘输入）
-  const toggleInputMode = () => {
-    // 清空之前的输入
-    setInputValue('');
-    setScanValue(''); // 清空扫码值
-
-    const newInputMode = !isInputMode;
-    setIsInputMode(newInputMode);
-    if (newInputMode) {
-      // 扫码输入模式 - 收回键盘
-      Keyboard.dismiss();
-
-    } else {
-      // 键盘输入模式 - 激活键盘
-      inputRefKeybord.current?.focus();
-    }
-  };
-
-  // 处理用户键盘输入内容
-  const handleInputChange = (text: string) => {
-    setInputValue(text);
   };
 
   // 模拟扫码输入
@@ -96,7 +71,6 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
       setInputValue('');
       return;
     }
-
     const newItem: QRType = {
       type: newType,
       No: current,
@@ -117,19 +91,6 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
     }
     setInputValue('');
   };
-
-  useEffect(() => {
-    if (inputValue === '') return;
-    if (isInputMode) {
-      handleAddItem(inputValue); // 处理键盘输入的值
-    } else {
-      console.log('Processing manual input:', inputValue);
-    }
-  }, [inputValue]);
-
-  useEffect(() => {
-    setIsInputMode(true); // 默认扫码输入模式
-  }, []);
 
   // 渲染每个 item 的行
   const renderItem = ({ item, index }: { item: QRType; index: number }) => (
@@ -170,90 +131,21 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
       <View style={styles.mainContainer}>
         {/* 1 扫码按钮 */}
         <View style={styles.scan_btn_container}>
-          <TouchableOpacity
-            style={[
-              styles.scanButton,
-              {
-                backgroundColor: isInputMode
-                  ? theme.colors.primary
-                  : theme.colors.textfontcolorgreydark3,
-              },
-            ]}
-            onPress={toggleInputMode}>
+          <TouchableOpacity style={styles.scanButton}>
             <Text style={styles.scanButtonText}>
-              {isInputMode ? '扫码输入' : '开启扫码'}
+            扫码输入
             </Text>
           </TouchableOpacity>
-
-          {/* 显示扫码值 */}
-          {/* <Text style={styles.scanLable}>
-            {scanValue || '等待扫码...'}
-          </Text> */}
 
           <TextInput
             ref={inputRefScan}
             style={[styles.inputBox, { flex: 1 }]}
             placeholder="等待扫码输入"
             value={inputValue}
-            onChangeText={handleInputChange}
+            onChangeText={handleScanInput}
             editable={true}
-            onFocus={() => {
-              if (isInputMode) {
-                // 如果是扫码模式，防止弹出键盘
-                Keyboard.dismiss();
-              }
-            }}
+            // onFocus={() => { Keyboard.dismiss();}}
           />
-        </View>
-
-        {/* 2 键盘输入 */}
-        <View
-          style={[
-            styles.inputContainer,
-            { flexDirection: 'row', alignItems: 'center' },
-          ]}>
-          <TouchableOpacity
-            style={[
-              styles.scanButton,
-              {
-                backgroundColor: isInputMode
-                  ? theme.colors.textfontcolorgreydark3
-                  : theme.colors.primary,
-              },
-            ]}
-            onPress={toggleInputMode}>
-            <Text style={styles.scanButtonText}>
-              {isInputMode ? '开启键盘' : '键盘输入'}
-            </Text>
-          </TouchableOpacity>
-
-          <TextInput
-            ref={inputRefKeybord}
-            style={[styles.inputBox, { flex: 1 }]}
-            placeholder="等待键盘输入"
-            value={inputValue}
-            onChangeText={handleInputChange}
-            editable={true}
-            onFocus={() => {
-              if (isInputMode) {
-                // 如果是扫码模式，防止弹出键盘
-                Keyboard.dismiss();
-              }
-            }}
-          />
-
-          <TouchableOpacity
-            style={[
-              styles.inputButton,
-              {
-                backgroundColor: isInputMode
-                  ? theme.colors.textfontcolorgreydark3
-                  : theme.colors.primary,
-              },
-            ]}
-            onPress={() => handleAddItem(inputValue)}>
-            <AntDesign name="plus" size={20} color="white" />
-          </TouchableOpacity>
         </View>
 
         {/* 列表部分 */}
