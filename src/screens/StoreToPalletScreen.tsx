@@ -44,6 +44,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   // 切换模式（扫码与键盘输入）
   const toggleInputMode = () => {
+    //之前输入的清空
+    setInputValue('');
+
     const newInputMode = !isInputMode;
     setIsInputMode(newInputMode);
     if (newInputMode) {
@@ -59,8 +62,11 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const handleInputChange = (text: string) => {
     console.log("xxxxxxxx输入状态:",isInputMode);
     setInputValue(text);
+
     if(isInputMode) {
       //扫码输入
+
+      
     } else{
       //键盘输入
     }
