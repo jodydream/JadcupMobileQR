@@ -150,6 +150,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  total_text: {
+    paddingVertical:10,
+    fontSize: FONT_SIZE.BIG1,
+    // fontWeight: 'bold',
+    color: 'black',
+    alignSelf:'flex-end'
+  },
   // 底部按钮样式
   footerContainer: {
     paddingHorizontal: SPACING.medium,

@@ -17,6 +17,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
 import {identifyCode} from '../utils/globalHelpers'; // 根据文件路径导入
 import * as StoreToPalletHelpers from '../utils/StoreToPalletHelpers';
+import Toast from 'react-native-toast-message';
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
@@ -29,12 +30,14 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   // 重置所有项
   const resetAll = () => {
     setItems([]);
-    Alert.alert('Clear All', 'All items have been reset.', [{ text: 'OK', onPress: getfoucs }]);
+    //Alert.alert('Clear All', 'All items have been reset.', [{ text: 'OK', onPress: getfoucs }]);
+    Toast.show({type: 'success', text1: 'Clear Success', text2: 'All items have been cleared!', visibilityTime: 1000,});
   };
 
   // 保存操作
   const savePallet = () => {
-    Alert.alert('Save', 'Pallet has been saved.', [{ text: 'OK', onPress: getfoucs }]);
+    //Alert.alert('Save', 'Pallet has been saved.', [{ text: 'OK', onPress: getfoucs }]);
+    Toast.show({type: 'success', text1: 'Save Success', text2: 'Pallet has been saved!', visibilityTime: 1000,});
   };
 
   // 返回上一页
@@ -53,7 +56,8 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     } else if (newtypecode == 1) {
       newType = 'Product';
     } else {
-      Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
+      //Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
+      Toast.show({type: 'error', text1: 'Fail to add', text2: 'Please enter the correct QR code!', visibilityTime: 1000,});
       setScanValue('');
       return;
     }
@@ -67,14 +71,17 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     if (validateQRArraycode == 1) {
       setItems(currentItems);
     } else if (validateQRArraycode == 2) {
-      Alert.alert('Please sweep into the Pallet', '', [{ text: 'OK', onPress: getfoucs }]);
-
+      //Alert.alert('Please sweep into the Pallet', '', [{ text: 'OK', onPress: getfoucs }]);
+      Toast.show({type: 'error', text1: 'Fail to add', text2: 'Please sweep into the Pallet!', visibilityTime: 1000,});
     } else if (validateQRArraycode == 3) {
-      Alert.alert('Please sweep into the product', '', [{ text: 'OK', onPress: getfoucs }]);
+      //Alert.alert('Please sweep into the product', '', [{ text: 'OK', onPress: getfoucs }]);
+      Toast.show({type: 'error', text1: 'Fail to add', text2: 'Please sweep into the product!', visibilityTime: 1000,});
     } else if (validateQRArraycode == 4) {
-      Alert.alert('No repeat sweeps', '', [{ text: 'OK', onPress: getfoucs }]);
+      //Alert.alert('No repeat sweeps', '', [{ text: 'OK', onPress: getfoucs }]);
+      Toast.show({type: 'error', text1: 'Fail to add', text2: 'No repeat sweeps!', visibilityTime: 1000,});
     } else {
-      Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
+      //Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
+      Toast.show({type: 'error', text1: 'Fail to add', text2: 'Please enter the correct QR code!', visibilityTime: 1000,});
     }
     setScanValue('');
   
@@ -89,9 +96,15 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   // 删除单个 item
   const deleteItem = (index: number) => {
-    const updatedItems = items.filter((_, i) => i !== index);
-    setItems(updatedItems);
-    Alert.alert('Clear', `Item at index ${index} has been cleared.`, [{ text: 'OK', onPress: getfoucs }]);
+    const currentItem = items[index];
+    if(currentItem.type == 'Pallet') {
+      setItems([]);
+    } else {
+      const updatedItems = items.filter((_, i) => i !== index);
+      setItems(updatedItems);
+      //Alert.alert('Clear', `${currentItem.type}: ${currentItem.No} has been cleared.`, [{ text: 'OK', onPress: getfoucs }]);
+      Toast.show({type: 'success', text1: 'Clear success ', text2: `${currentItem.type}: ${currentItem.No} has been cleared.`, visibilityTime: 1000,});
+    }
   };
 
   // 渲染每个 item 的行
@@ -176,10 +189,13 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
             </View>
           )}
         />
+
+
       </View>
 
       {/* 底部按钮 */}
       <View style={styles.footerContainer}>
+      <Text style={styles.total_text}>Total Number: {items.length}</Text>
         <TouchableOpacity style={styles.saveButton} onPress={savePallet}>
           <Text style={styles.saveButtonText}>Save上托盘</Text>
         </TouchableOpacity>
