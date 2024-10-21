@@ -177,9 +177,13 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           placeholder="输入内容"
           value={inputValue}
           onChangeText={handleInputChange}
-          //pointerEvents={isInputMode ? "none" : "auto"} // 在扫码模式下不响应点击
           editable={true} // 输入框始终是可编辑状态
-
+          onFocus={() => {
+            if (isInputMode) {
+              // 如果是扫码模式，防止弹出键盘
+              inputRef.current?.blur(); // 失去焦点
+            }
+          }}
         />
 
         {/* 列表部分 */}
