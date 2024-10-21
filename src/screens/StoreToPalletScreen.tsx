@@ -213,7 +213,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
                 ? theme.colors.textfontcolorgreydark3
                 : theme.colors.primary,
             },]} // 定义按钮的样式
-            onPress={keyInputAddItem}>
+            onPress={handleAddItem}>
             <AntDesign name="plus" size={20} color="white" />
           </TouchableOpacity>
         </View>
