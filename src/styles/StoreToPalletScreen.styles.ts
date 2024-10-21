@@ -50,6 +50,31 @@ const styles = StyleSheet.create({
   },
 
   // ====================
+  // 输入框view
+  inputContainer: {
+    marginVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    // backgroundColor:'red'
+    
+  },
+  inputBox: {
+    height: 40,
+    borderColor: theme.colors.onSurface,
+    borderWidth: 1,
+    padding: SPACING.small,
+  },
+  inputButton: {
+    backgroundColor: theme.colors.primary,
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    marginLeft: 10, // 留出一点间距
+  },
+
+
   // 主要内容部分 核心布局
   scanPrompt: {
     // fontSize: FONT_SIZE.MEDIUM,
@@ -57,13 +82,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: SPACING.small,
     color: theme.colors.onBackground,
-  },
-  inputBox: {
-    height: 40,
-    borderColor: theme.colors.onSurface,
-    borderWidth: 1,
-    padding: SPACING.small,
-    marginBottom: SPACING.medium,
   },
 
   // 列表项样式

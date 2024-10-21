@@ -24,7 +24,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const [isInputMode, setIsInputMode] = useState<boolean>(true); // 互斥状态标记
   const inputRef = useRef<TextInput>(null); // Ref to manage TextInput focus
 
-
   //========================part1:点击事件处理=================================
   // 重置所有项
   const resetAll = () => {
@@ -60,14 +59,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   // 处理用户输入内容
   const handleInputChange = (text: string) => {
-    console.log("xxxxxxxx输入状态:",isInputMode);
+    console.log('xxxxxxxx输入状态:', isInputMode);
     setInputValue(text);
 
-    if(isInputMode) {
+    if (isInputMode) {
       //扫码输入
-
-      
-    } else{
+    } else {
       //键盘输入
     }
   };
@@ -78,6 +75,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     setItems(updatedItems);
     Alert.alert('Clear', `Item at index ${index} has been cleared.`);
   };
+
+  // 键盘键入:添加一条
+  const keyInputAddItem = ()=> {
+    Alert.alert('按钮点击', '你点击了输入框旁边的按钮');
+  }
+
   //========================part2:自定义函数(除了点击外)========================
   // 把一行，添加到列表
   const handleAddItem = () => {
@@ -100,16 +103,15 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     } else {
       console.log('Processing manual input:', inputValue);
     }
-    
   }, [inputValue]);
 
   useEffect(() => {
     //默认状态：扫码输入--true
-    console.log("-------初始化页面");
-    setIsInputMode(true) 
+    console.log('-------初始化页面');
+    setIsInputMode(true);
     inputRef.current?.focus(); //点亮焦点 且 弹出键盘
     //Keyboard.dismiss();//隐藏键盘
-    console.log("------输入状态:",isInputMode);
+    console.log('------输入状态:', isInputMode);
   }, []);
 
   // 渲染每个item的行
@@ -157,7 +159,11 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           <TouchableOpacity
             style={[
               styles.scanButton,
-              {backgroundColor: isInputMode ? theme.colors.primary : theme.colors.textfontcolorgreydark3},
+              {
+                backgroundColor: isInputMode
+                  ? theme.colors.primary
+                  : theme.colors.textfontcolorgreydark3,
+              },
             ]}
             onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
@@ -168,7 +174,11 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           <TouchableOpacity
             style={[
               styles.scanButton,
-              {backgroundColor: isInputMode ? theme.colors.textfontcolorgreydark3 : theme.colors.primary},
+              {
+                backgroundColor: isInputMode
+                  ? theme.colors.textfontcolorgreydark3
+                  : theme.colors.primary,
+              },
             ]}
             onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
@@ -177,20 +187,37 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           </TouchableOpacity>
         </View>
 
-        <TextInput
-          ref={inputRef} // Reference to control focus
-          style={styles.inputBox}
-          placeholder="输入内容"
-          value={inputValue}
-          onChangeText={handleInputChange}
-          editable={true} // 输入框始终是可编辑状态
-          onFocus={() => {
-            if (isInputMode) {
-              // 如果是扫码模式，防止弹出键盘
-              inputRef.current?.blur(); // 失去焦点
-            }
-          }}
-        />
+        {/* 输入框view */}
+        <View
+          style={[
+            styles.inputContainer,
+            {flexDirection: 'row', alignItems: 'center'},
+          ]}>
+          <TextInput
+            ref={inputRef} // Reference to control focus
+            style={[styles.inputBox, {flex: 1}]} // 让 TextInput 占据容器的剩余空间
+            placeholder="输入内容"
+            value={inputValue}
+            onChangeText={handleInputChange}
+            editable={true} // 输入框始终是可编辑状态
+            onFocus={() => {
+              if (isInputMode) {
+                // 如果是扫码模式，防止弹出键盘
+                inputRef.current?.blur(); // 失去焦点
+              }
+            }}
+          />
+          <TouchableOpacity
+            style={[styles.inputButton,             {
+              backgroundColor: isInputMode
+                ? theme.colors.textfontcolorgreydark3
+                : theme.colors.primary,
+            },]} // 定义按钮的样式
+            onPress={keyInputAddItem}>
+            <AntDesign name="plus" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
+
 
         {/* 列表部分 */}
         <FlatList
