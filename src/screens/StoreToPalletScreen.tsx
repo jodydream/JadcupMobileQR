@@ -7,6 +7,7 @@ import {
   FlatList,
   Alert,
   StatusBar,
+  Keyboard
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../styles/globalStyles';
@@ -41,12 +42,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     navigation.goBack();
   };
 
-  // 扫码输入
+  // 扫码输入函数：只用于设置新的扫码值
   const scanInput = (scannedCode: string) => {
-    setScanValue(scannedCode); // 设置扫码值
-    addItem(scannedCode); // 将扫码值添加到列表
+    console.log('xxxxxxxxxxxxnewscannedCode:', scannedCode);
+    setScanValue(scannedCode); // 设置扫码值--异步的-->后续操作需要在对应useEffect中
   };
-  
+
   // 添加一行到列表
   const addItem = (current: string) => {
     if (!current) return;
@@ -62,6 +63,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       setScanValue('');
       return;
     }
+
     const newItem: QRType = {
       type: newType,
       No: current,
@@ -71,7 +73,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       StoreToPalletHelpers.validateQRArray(currentItems);
     if (validateQRArraycode == 1) {
       setItems([...items, newItem]);
-      setScanValue('');
     } else if (validateQRArraycode == 2) {
       Alert.alert('Please sweep into the Pallet', '');
     } else if (validateQRArraycode == 3) {
@@ -104,19 +105,32 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       </TouchableOpacity>
     </View>
   );
+  // Textinput--获取焦点
+  const ensureFocus = () => {
+    if (inputRefScan.current) {
+      inputRefScan.current.focus();
+      //Keyboard.dismiss(); // 立刻隐藏键盘
+    }
+  };
 
+  //========================part3:框架函数====================================
   useEffect(() => {
     if (inputRefScan.current) {
       inputRefScan.current.focus(); // 初次加载时获取焦点
     }
   }, []);
 
-  // Textinput--获取焦点
-  const ensureFocus = () => {
+  //setScanValue后:
+  useEffect(() => {
+    console.log('-------------scanValue:', scanValue);
+    addItem(scanValue); // 将扫码值添加到列表
+
     if (inputRefScan.current) {
-      inputRefScan.current.focus();
+      inputRefScan.current.focus(); // 每次输入改变时重新获取焦点
+      //Keyboard.dismiss(); // 立刻隐藏键盘
     }
-  };
+  }, [scanValue]);
+
   return (
     <View style={styles.wholeContaine}>
       {/* part1: 顶部导航 */}
@@ -151,7 +165,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
             placeholder="等待扫码输入"
             value={scanValue}
             onChangeText={scanInput}
-            editable={true}
+            editable={true} //可编辑--接受输入的数据
           />
         </View>
 
