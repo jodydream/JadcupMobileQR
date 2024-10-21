@@ -54,6 +54,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       newType = 'Product';
     } else {
       Alert.alert('Please enter the correct QR code', '');
+      setScanValue('');
       inputRefScan.current?.focus(); // 每次输入改变时重新获取焦点
       return;
     }
@@ -75,6 +76,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     } else {
       Alert.alert('Please enter the correct QR code', '');
     }
+    setScanValue('');
     inputRefScan.current?.focus(); // 每次输入改变时重新获取焦点
   
   };
@@ -99,12 +101,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       </TouchableOpacity>
     </View>
   );
-  // Textinput--获取焦点
-  const ensureFocus = () => {
-    if (inputRefScan.current) {
-      inputRefScan.current.focus();
-    }
-  };
+
 
   //========================part3:框架函数====================================
   useEffect(() => {
@@ -119,7 +116,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     if(scanValue) {
       addItem(scanValue); // 将扫码值添加到列表
     }
-    
     //获取焦点
     inputRefScan.current?.focus(); 
   }, [scanValue]);
