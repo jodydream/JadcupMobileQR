@@ -177,9 +177,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           placeholder="输入内容"
           value={inputValue}
           onChangeText={handleInputChange}
-          editable={true
-            
-          } // 输入框始终是可编辑状态
+          //pointerEvents={isInputMode ? "none" : "auto"} // 在扫码模式下不响应点击
+          editable={true} // 输入框始终是可编辑状态
+
         />
 
         {/* 列表部分 */}
