@@ -29,12 +29,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   // 重置所有项
   const resetAll = () => {
     setItems([]);
-    Alert.alert('Clear All', 'All items have been reset.');
+    Alert.alert('Clear All', 'All items have been reset.', [{ text: 'OK', onPress: getfoucs }]);
   };
 
   // 保存操作
   const savePallet = () => {
-    Alert.alert('Save', 'Pallet has been saved.');
+    Alert.alert('Save', 'Pallet has been saved.', [{ text: 'OK', onPress: getfoucs }]);
   };
 
   // 返回上一页
@@ -53,7 +53,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     } else if (newtypecode == 1) {
       newType = 'Product';
     } else {
-      Alert.alert('Please enter the correct QR code', '');
+      Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
       setScanValue('');
       return;
     }
@@ -81,14 +81,17 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   };
 
   const getfoucs = ()=> {
-    inputRefScan.current?.focus()
+    inputRefScan.current?.focus();
+    setTimeout(() => {
+      Keyboard.dismiss(); // 延迟隐藏键盘
+    }, 100); // 延迟100毫秒（这个值可以根据实际效果调整）
   }
 
   // 删除单个 item
   const deleteItem = (index: number) => {
     const updatedItems = items.filter((_, i) => i !== index);
     setItems(updatedItems);
-    Alert.alert('Clear', `Item at index ${index} has been cleared.`);
+    Alert.alert('Clear', `Item at index ${index} has been cleared.`, [{ text: 'OK', onPress: getfoucs }]);
   };
 
   // 渲染每个 item 的行
