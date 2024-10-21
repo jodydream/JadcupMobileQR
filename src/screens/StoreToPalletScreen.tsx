@@ -42,11 +42,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     navigation.goBack();
   };
 
-  // 扫码输入函数：只用于设置新的扫码值
-  // const scanInput = (scannedCode: string) => {
-  //   setScanValue(scannedCode); // 设置扫码值--异步的-->后续操作需要在对应useEffect中
-  // };
-
   // 添加一行到列表
   const addItem = (current: string) => {
     if (!current) return;
@@ -59,7 +54,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       newType = 'Product';
     } else {
       Alert.alert('Please enter the correct QR code', '');
-      setScanValue('');
       return;
     }
 
@@ -68,10 +62,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       No: current,
     };
     const currentItems: QRType[] = [...items, newItem];
-    const validateQRArraycode =
-      StoreToPalletHelpers.validateQRArray(currentItems);
+    const validateQRArraycode =StoreToPalletHelpers.validateQRArray(currentItems);
     if (validateQRArraycode == 1) {
-      setItems([...items, newItem]);
+      setItems(currentItems);
     } else if (validateQRArraycode == 2) {
       Alert.alert('Please sweep into the Pallet', '');
     } else if (validateQRArraycode == 3) {
