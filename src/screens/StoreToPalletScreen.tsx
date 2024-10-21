@@ -21,7 +21,7 @@ type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 const StoreToPalletScreen = ({navigation, route}: Props) => {
   const [items, setItems] = useState<QRType[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
-  const [isInputMode, setIsInputMode] = useState<boolean>(false); // 互斥状态标记
+  const [isInputMode, setIsInputMode] = useState<boolean>(true); // 互斥状态标记
   const inputRef = useRef<TextInput>(null); // Ref to manage TextInput focus
 
 
@@ -46,19 +46,24 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const toggleInputMode = () => {
     const newInputMode = !isInputMode;
     setIsInputMode(newInputMode);
-
     if (newInputMode) {
-      // 弹出键盘
-      inputRef.current?.focus();
-    } else {
-      // 收回键盘
+      // 1 扫码输入---收回键盘
       Keyboard.dismiss();
+    } else {
+      // 2 键盘输入
+      inputRef.current?.focus();
     }
   };
 
   // 处理用户输入内容
   const handleInputChange = (text: string) => {
+    console.log("xxxxxxxx输入状态:",isInputMode);
     setInputValue(text);
+    if(isInputMode) {
+      //扫码输入
+    } else{
+      //键盘输入
+    }
   };
 
   // 重置单个item
@@ -79,26 +84,26 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     setItems([...items, newItem]);
     setInputValue('');
   };
+
   //========================part3:框架函数====================================
   useEffect(() => {
     if (inputValue === '') return;
-
-    // 立刻处理输入逻辑
     if (isInputMode) {
-      console.log('Processing manual input:', inputValue);
-    } else {
       console.log('Processing scanned input:', inputValue);
+      handleAddItem();
+    } else {
+      console.log('Processing manual input:', inputValue);
     }
-
-    handleAddItem();
+    
   }, [inputValue]);
 
   useEffect(() => {
-    console.log("--------");
-    //点亮焦点 且 弹出键盘
-    inputRef.current?.focus();
-    //隐藏键盘
-    Keyboard.dismiss();
+    //默认状态：扫码输入--true
+    console.log("-------初始化页面");
+    setIsInputMode(true) 
+    inputRef.current?.focus(); //点亮焦点 且 弹出键盘
+    //Keyboard.dismiss();//隐藏键盘
+    console.log("------输入状态:",isInputMode);
   }, []);
 
   // 渲染每个item的行
@@ -146,22 +151,22 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           <TouchableOpacity
             style={[
               styles.scanButton,
-              {backgroundColor: isInputMode ? 'gray' : theme.colors.primary},
+              {backgroundColor: isInputMode ? theme.colors.primary : theme.colors.textfontcolorgreydark3},
             ]}
             onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
-              {isInputMode ? '开启扫码' : '扫码输入'}
+              {isInputMode ? '扫码输入' : '开启扫码'}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[
               styles.scanButton,
-              {backgroundColor: isInputMode ? theme.colors.primary : 'gray'},
+              {backgroundColor: isInputMode ? theme.colors.textfontcolorgreydark3 : theme.colors.primary},
             ]}
             onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
-              {isInputMode ? '键盘输入' : '开启键盘'}
+              {isInputMode ? '开启键盘' : '键盘输入'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -172,7 +177,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           placeholder="输入内容"
           value={inputValue}
           onChangeText={handleInputChange}
-          editable={true} // 输入框始终是可编辑状态
+          editable={true
+            
+          } // 输入框始终是可编辑状态
         />
 
         {/* 列表部分 */}
