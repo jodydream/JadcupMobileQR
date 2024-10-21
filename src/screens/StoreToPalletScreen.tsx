@@ -43,10 +43,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   };
 
   // 扫码输入函数：只用于设置新的扫码值
-  const scanInput = (scannedCode: string) => {
-    console.log('xxxxxxxxxxxxnewscannedCode:', scannedCode);
-    setScanValue(scannedCode); // 设置扫码值--异步的-->后续操作需要在对应useEffect中
-  };
+  // const scanInput = (scannedCode: string) => {
+  //   setScanValue(scannedCode); // 设置扫码值--异步的-->后续操作需要在对应useEffect中
+  // };
 
   // 添加一行到列表
   const addItem = (current: string) => {
@@ -109,7 +108,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const ensureFocus = () => {
     if (inputRefScan.current) {
       inputRefScan.current.focus();
-      //Keyboard.dismiss(); // 立刻隐藏键盘
     }
   };
 
@@ -123,11 +121,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   //setScanValue后:
   useEffect(() => {
     console.log('-------------scanValue:', scanValue);
-    addItem(scanValue); // 将扫码值添加到列表
 
+    if(scanValue) {
+      addItem(scanValue); // 将扫码值添加到列表
+    }
     if (inputRefScan.current) {
       inputRefScan.current.focus(); // 每次输入改变时重新获取焦点
-      //Keyboard.dismiss(); // 立刻隐藏键盘
     }
   }, [scanValue]);
 
@@ -164,7 +163,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
             style={[styles.inputBox, {flex: 1}]}
             placeholder="等待扫码输入"
             value={scanValue}
-            onChangeText={scanInput}
+            onChangeText={setScanValue}
             editable={true} //可编辑--接受输入的数据
           />
         </View>
