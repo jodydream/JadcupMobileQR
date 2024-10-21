@@ -74,7 +74,8 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     } else {
       Alert.alert('Please enter the correct QR code', '');
     }
-    setScanValue('');
+
+  
   };
 
   // 删除单个 item
@@ -117,9 +118,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
     if(scanValue) {
       addItem(scanValue); // 将扫码值添加到列表
-    }
-    if (inputRefScan.current) {
-      inputRefScan.current.focus(); // 每次输入改变时重新获取焦点
+      if (inputRefScan.current) {
+        inputRefScan.current.focus(); // 每次输入改变时重新获取焦点
+      }
     }
   }, [scanValue]);
 
