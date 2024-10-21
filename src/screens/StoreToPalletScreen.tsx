@@ -85,7 +85,21 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   // 把一行，添加到列表
   const handleAddItem = () => {
     if (!inputValue) return;
-    const newType = inputValue.length > 6 ? 'Product' : 'Pallet'; // 判断type
+
+    let newType; // 判断type
+    const newtypecode = identifyCode(inputValue);
+    if(newtypecode == 2) {
+      newType = 'Pallet'
+    } else if(newtypecode == 1) {
+      newType = 'Product'
+    } else{
+      newType = ''
+      Alert.alert('Please enter the correct QR code', '');
+      return;
+    }
+
+    
+
     const newItem: QRType = {
       type: newType,
       No: inputValue,
