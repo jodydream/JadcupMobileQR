@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,29 +7,25 @@ import {
   FlatList,
   Alert,
   StatusBar,
+  Keyboard,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../styles/globalStyles';
 import styles from '../styles/StoreToPalletScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/AppNavigator'; // 导入导航类型
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
-const StoreToPalletScreen = ({ navigation, route }: Props) => {
+const StoreToPalletScreen = ({navigation, route}: Props) => {
   const [items, setItems] = useState<QRType[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [isInputMode, setIsInputMode] = useState<boolean>(false); // 互斥状态标记
-  const [inputSource, setInputSource] = useState<'scan' | 'keyboard'>('scan'); // 区分输入来源
+  const inputRef = useRef<TextInput>(null); // Ref to manage TextInput focus
 
-  // 重置单个item
-  const resetItem = (index: number) => {
-    const updatedItems = items.filter((_, i) => i !== index);
-    setItems(updatedItems);
-    Alert.alert('Clear', `Item at index ${index} has been cleared.`);
-  };
 
+  //========================part1:点击事件处理=================================
   // 重置所有项
   const resetAll = () => {
     setItems([]);
@@ -46,39 +42,67 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
     navigation.goBack();
   };
 
+  // 切换模式（扫码与键盘输入）
+  const toggleInputMode = () => {
+    const newInputMode = !isInputMode;
+    setIsInputMode(newInputMode);
+
+    if (newInputMode) {
+      // 弹出键盘
+      inputRef.current?.focus();
+    } else {
+      // 收回键盘
+      Keyboard.dismiss();
+    }
+  };
+
   // 处理用户输入内容
   const handleInputChange = (text: string) => {
     setInputValue(text);
   };
 
-  // 立即处理输入的逻辑
-  useEffect(() => {
-    if (inputValue === '') return;
-
-    // 立刻处理输入逻辑
-    if (inputSource === 'scan') {
-      console.log('Processing scanned input:', inputValue);
-    } else if (inputSource === 'keyboard') {
-      console.log('Processing manual input:', inputValue);
-    }
-
-    const newType = inputValue.length > 6 ? 'Product' : 'Pallet';
+  // 重置单个item
+  const resetItem = (index: number) => {
+    const updatedItems = items.filter((_, i) => i !== index);
+    setItems(updatedItems);
+    Alert.alert('Clear', `Item at index ${index} has been cleared.`);
+  };
+  //========================part2:自定义函数(除了点击外)========================
+  // 把一行，添加到列表
+  const handleAddItem = () => {
+    if (!inputValue) return;
+    const newType = inputValue.length > 6 ? 'Product' : 'Pallet'; // 判断type
     const newItem: QRType = {
       type: newType,
       No: inputValue,
     };
     setItems([...items, newItem]);
-    setInputValue(''); // 清空输入框
+    setInputValue('');
+  };
+  //========================part3:框架函数====================================
+  useEffect(() => {
+    if (inputValue === '') return;
+
+    // 立刻处理输入逻辑
+    if (isInputMode) {
+      console.log('Processing manual input:', inputValue);
+    } else {
+      console.log('Processing scanned input:', inputValue);
+    }
+
+    handleAddItem();
   }, [inputValue]);
 
-  // 切换模式（扫码与键盘输入）
-  const toggleInputMode = () => {
-    setIsInputMode(!isInputMode); // 切换状态
-    setInputSource(!isInputMode ? 'keyboard' : 'scan'); // 切换输入来源标记
-  };
+  useEffect(() => {
+    console.log("--------");
+    //点亮焦点 且 弹出键盘
+    inputRef.current?.focus();
+    //隐藏键盘
+    Keyboard.dismiss();
+  }, []);
 
   // 渲染每个item的行
-  const renderItem = ({ item, index }: { item: QRType; index: number }) => (
+  const renderItem = ({item, index}: {item: QRType; index: number}) => (
     <View style={styles.listItemContainer}>
       <Text style={styles.itemType}>{item.type}</Text>
       <Text style={styles.itemNumber}>{item.No}</Text>
@@ -122,7 +146,7 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
           <TouchableOpacity
             style={[
               styles.scanButton,
-              { backgroundColor: isInputMode ? theme.colors.textfontcolorgreydark3 : theme.colors.primary },
+              {backgroundColor: isInputMode ? 'gray' : theme.colors.primary},
             ]}
             onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
@@ -133,7 +157,7 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
           <TouchableOpacity
             style={[
               styles.scanButton,
-              { backgroundColor: isInputMode ? theme.colors.primary : theme.colors.textfontcolorgreydark3 },
+              {backgroundColor: isInputMode ? theme.colors.primary : 'gray'},
             ]}
             onPress={toggleInputMode}>
             <Text style={styles.scanButtonText}>
@@ -143,17 +167,17 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
         </View>
 
         <TextInput
+          ref={inputRef} // Reference to control focus
           style={styles.inputBox}
           placeholder="输入内容"
           value={inputValue}
           onChangeText={handleInputChange}
-          editable={true} // 无论扫码或键盘，输入框都允许输入
-          // 以便接受扫码器的内容或手动输入
+          editable={true} // 输入框始终是可编辑状态
         />
 
         {/* 列表部分 */}
         <FlatList
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerStyle={{flexGrow: 1}}
           data={items}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
@@ -161,7 +185,7 @@ const StoreToPalletScreen = ({ navigation, route }: Props) => {
             <View style={styles.listItemContainer}>
               <Text style={styles.itemType}>Type</Text>
               <Text style={styles.itemNumber}>No.</Text>
-              <Text style={[styles.resetButton, { display: 'none' }]}> </Text>
+              <Text style={[styles.resetButton, {display: 'none'}]}> </Text>
             </View>
           )}
         />
