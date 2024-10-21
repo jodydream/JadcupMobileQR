@@ -68,18 +68,23 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     if (validateQRArraycode == 1) {
       setItems(currentItems);
     } else if (validateQRArraycode == 2) {
-      Alert.alert('Please sweep into the Pallet', '');
+      Alert.alert('Please sweep into the Pallet', '', [{ text: 'OK', onPress: foucs }]);
+
     } else if (validateQRArraycode == 3) {
-      Alert.alert('Please sweep in the product', '');
+      Alert.alert('Please sweep into the product', '', [{ text: 'OK', onPress: foucs }]);
     } else if (validateQRArraycode == 4) {
-      Alert.alert('No repeat sweeps', '');
+      Alert.alert('No repeat sweeps', '', [{ text: 'OK', onPress: foucs }]);
     } else {
-      Alert.alert('Please enter the correct QR code', '');
+      Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: foucs }]);
     }
     setScanValue('');
     inputRefScan.current?.focus(); // 每次输入改变时重新获取焦点
   
   };
+
+  const foucs = ()=> {
+    inputRefScan.current?.focus()
+  }
 
   // 删除单个 item
   const deleteItem = (index: number) => {
