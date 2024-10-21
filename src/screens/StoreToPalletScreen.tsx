@@ -55,7 +55,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     } else {
       Alert.alert('Please enter the correct QR code', '');
       setScanValue('');
-      inputRefScan.current?.focus(); // 每次输入改变时重新获取焦点
       return;
     }
 
@@ -68,21 +67,20 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     if (validateQRArraycode == 1) {
       setItems(currentItems);
     } else if (validateQRArraycode == 2) {
-      Alert.alert('Please sweep into the Pallet', '', [{ text: 'OK', onPress: foucs }]);
+      Alert.alert('Please sweep into the Pallet', '', [{ text: 'OK', onPress: getfoucs }]);
 
     } else if (validateQRArraycode == 3) {
-      Alert.alert('Please sweep into the product', '', [{ text: 'OK', onPress: foucs }]);
+      Alert.alert('Please sweep into the product', '', [{ text: 'OK', onPress: getfoucs }]);
     } else if (validateQRArraycode == 4) {
-      Alert.alert('No repeat sweeps', '', [{ text: 'OK', onPress: foucs }]);
+      Alert.alert('No repeat sweeps', '', [{ text: 'OK', onPress: getfoucs }]);
     } else {
-      Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: foucs }]);
+      Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
     }
     setScanValue('');
-    inputRefScan.current?.focus(); // 每次输入改变时重新获取焦点
   
   };
 
-  const foucs = ()=> {
+  const getfoucs = ()=> {
     inputRefScan.current?.focus()
   }
 
@@ -110,9 +108,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   //========================part3:框架函数====================================
   useEffect(() => {
-    if (inputRefScan.current) {
-      inputRefScan.current.focus(); // 初次加载时获取焦点
-    }
+    getfoucs();
   }, []);
 
   //setScanValue后:
@@ -122,7 +118,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       addItem(scanValue); // 将扫码值添加到列表
     }
     //获取焦点
-    inputRefScan.current?.focus(); 
+    getfoucs();
   }, [scanValue]);
 
   return (
