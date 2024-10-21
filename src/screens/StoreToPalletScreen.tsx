@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,15 +13,17 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../styles/globalStyles';
 import styles from '../styles/StoreToPalletScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/AppNavigator'; // 导入导航类型
 import { identifyCode } from '../utils/globalHelpers'; // 根据文件路径导入
+import * as StoreToPalletHelpers from '../utils/StoreToPalletHelpers';
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
-const StoreToPalletScreen = ({navigation, route}: Props) => {
+const StoreToPalletScreen = ({ navigation, route }: Props) => {
   const [items, setItems] = useState<QRType[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
+  const [scanValue, setScanValue] = useState<string>(''); // 新增：用于接收扫码的值
   const [isInputMode, setIsInputMode] = useState<boolean>(true); // 互斥状态标记
   const inputRef = useRef<TextInput>(null); // Ref to manage TextInput focus
 
@@ -44,16 +46,17 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   // 切换模式（扫码与键盘输入）
   const toggleInputMode = () => {
-    //之前输入的清空
+    // 清空之前的输入
     setInputValue('');
+    setScanValue(''); // 清空扫码值
 
     const newInputMode = !isInputMode;
     setIsInputMode(newInputMode);
     if (newInputMode) {
-      // 1 扫码输入---收回键盘
+      // 1 扫码输入模式 - 收回键盘
       Keyboard.dismiss();
     } else {
-      // 2 键盘输入
+      // 2 键盘输入模式 - 激活键盘
       inputRef.current?.focus();
     }
   };
@@ -61,12 +64,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   // 处理用户输入内容
   const handleInputChange = (text: string) => {
     setInputValue(text);
-    // console.log('xxxxxxxx输入状态:', isInputMode);
-    // if (isInputMode) {
-    //   //扫码输入
-    // } else {
-    //   //键盘输入
-    // }
+  };
+
+  // 扫码输入：模拟扫码枪输入值
+  const handleScanInput = (scannedCode: string) => {
+    setScanValue(scannedCode); // 设置扫码值
+    handleAddItem(scannedCode); // 扫码后立即添加到列表
   };
 
   // 重置单个item
@@ -76,60 +79,60 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     Alert.alert('Clear', `Item at index ${index} has been cleared.`);
   };
 
-  // 键盘键入:添加一条
-  const keyInputAddItem = ()=> {
-    Alert.alert('按钮点击', '你点击了输入框旁边的按钮');
-  }
-
-  //========================part2:自定义函数(除了点击外)========================
   // 把一行，添加到列表
-  const handleAddItem = () => {
-    if (!inputValue) return;
+  const handleAddItem = (current: string) => {
+    if (!current) return;
 
     let newType; // 判断type
-    const newtypecode = identifyCode(inputValue);
-    if(newtypecode == 2) {
-      newType = 'Pallet'
-    } else if(newtypecode == 1) {
-      newType = 'Product'
-    } else{
-      newType = ''
+    const newtypecode = identifyCode(current);
+    if (newtypecode == 2) {
+      newType = 'Pallet';
+    } else if (newtypecode == 1) {
+      newType = 'Product';
+    } else {
       Alert.alert('Please enter the correct QR code', '');
+      setInputValue('');
       return;
     }
 
-    
-
     const newItem: QRType = {
       type: newType,
-      No: inputValue,
+      No: current,
     };
-    setItems([...items, newItem]);
+    const currentItems: QRType[] = [...items, newItem];
+    const validateQRArraycode = StoreToPalletHelpers.validateQRArray(currentItems);
+    if (validateQRArraycode == 1) {
+      setItems([...items, newItem]);
+      setInputValue('');
+    } else if (validateQRArraycode == 2) {
+      Alert.alert('Please sweep into the Pallet', '');
+    } else if (validateQRArraycode == 3) {
+      Alert.alert('Please sweep in the product', '');
+    } else if (validateQRArraycode == 4) {
+      Alert.alert('No repeat sweeps', '');
+    } else {
+      Alert.alert('Please enter the correct QR code', '');
+    }
+
     setInputValue('');
   };
 
-  //========================part3:框架函数====================================
   useEffect(() => {
     if (inputValue === '') return;
     if (isInputMode) {
       console.log('Processing scanned input:', inputValue);
-      handleAddItem();
+      handleAddItem(inputValue);
     } else {
       console.log('Processing manual input:', inputValue);
     }
   }, [inputValue]);
 
   useEffect(() => {
-    //默认状态：扫码输入--true
-    console.log('-------初始化页面');
-    setIsInputMode(true);
-    inputRef.current?.focus(); //点亮焦点 且 弹出键盘
-    //Keyboard.dismiss();//隐藏键盘
-    console.log('------输入状态:', isInputMode);
+    setIsInputMode(true); // 默认扫码输入模式
   }, []);
 
   // 渲染每个item的行
-  const renderItem = ({item, index}: {item: QRType; index: number}) => (
+  const renderItem = ({ item, index }: { item: QRType; index: number }) => (
     <View style={styles.listItemContainer}>
       <Text style={styles.itemType}>{item.type}</Text>
       <Text style={styles.itemNumber}>{item.No}</Text>
@@ -146,13 +149,11 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     <View style={styles.wholeContaine}>
       {/* part1: 顶部导航 */}
       <View style={styles.top_container}>
-        {/* 状态栏 */}
         <StatusBar
           barStyle="light-content"
           backgroundColor={theme.colors.primary}
           translucent={true}
         />
-        {/* 导航栏 */}
         <View style={styles.nav_container}>
           <View style={styles.logoContainer}>
             <TouchableOpacity onPress={goBack}>
@@ -163,13 +164,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           <View style={styles.logoContainer} />
         </View>
       </View>
-      {/* 分割线 */}
       <View style={globalStyles.line_view_tiny}></View>
 
       {/* part 2: 输入框和列表 */}
       <View style={styles.mainContainer}>
-        {/* 状态切换按钮 */}
-        <View style={styles.inpu_btn_container}>
+        {/* 1 按钮：扫码 */}
+        <View style={styles.scan_btn_container}>
           <TouchableOpacity
             style={[
               styles.scanButton,
@@ -185,6 +185,18 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
             </Text>
           </TouchableOpacity>
 
+          {/* 显示扫码值 */}
+          <Text style={styles.scanLable}>
+            {scanValue || '等待扫码...'}
+          </Text>
+        </View>
+
+        {/* 2 按钮：键盘输入 */}
+        <View
+          style={[
+            styles.inputContainer,
+            { flexDirection: 'row', alignItems: 'center' },
+          ]}>
           <TouchableOpacity
             style={[
               styles.scanButton,
@@ -199,43 +211,39 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
               {isInputMode ? '开启键盘' : '键盘输入'}
             </Text>
           </TouchableOpacity>
-        </View>
 
-        {/* 输入框view */}
-        <View
-          style={[
-            styles.inputContainer,
-            {flexDirection: 'row', alignItems: 'center'},
-          ]}>
           <TextInput
-            ref={inputRef} // Reference to control focus
-            style={[styles.inputBox, {flex: 1}]} // 让 TextInput 占据容器的剩余空间
+            ref={inputRef}
+            style={[styles.inputBox, { flex: 1 }]}
             placeholder="输入内容"
             value={inputValue}
             onChangeText={handleInputChange}
-            editable={true} // 输入框始终是可编辑状态
+            editable={true}
             onFocus={() => {
               if (isInputMode) {
                 // 如果是扫码模式，防止弹出键盘
-                inputRef.current?.blur(); // 失去焦点
+                Keyboard.dismiss();
               }
             }}
           />
+
           <TouchableOpacity
-            style={[styles.inputButton,             {
-              backgroundColor: isInputMode
-                ? theme.colors.textfontcolorgreydark3
-                : theme.colors.primary,
-            },]} // 定义按钮的样式
-            onPress={handleAddItem}>
+            style={[
+              styles.inputButton,
+              {
+                backgroundColor: isInputMode
+                  ? theme.colors.textfontcolorgreydark3
+                  : theme.colors.primary,
+              },
+            ]}
+            onPress={() => handleAddItem(inputValue)}>
             <AntDesign name="plus" size={20} color="white" />
           </TouchableOpacity>
         </View>
 
-
         {/* 列表部分 */}
         <FlatList
-          contentContainerStyle={{flexGrow: 1}}
+          contentContainerStyle={{ flexGrow: 1 }}
           data={items}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
@@ -243,7 +251,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
             <View style={styles.listItemContainer}>
               <Text style={styles.itemType}>Type</Text>
               <Text style={styles.itemNumber}>No.</Text>
-              <Text style={[styles.resetButton, {display: 'none'}]}> </Text>
+              <Text style={[styles.resetButton, { display: 'none' }]}> </Text>
             </View>
           )}
         />

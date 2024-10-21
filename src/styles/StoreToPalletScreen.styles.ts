@@ -50,14 +50,45 @@ const styles = StyleSheet.create({
   },
 
   // ====================
+  // 按钮--扫码输入
+  // 输入状态按钮样式
+  scan_btn_container: {
+    marginVertical:10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  // 按钮--扫码状态
+  scanButton: {
+    width:100,
+    marginRight:10,
+    paddingVertical: SPACING.small,
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  scanButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: FONT_SIZE.MEDI2,
+  },
+  scanLable: {
+    flex:1,
+    paddingLeft:10,
+    fontWeight: 'bold',
+    color:'black',
+    fontSize: FONT_SIZE.MEDI2,
+    borderColor: theme.colors.onSurface,
+    borderWidth: 1,
+    paddingVertical: SPACING.small,
+  },
+  //====================
   // 输入框view
   inputContainer: {
     marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor:'red'
-    
   },
+
   inputBox: {
     height: 40,
     borderColor: theme.colors.onSurface,
@@ -148,29 +179,6 @@ const styles = StyleSheet.create({
   },
 
   // ====================
-  // 新增样式
-  // 输入状态按钮样式
-  inpu_btn_container: {
-    marginVertical:10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    
-  },
-
-  // 按钮--扫码状态
-  scanButton: {
-    flex:1,
-    paddingVertical: SPACING.small,
-    alignItems: 'center',
-    borderRadius: 5,
-    marginHorizontal:10
-  },
-  scanButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: FONT_SIZE.MEDI2,
-  },
 
   // // 按钮：手动输入状态
   // inputButton: {
