@@ -16,8 +16,9 @@ import theme from '../styles/theme/theme'; // 自定义主题
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
 import {identifyCode} from '../utils/globalHelpers'; // 根据文件路径导入
-import * as StoreToPalletHelpers from '../utils/StoreToPalletHelpers';
+import * as storeToPalletHelpers from '../utils/storeToPalletHelpers';
 import Toast from 'react-native-toast-message';
+import { getData, getDataWithParams } from '../services/api';
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
@@ -26,8 +27,11 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const [scanValue, setScanValue] = useState<string>(''); // 用于显示的扫码结果
   const [currentQR, setcurrentQRe] = useState<QRType>(); // 用于Text显示当前扫入的
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
+  const [loading, setLoading] = useState(false); //加载状态：给用户加载数据的UI提示
+  
 
   //========================part1:点击事件处理=================================
+  // #region Utility Functions
   // 重置所有项
   const resetAll = () => {
     setItems([]);
@@ -55,13 +59,18 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const goBack = () => {
     navigation.goBack();
   };
+  // #endregion
 
-  // 添加一行到列表
-  const addItem = (current: string) => {
-    if (!current) return;
 
+  //========================part2:自定义函数(除了点击外)========================
+  // #region Utility Functions
+  // 添加一行数据到列表
+  const addItem = (currentCodeNumber: string) => {
+    if (!currentCodeNumber) return;
+
+    // 创建一个 newItem
     let newType;
-    const newtypecode = identifyCode(current);
+    const newtypecode = identifyCode(currentCodeNumber);
     if (newtypecode == 2) {
       newType = 'Pallet';
     } else if (newtypecode == 1) {
@@ -77,15 +86,33 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       setScanValue('');
       return;
     }
-
     const newItem: QRType = {
       type: newType,
-      No: current,
+      No: currentCodeNumber,
     };
+    setcurrentQRe(newItem); //用于展示当前扫码内容--给用户看
+
+    //把 newItem 加入数组
+    // a:判断是否可加入
+    // 判断1--托盘是否可用
+    if(newtypecode == 2){
+      // if(esponse_package == 0) {
+      //   console.log("00000000000");
+  
+      // } else  {
+      //   console.log("11111111");
+      // }
+      const responsejson: any = palletValidInfo(currentCodeNumber);;
+      
+    }
+
+    // 判断2--数组内部规则
     const currentItems: QRType[] = [...items, newItem];
-    const validateQRArraycode =
-      StoreToPalletHelpers.validateQRArray(currentItems);
-    setcurrentQRe(newItem);
+    const validateQRArraycode = storeToPalletHelpers.validateQRArray(currentItems);
+   
+    
+
+    // b:加入数组
     if (validateQRArraycode == 1) {
       setItems(currentItems);
     } else if (validateQRArraycode == 2) {
@@ -162,8 +189,11 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       </TouchableOpacity>
     </View>
   );
+  // #endregion
 
+  // 判断
   //========================part3:框架函数====================================
+  // #region Utility Functions
   useEffect(() => {
     getfoucs();
   }, []);
@@ -177,6 +207,34 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     //获取焦点
     getfoucs();
   }, [scanValue]);
+  // #endregion
+
+//========================part 4:拉取webapi数据-本地处理=======================
+// #region Utility Functions
+// 解释：这了函数调用了Hooks必须在页面(React 组件)之内用，无法剥离出去。
+// 1 判断托盘是否可用
+const palletValidInfo = async (palletCode:string) => {
+  setLoading(true); // 开启加载状态
+  try {
+    const dataParams: {} = {
+      code:palletCode,
+    };
+    // part1 拉取数据
+    const responsejson: any = await getDataWithParams('/api/Plate/GetPlateByPlateCode',dataParams);
+    const esponse_package = responsejson['data']['package'];
+    return esponse_package;
+  } catch (error) {
+    // Toast.show({
+    //   type: 'Failed',
+    //   text1: 'Login Failed',
+    //   text2: 'Invalid credentials or server error!',
+    //   visibilityTime: 1000,
+    // });
+  } finally {
+    setLoading(false); // 完成加载
+  }
+};
+// #endregion
 
   return (
     <View style={styles.wholeContaine}>

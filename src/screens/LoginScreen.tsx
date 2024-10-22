@@ -76,7 +76,6 @@ const LoginScreen = ({navigation, route}: Props) => {
       };
       // part1 拉取登录数据==================
       const responsejson: any = await postData( '/api/Employee/EmployeeLogin',data, );
-
       // part2 处理数据====================
       Toast.show({
         type: 'success',
