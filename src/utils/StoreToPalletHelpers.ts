@@ -38,4 +38,23 @@ export const getPalletInfo = (qrArray: QRType[]): any => {
   }
 };
 
+//3 把qrArray 改造成【上托盘】接口的参数类型
+export const convertQRArray = (qrArray: QRType[]) => {
+  // 获取 plateCode，应该是第一个元素的 No 值，且类型是 'Pallet'
+  const plateCode = qrArray[0].type === 'Pallet' ? qrArray[0].No : null;
+
+  if (!plateCode) {
+    throw new Error('Invalid QR array: The first element must be a Pallet');
+  }
+
+  // 构造新的数组，只保留 type 为 'Product' 的元素，plateCode 相同，boxBarcode 对应每个 'Product' 的 No
+  const result = qrArray
+    .filter((item) => item.type === 'Product') // 只保留 type 为 'Product' 的元素
+    .map((item) => ({
+      boxBarcode: item.No,
+      plateCode: plateCode,
+    }));
+
+  return result;
+};
 

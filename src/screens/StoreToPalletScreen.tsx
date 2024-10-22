@@ -18,7 +18,7 @@ import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航�
 import {identifyCode} from '../utils/globalHelpers'; // 根据文件路径导入
 import * as storeToPalletHelpers from '../utils/storeToPalletHelpers';
 import Toast from 'react-native-toast-message';
-import {getData} from '../services/api';
+import {getData,putData} from '../services/api';
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
@@ -44,15 +44,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   };
 
   // 保存操作
-  const savePallet = () => {
-    //Alert.alert('Save', 'Pallet has been saved.', [{ text: 'OK', onPress: getfoucs }]);
-    Toast.show({
-      type: 'success',
-      text1: 'Save Success',
-      text2: 'Pallet has been saved!',
-      visibilityTime: 1000,
-    });
-  };
+  const savePallet = async () => { await putBoxtoPlate();};
 
   // 返回上一页
   const goBack = () => {
@@ -209,9 +201,8 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const palletValidInfo = async (palletCode: string) => {
     setLoading(true); // 开启加载状态
     try {
-      const data = {
-        params: {code: palletCode}
-      };
+      // 参数--params
+      const data = { params: {code: palletCode}};
       // 拉取数据
       const responsejson = await getData('/api/Plate/GetPlateByPlateCode',data);
 
@@ -229,6 +220,34 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       setLoading(false); // 完成加载
     }
   };
+
+  // 2 上托盘
+  const putBoxtoPlate = async () => {
+    setLoading(true); // 开启加载状态
+    try {
+      // 参数--body
+      const data = storeToPalletHelpers.convertQRArray(items);
+      // part1 拉取登录数据==================
+      const responsejson: any = await putData( '/api/PlateBox/PackagingScanerPlateBox', data);
+      const ifsuccess = responsejson['success'];
+      if(ifsuccess) {
+        Alert.alert('Success!', '', [{ text: 'OK', onPress: getfoucs }]);
+      } else {
+        Alert.alert('Fail!', '', [{ text: 'OK', onPress: getfoucs }]);
+      }
+      // part2 处理数据====================
+    } catch (error) {
+      Toast.show({
+        type: 'Failed',
+        text1: 'Login Failed',
+        text2: 'Invalid credentials or server error!',
+        visibilityTime: 1000,
+      });
+    } finally {
+      setLoading(false); // 完成加载
+    }
+  }
+  
   // #endregion
 
   return (
@@ -295,7 +314,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       <View style={styles.footerContainer}>
         <Text style={styles.total_text}>Pallet Count:{items.length ? 1:0}   Product Count: {(items.length>1) ? items.length-1:0}</Text>
 
-        <TouchableOpacity style={styles.saveButton} onPress={savePallet}>
+        <TouchableOpacity style={styles.saveButton} onPress={async ()=> { await putBoxtoPlate();}}>
           <Text style={styles.saveButtonText}>Save上托盘</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.resetAllButton} onPress={resetAll}>
