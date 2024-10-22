@@ -69,7 +69,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         Alert.alert('Pallet not in the packaging area!', '', [
           {text: 'OK', onPress: getfoucs},
         ]);
-        setScanValue('');
+        //setScanValue('');
         return;
       }
 
@@ -89,7 +89,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           visibilityTime: 3000,
         });
 
-        setScanValue('');
+        //setScanValue('');
         return;
       }
       // 获取货物信息
@@ -102,7 +102,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           text2: '货物无效。This box is no longer valid.',
           visibilityTime: 3000,
         });
-        setScanValue('');
+        //setScanValue('');
         return;
       }
       if(product.status === 1){
@@ -112,7 +112,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           text2: '货物无效。This box is no longer valid.',
           visibilityTime: 3000,
         });
-        setScanValue('');
+        //setScanValue('');
         return;
       }
       if(product.palletNo === null){
@@ -122,7 +122,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           text2: '货物不在托盘上。This box is no  pallet.',
           visibilityTime: 3000,
         });
-        setScanValue('');
+        //setScanValue('');
         return;
       }
       if(product.position !== null){
@@ -132,7 +132,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           text2: '货物已经在仓库。This box is has been warehoused.',
           visibilityTime: 3000,
         });
-        setScanValue('');
+        //setScanValue('');
         return;
       }
 
@@ -145,7 +145,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         text2: 'Please enter the correct QR code!',
         visibilityTime: 1000,
       });
-      setScanValue('');
+      //setScanValue('');
       return;
     }
     const newItem: QRType = {
@@ -196,7 +196,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         visibilityTime: 1000,
       });
     }
-    setScanValue('');
+    //setScanValue('');
   };
 
   const getfoucs = () => {
@@ -272,6 +272,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     console.log('-------------scanValue:', scanValue);
     if (scanValue) {
       addItem(scanValue); // 将扫码值添加到列表
+      setScanValue('');
     }
     //获取焦点
     getfoucs();
