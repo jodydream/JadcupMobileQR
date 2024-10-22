@@ -230,7 +230,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           ListHeaderComponent={() => (
             <View style={styles.listItemContainer}>
               <Text style={styles.itemType}>Type</Text>
-              <Text style={styles.itemNumber}>No.</Text>
+              <Text style={[styles.itemNumber, {fontWeight: 'bold'}]}>No.</Text>
               <Text style={[styles.resetButton, {display: 'none'}]}> </Text>
             </View>
           )}
