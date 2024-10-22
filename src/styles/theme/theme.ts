@@ -17,7 +17,7 @@ const customTheme = {
     // error: '#d32f2f',              // 红色：错误提示颜色
      
     //从深到浅色
-    textfontcolorblack:'#ffffff', 
+    textfontcolorblack:'#000000', 
     textfontcolorgreydark1:'#4F4F4F',
     textfontcolorgreydark2:'#6C6C6C', //
     textfontcolorgreydark3:'#CECECE', //onSurface: '#CECECE', 深

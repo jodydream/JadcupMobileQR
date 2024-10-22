@@ -24,7 +24,7 @@ type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 const StoreToPalletScreen = ({navigation, route}: Props) => {
   const [items, setItems] = useState<QRType[]>([]);
   const [scanValue, setScanValue] = useState<string>(''); // 用于显示的扫码结果
-  const [currentValue, setCurrentValue] = useState<string>(''); // 用于Text显示当前扫入的
+  const [currentQR, setcurrentQRe] = useState<QRType>(); // 用于Text显示当前扫入的
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
 
   //========================part1:点击事件处理=================================
@@ -83,8 +83,8 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       No: current,
     };
     const currentItems: QRType[] = [...items, newItem];
-    const validateQRArraycode =
-      StoreToPalletHelpers.validateQRArray(currentItems);
+    const validateQRArraycode =StoreToPalletHelpers.validateQRArray(currentItems);
+    setcurrentQRe(newItem);
     if (validateQRArraycode == 1) {
       setItems(currentItems);
     } else if (validateQRArraycode == 2) {
@@ -171,8 +171,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   useEffect(() => {
     console.log('-------------scanValue:', scanValue);
     if (scanValue) {
-      addItem(scanValue); // 将扫码值添加到列表
-      setCurrentValue(scanValue);
+      addItem(scanValue); // 将扫码值添加到列表 
     }
     //获取焦点
     getfoucs();
@@ -204,7 +203,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         {/* 1 扫码按钮 */}
         <View style={styles.scan_btn_container}>
           <TouchableOpacity style={styles.scanButton}>
-            <Text style={styles.scanButtonText}>扫码输入</Text>
+            <Text style={styles.scanButtonText}>当前扫入:</Text>
           </TouchableOpacity>
           <TextInput
             ref={inputRefScan}
@@ -217,7 +216,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
           {/* 用于显示扫码值的 Text */}
           <Text style={styles.textvalue}>
-            {currentValue ? currentValue : '等待扫码输入'}
+            {currentQR ?  `${currentQR.type}:  ${currentQR.No}` : '等待扫码输入'}
           </Text>
         </View>
 

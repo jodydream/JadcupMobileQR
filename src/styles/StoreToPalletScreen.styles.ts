@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: theme.colors.onSurface,
     borderWidth: 1,
+    color: theme.colors.textfontcolorblack,
     padding: SPACING.small,
     flex: 1,
   },
