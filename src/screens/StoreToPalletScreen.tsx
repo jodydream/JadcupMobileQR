@@ -18,7 +18,7 @@ import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航�
 import {identifyCode} from '../utils/globalHelpers'; // 根据文件路径导入
 import * as storeToPalletHelpers from '../utils/storeToPalletHelpers';
 import Toast from 'react-native-toast-message';
-import { getData, getDataWithParams } from '../services/api';
+import {getData, getDataWithParams} from '../services/api';
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
@@ -28,7 +28,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const [currentQR, setcurrentQRe] = useState<QRType>(); // 用于Text显示当前扫入的
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
   const [loading, setLoading] = useState(false); //加载状态：给用户加载数据的UI提示
-  
 
   //========================part1:点击事件处理=================================
   // #region Utility Functions
@@ -61,11 +60,10 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   };
   // #endregion
 
-
   //========================part2:自定义函数(除了点击外)========================
   // #region Utility Functions
   // 添加一行数据到列表
-  const addItem = (currentCodeNumber: string) => {
+  const addItem = async (currentCodeNumber: string) => {
     if (!currentCodeNumber) return;
 
     // 创建一个 newItem
@@ -73,6 +71,14 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     const newtypecode = identifyCode(currentCodeNumber);
     if (newtypecode == 2) {
       newType = 'Pallet';
+      // 判断托盘是否可用
+      const esponse_package = await palletValidInfo(currentCodeNumber);
+      //不在包装区(在=1)-->退出不之后后续
+      if (esponse_package == 0) {
+        Alert.alert('Pallet not in the packaging area!', '', [{ text: 'OK', onPress: getfoucs }]);
+        setScanValue('');
+        return;
+      } 
     } else if (newtypecode == 1) {
       newType = 'Product';
     } else {
@@ -94,23 +100,10 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
     //把 newItem 加入数组
     // a:判断是否可加入
-    // 判断1--托盘是否可用
-    if(newtypecode == 2){
-      // if(esponse_package == 0) {
-      //   console.log("00000000000");
-  
-      // } else  {
-      //   console.log("11111111");
-      // }
-      const responsejson: any = palletValidInfo(currentCodeNumber);;
-      
-    }
-
-    // 判断2--数组内部规则
+    // 判断--数组内部规则
     const currentItems: QRType[] = [...items, newItem];
-    const validateQRArraycode = storeToPalletHelpers.validateQRArray(currentItems);
-   
-    
+    const validateQRArraycode =
+      storeToPalletHelpers.validateQRArray(currentItems);
 
     // b:加入数组
     if (validateQRArraycode == 1) {
@@ -209,32 +202,36 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   }, [scanValue]);
   // #endregion
 
-//========================part 4:拉取webapi数据-本地处理=======================
-// #region Utility Functions
-// 解释：这了函数调用了Hooks必须在页面(React 组件)之内用，无法剥离出去。
-// 1 判断托盘是否可用
-const palletValidInfo = async (palletCode:string) => {
-  setLoading(true); // 开启加载状态
-  try {
-    const dataParams: {} = {
-      code:palletCode,
-    };
-    // part1 拉取数据
-    const responsejson: any = await getDataWithParams('/api/Plate/GetPlateByPlateCode',dataParams);
-    const esponse_package = responsejson['data']['package'];
-    return esponse_package;
-  } catch (error) {
-    Toast.show({
-      type: 'Failed',
-      text1: 'Login Failed',
-      text2: 'Invalid credentials or server error!',
-      visibilityTime: 1000,
-    });
-  } finally {
-    setLoading(false); // 完成加载
-  }
-};
-// #endregion
+  //========================part 4:拉取webapi数据-本地处理=======================
+  // #region Utility Functions
+  // 解释：这了函数调用了Hooks必须在页面(React 组件)之内用，无法剥离出去。
+  // 1 判断托盘是否可用
+  const palletValidInfo = async (palletCode: string) => {
+    setLoading(true); // 开启加载状态
+    try {
+      const dataParams: {} = {
+        code: palletCode,
+      };
+      // 拉取数据
+      const responsejson: any = await getDataWithParams(
+        '/api/Plate/GetPlateByPlateCode',
+        dataParams,
+      );
+      const esponse_package = responsejson['data']['package'];
+      // 返回-在其他地方处理数据
+      return esponse_package;
+    } catch (error) {
+      Toast.show({
+        type: 'Failed',
+        text1: 'Login Failed',
+        text2: 'Invalid credentials or server error!',
+        visibilityTime: 1000,
+      });
+    } finally {
+      setLoading(false); // 完成加载
+    }
+  };
+  // #endregion
 
   return (
     <View style={styles.wholeContaine}>
@@ -260,11 +257,9 @@ const palletValidInfo = async (palletCode:string) => {
       {/* part 2: 扫入 */}
       <View style={styles.scan_btn_container}>
         <View style={styles.showscanview}>
-          <Text style={styles.showscanText}>
-            当前扫入:
-          </Text>
+          <Text style={styles.showscanText}>当前扫入:</Text>
         </View>
-        
+
         {/* 用于显示扫码值的 Text */}
         <Text style={styles.textvalue}>
           {currentQR ? `${currentQR.type}  ${currentQR.No}` : 'Please scan ...'}
