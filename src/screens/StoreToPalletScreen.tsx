@@ -18,7 +18,7 @@ import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航�
 import {identifyCode} from '../utils/globalHelpers'; // 根据文件路径导入
 import * as storeToPalletHelpers from '../utils/storeToPalletHelpers';
 import Toast from 'react-native-toast-message';
-import {getData, getDataWithParams} from '../services/api';
+import {getData} from '../services/api';
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
