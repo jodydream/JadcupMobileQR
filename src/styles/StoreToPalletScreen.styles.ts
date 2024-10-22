@@ -31,17 +31,20 @@ const styles = StyleSheet.create({
   // =================
   // 3级别 导航栏
   nav_container: {
-    marginHorizontal: LAYOUT.margingHorizontal,
+    //marginHorizontal: LAYOUT.margingHorizontal,
     flexDirection: 'row',
     alignItems: 'center',
     height: LAYOUT.nav_height,
     justifyContent: 'space-between',
+    // backgroundColor:'blue'
   },
-  logoContainer: {
-    width: 20,
-    height: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+  gobackbtonContainer: {
+    width: 60,
+    height: 40,
+    justifyContent: 'center', //上下居中
+    paddingHorizontal: LAYOUT.margingHorizontal,
+    //alignItems: 'center',   //水平居中
+    // backgroundColor:'red'
   },
   nav_title_text: {
     fontSize: FONT_SIZE.BIG1,

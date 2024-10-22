@@ -260,13 +260,16 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           translucent={true}
         />
         <View style={styles.nav_container}>
-          <View style={styles.logoContainer}>
-            <TouchableOpacity onPress={goBack}>
+          {/* 1 返回按钮 */}
+          <View>
+            <TouchableOpacity style={styles.gobackbtonContainer} onPress={goBack}>
               <AntDesign name="left" size={20} color="white" />
             </TouchableOpacity>
           </View>
+          {/* 2 标题 */}
           <Text style={styles.nav_title_text}>{route.params.title}</Text>
-          <View style={styles.logoContainer} />
+          {/* 3 占位view */}
+          <View style={styles.gobackbtonContainer} />
         </View>
       </View>
       <View style={globalStyles.line_view_tiny}></View>

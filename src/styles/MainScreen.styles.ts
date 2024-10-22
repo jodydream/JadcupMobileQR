@@ -34,7 +34,11 @@ const styles = StyleSheet.create({
   },
 
   settingbtn: {
-    alignSelf:'flex-end'
+    alignSelf:'flex-end',
+    alignItems:'flex-end',
+    paddingLeft:40,
+    paddingTop:40,
+    //backgroundColor:'red',
   },
 
   //临时添加
