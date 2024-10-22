@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  //=======
   total_text: {
     paddingVertical:10,
     fontSize: FONT_SIZE.BIG1,

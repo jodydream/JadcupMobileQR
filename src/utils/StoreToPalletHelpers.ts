@@ -57,3 +57,20 @@ export const convertQRArray = (qrArray: QRType[]) => {
   return result;
 };
 
+// 判断：货物是否本身就在托盘上
+export const isBarcodeInPalletJson = (palletJson:any, barCode:string) => {
+  // 检查 palletJson 是否为空或结构不正确
+  if (!palletJson || !palletJson.data || !Array.isArray(palletJson.data.plateBox)) {
+    return false;
+  }
+
+  // 遍历 plateBox 数组，检查每个 box 中的 barCode 是否与传入的 barCode 相同
+  for (const plateBox of palletJson.data.plateBox) {
+    if (plateBox.box && plateBox.box.barCode === barCode) {
+      return true; // 找到匹配的 barCode，返回 true
+    }
+  }
+
+  return false; // 未找到匹配的 barCode，返回 false
+};
+

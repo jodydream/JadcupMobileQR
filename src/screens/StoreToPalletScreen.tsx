@@ -18,7 +18,7 @@ import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航�
 import {identifyCode} from '../utils/globalHelpers'; // 根据文件路径导入
 import * as storeToPalletHelpers from '../utils/storeToPalletHelpers';
 import Toast from 'react-native-toast-message';
-import {getData,putData} from '../services/api';
+import {getData, putData} from '../services/api';
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
 
@@ -28,6 +28,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const [currentQR, setcurrentQRe] = useState<QRType>(); // 用于Text显示当前扫入的
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
   const [loading, setLoading] = useState(false); //加载状态：给用户加载数据的UI提示
+  const [palletJson, setPalletJson] = useState<null | any>(null);
 
   //========================part1:点击事件处理=================================
   // #region Utility Functions
@@ -44,7 +45,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   };
 
   // 保存操作
-  const savePallet = async () => { await putBoxtoPlate();};
+  const savePallet = async () => {
+    await putBoxtoPlate();
+  };
 
   // 返回上一页
   const goBack = () => {
@@ -63,16 +66,31 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     const newtypecode = identifyCode(currentCodeNumber);
     if (newtypecode == 2) {
       newType = 'Pallet';
-      // 判断托盘是否可用
+      // 判断:托盘是否可用----------
       const esponse_package = await palletValidInfo(currentCodeNumber);
       //不在包装区(在=1)-->退出不之后后续
       if (esponse_package == 0) {
-        Alert.alert('Pallet not in the packaging area!', '', [{ text: 'OK', onPress: getfoucs }]);
+        Alert.alert('Pallet not in the packaging area!', '', [
+          {text: 'OK', onPress: getfoucs},
+        ]);
         setScanValue('');
         return;
-      } 
+      }
     } else if (newtypecode == 1) {
       newType = 'Product';
+      // 判断：货物是不是已经在托盘
+      const isOn = storeToPalletHelpers.isBarcodeInPalletJson(palletJson, currentCodeNumber) 
+      if(isOn) {
+        Toast.show({
+          type: 'error',
+          text1: 'Fail to add',
+          text2: 'Barcode is aready on this Pallet!!',
+          visibilityTime: 3000,
+        });
+        setScanValue('');
+        return;
+      }
+      
     } else {
       //Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
       Toast.show({
@@ -91,8 +109,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     setcurrentQRe(newItem); //用于展示当前扫码内容--给用户看
 
     //把 newItem 加入数组
-    // a:判断是否可加入
-    // 判断--数组内部规则
+    // a:判断:是否可加入--------------
     const currentItems: QRType[] = [...items, newItem];
     const validateQRArraycode =
       storeToPalletHelpers.validateQRArray(currentItems);
@@ -165,7 +182,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const renderItem = ({item, index}: {item: QRType; index: number}) => (
     <View style={styles.listItemContainer}>
       <Text style={styles.itemType}>{item.type}</Text>
-      <Text style={styles.itemNumber}>{item.No}</Text>
+      <Text style={styles.itemNumber}>
+        {item.type == 'Pallet'
+          ? `${item.No} (Product: ${palletJson?.data?.plateBox.length})`
+          : item.No}
+      </Text>
+
       <TouchableOpacity
         style={styles.resetButton}
         onPress={() => deleteItem(index)}
@@ -202,10 +224,13 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     setLoading(true); // 开启加载状态
     try {
       // 参数--params
-      const data = { params: {code: palletCode}};
+      const data = {params: {code: palletCode}};
       // 拉取数据
-      const responsejson = await getData('/api/Plate/GetPlateByPlateCode',data);
-
+      const responsejson = await getData(
+        '/api/Plate/GetPlateByPlateCode',
+        data,
+      );
+      setPalletJson(responsejson);
       const esponse_package = responsejson['data']['package'];
       // 返回-在其他地方处理数据
       return esponse_package;
@@ -226,20 +251,25 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     setLoading(true); // 开启加载状态
     try {
       //确保已经关联了托盘和货物
-      if(items.length <= 1) {
-        Alert.alert('Please scan for complete data!', '', [{ text: 'OK', onPress: getfoucs }]);
+      if (items.length <= 1) {
+        Alert.alert('Please scan for complete data!', '', [
+          {text: 'OK', onPress: getfoucs},
+        ]);
         return;
       }
 
       // 参数--body
       const data = storeToPalletHelpers.convertQRArray(items);
       // part1 拉取登录数据==================
-      const responsejson: any = await putData( '/api/PlateBox/PackagingScanerPlateBox', data);
+      const responsejson: any = await putData(
+        '/api/PlateBox/PackagingScanerPlateBox',
+        data,
+      );
       const ifsuccess = responsejson['success'];
-      if(ifsuccess) {
-        Alert.alert('Success!', '', [{ text: 'OK', onPress: getfoucs }]);
+      if (ifsuccess) {
+        Alert.alert('Success!', '', [{text: 'OK', onPress: getfoucs}]);
       } else {
-        Alert.alert('Fail!', '', [{ text: 'OK', onPress: getfoucs }]);
+        Alert.alert('Fail!', '', [{text: 'OK', onPress: getfoucs}]);
       }
       // part2 处理数据====================
     } catch (error) {
@@ -249,12 +279,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       //   text2: 'Invalid credentials or server error!',
       //   visibilityTime: 1000,
       // });
-      Alert.alert('Save Failed!', '', [{ text: 'OK', onPress: getfoucs }]);
+      Alert.alert('Save Failed!', '', [{text: 'OK', onPress: getfoucs}]);
     } finally {
       setLoading(false); // 完成加载
     }
-  }
-  
+  };
+
   // #endregion
 
   return (
@@ -269,7 +299,9 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         <View style={styles.nav_container}>
           {/* 1 返回按钮 */}
           <View>
-            <TouchableOpacity style={styles.gobackbtonContainer} onPress={goBack}>
+            <TouchableOpacity
+              style={styles.gobackbtonContainer}
+              onPress={goBack}>
               <AntDesign name="left" size={20} color="white" />
             </TouchableOpacity>
           </View>
@@ -322,9 +354,16 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
       {/* 底部按钮 */}
       <View style={styles.footerContainer}>
-        <Text style={styles.total_text}>Pallet Count:{items.length ? 1:0}   Product Count: {(items.length>1) ? items.length-1:0}</Text>
+        <Text style={styles.total_text}>
+          Pallet Count:{items.length ? 1 : 0} Product Count:{' '}
+          {items.length > 1 ? items.length - 1 : 0}
+        </Text>
 
-        <TouchableOpacity style={styles.saveButton} onPress={async ()=> { await putBoxtoPlate();}}>
+        <TouchableOpacity
+          style={styles.saveButton}
+          onPress={async () => {
+            await putBoxtoPlate();
+          }}>
           <Text style={styles.saveButtonText}>Save上托盘</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.resetAllButton} onPress={resetAll}>
