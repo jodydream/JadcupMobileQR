@@ -79,8 +79,11 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     } else if (newtypecode == 1) {
       newType = 'Product';
       // 判断：货物是不是已经在托盘
-      const isOn = storeToPalletHelpers.isBarcodeInPalletJson(palletJson, currentCodeNumber) 
-      if(isOn) {
+      const isOn = storeToPalletHelpers.isBarcodeInPalletJson(
+        palletJson,
+        currentCodeNumber,
+      );
+      if (isOn) {
         Toast.show({
           type: 'error',
           text1: 'Fail to add',
@@ -90,7 +93,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         setScanValue('');
         return;
       }
-      
     } else {
       //Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
       Toast.show({
@@ -163,6 +165,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   // 删除单个 item
   const deleteItem = (index: number) => {
     const currentItem = items[index];
+    //可删除分支--if (currentItem.type == 'Pallet')  
     if (currentItem.type == 'Pallet') {
       setItems([]);
     } else {
@@ -179,23 +182,38 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   };
 
   // 渲染每个 item 的行
-  const renderItem = ({item, index}: {item: QRType; index: number}) => (
-    <View style={styles.listItemContainer}>
-      <Text style={styles.itemType}>{item.type}</Text>
-      <Text style={styles.itemNumber}>
-        {item.type == 'Pallet'
-          ? `${item.No} (Product: ${palletJson?.data?.plateBox.length})`
-          : item.No}
-      </Text>
-
-      <TouchableOpacity
-        style={styles.resetButton}
-        onPress={() => deleteItem(index)}
-        activeOpacity={0.3}>
-        <Text style={styles.resetButtonText}>Clear</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const renderItem = ({item, index}: {item: QRType; index: number}) => {
+    if (item.type === 'Pallet') {
+      // 单独处理第一个 item
+      return (
+        <View style={[styles.listItemContainer, styles.listItemContainerPallet]}>
+          <Text style={[styles.itemTypeText,styles.itemTextPallet]}>{item.type}</Text>
+          <Text style={[styles.itemNumberText,styles.itemTextPallet]}>{item.No}</Text>
+          {/* <TouchableOpacity
+            style={styles.resetButton}
+            onPress={() => deleteItem(index)}
+            activeOpacity={0.3}>
+            <Text style={styles.resetButtonText}>Clear</Text>
+          </TouchableOpacity> */}
+          {/* 用resetButtonText保持一致的风格 */}
+          <Text style={[styles.resetButtonText,styles.itemTextPallet]}>{`IsOn: ${palletJson?.data?.plateBox.length}`}</Text>
+        </View>
+      );
+    }
+    // 处理其他 items
+    return (
+      <View style={styles.listItemContainer}>
+        <Text style={styles.itemTypeText}>{item.type}</Text>
+        <Text style={styles.itemNumberText}>{item.No}</Text>
+        <TouchableOpacity
+          style={styles.resetButton}
+          onPress={() => deleteItem(index)}
+          activeOpacity={0.3}>
+          <Text style={styles.resetButtonText}>Clear</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
   // #endregion
 
   // 判断
@@ -344,8 +362,8 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           renderItem={renderItem}
           ListHeaderComponent={() => (
             <View style={styles.listItemContainer}>
-              <Text style={styles.itemType}>Type</Text>
-              <Text style={[styles.itemNumber, {fontWeight: 'bold'}]}>No.</Text>
+              <Text style={styles.itemTypeText}>Type</Text>
+              <Text style={[styles.itemNumberText, {fontWeight: 'bold'}]}>No.</Text>
               <Text style={[styles.resetButton, {display: 'none'}]}> </Text>
             </View>
           )}

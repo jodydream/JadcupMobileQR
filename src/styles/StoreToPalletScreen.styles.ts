@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
 
   mainContainer: {
     flex: 1, // 沾满剩下的区域
-    marginHorizontal: LAYOUT.margingHorizontal,
     marginBottom: LAYOUT.marginBottom,
   },
 
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
     color: theme.colors.onBackground,
   },
 
-  // 列表项样式
+  // 列表项样式2--product
   listItemContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -141,14 +140,15 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.small,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.surface,
+    marginHorizontal: LAYOUT.margingHorizontal
   },
-  itemType: {
+  itemTypeText: {
     flex: 1,
     fontWeight: 'bold',
     fontSize: FONT_SIZE.MEDI2,
     color: theme.colors.onBackground,
   },
-  itemNumber: {
+  itemNumberText: {
     flex: 2,
     fontSize: FONT_SIZE.MEDI2,
     color: theme.colors.onBackground,
@@ -165,7 +165,15 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.MEDI2,
     textAlign: 'center',
   },
+  // 列表项样式2--pallet
+  listItemContainerPallet:{
+    //backgroundColor:'red',
 
+  },
+  itemTextPallet:{
+    color:theme.colors.primary,
+    fontWeight: 'bold',
+  },
   //=======
   total_text: {
     paddingVertical:10,
