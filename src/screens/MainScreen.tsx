@@ -29,8 +29,10 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
     // 你可以在这里添加导航或其他逻辑
     if(item == "Store to Pallet上托盘") {
       navigation.navigate("StoreToPalletScreen", {title:item});
+    } else  if(item == "Item Scanner查条码") {
+      navigation.navigate("TestScreen", {title:item});
     }
-    
+  
   };
 
   // 2 点击-退出登录
