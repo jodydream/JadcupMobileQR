@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.small,
     alignItems: 'center',
     borderRadius: 5,
-    backgroundColor:'green'
+    backgroundColor:theme.colors.primary
   },
   scanButtonText: {
     color: 'white',
@@ -90,11 +90,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  //隐藏UI
   inputBox: {
+    height: 1,
+    width:1,
+    borderColor: theme.colors.onSurface,
+    borderWidth: 1,
+    opacity: 0
+  },
+  textvalue: {
     height: 40,
     borderColor: theme.colors.onSurface,
     borderWidth: 1,
     padding: SPACING.small,
+    flex: 1,
   },
   inputButton: {
     backgroundColor: theme.colors.primary,

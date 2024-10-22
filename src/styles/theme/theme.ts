@@ -5,7 +5,8 @@ const customTheme = {
   ...DefaultTheme,  // 基于默认主题进行定制
   colors: {
     ...DefaultTheme.colors,
-    primary: '#7AC391',            // 绿色：主要颜色，应用于按钮、AppBar等
+    primary:'#5A9E5E',
+    //primary: '#7AC391',            // 绿色：主要颜色，应用于按钮、AppBar等
     secondary: '#7AC391',          // 绿色：次要颜色，应用于次级操作
     background: '#ffffff',         // 白色：背景，用于整个应用背景
     onBackground: 'black',       // 白色：背景上的,文本颜色（深色文本）
