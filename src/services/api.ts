@@ -20,15 +20,6 @@ export const getData = async (endpoint: string, data: any) => {
     throw error;
   }
 };
-export const getDataWithParams = async (endpoint: string, params: any) => {
-  try {
-    const response = await api.get(endpoint,{params: params,});
-    return response.data; // 返回数据
-  } catch (error) {
-    console.error('API fetch error:', error);
-    throw error;
-  }
-};
 
 // POST 请求：创建新数据
 export const postData = async (endpoint: string, data: any) => {

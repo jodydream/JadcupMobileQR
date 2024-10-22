@@ -209,14 +209,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const palletValidInfo = async (palletCode: string) => {
     setLoading(true); // 开启加载状态
     try {
-      const dataParams: {} = {
-        code: palletCode,
+      const data = {
+        params: {code: palletCode}
       };
       // 拉取数据
-      const responsejson: any = await getDataWithParams(
-        '/api/Plate/GetPlateByPlateCode',
-        dataParams,
-      );
+      const responsejson = await getData('/api/Plate/GetPlateByPlateCode',data);
+
       const esponse_package = responsejson['data']['package'];
       // 返回-在其他地方处理数据
       return esponse_package;
@@ -259,7 +257,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         <View style={styles.showscanview}>
           <Text style={styles.showscanText}>当前扫入:</Text>
         </View>
-
         {/* 用于显示扫码值的 Text */}
         <Text style={styles.textvalue}>
           {currentQR ? `${currentQR.type}  ${currentQR.No}` : 'Please scan ...'}
