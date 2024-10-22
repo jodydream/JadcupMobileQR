@@ -225,6 +225,12 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const putBoxtoPlate = async () => {
     setLoading(true); // 开启加载状态
     try {
+      //确保已经关联了托盘和货物
+      if(items.length <= 1) {
+        Alert.alert('Please scan for complete data!', '', [{ text: 'OK', onPress: getfoucs }]);
+        return;
+      }
+
       // 参数--body
       const data = storeToPalletHelpers.convertQRArray(items);
       // part1 拉取登录数据==================
@@ -237,12 +243,13 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       }
       // part2 处理数据====================
     } catch (error) {
-      Toast.show({
-        type: 'Failed',
-        text1: 'Login Failed',
-        text2: 'Invalid credentials or server error!',
-        visibilityTime: 1000,
-      });
+      // Toast.show({
+      //   type: 'Failed',
+      //   text1: 'Login Failed',
+      //   text2: 'Invalid credentials or server error!',
+      //   visibilityTime: 1000,
+      // });
+      Alert.alert('Save Failed!', '', [{ text: 'OK', onPress: getfoucs }]);
     } finally {
       setLoading(false); // 完成加载
     }

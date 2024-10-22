@@ -42,7 +42,6 @@ export const getPalletInfo = (qrArray: QRType[]): any => {
 export const convertQRArray = (qrArray: QRType[]) => {
   // 获取 plateCode，应该是第一个元素的 No 值，且类型是 'Pallet'
   const plateCode = qrArray[0].type === 'Pallet' ? qrArray[0].No : null;
-
   if (!plateCode) {
     throw new Error('Invalid QR array: The first element must be a Pallet');
   }
