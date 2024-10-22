@@ -53,24 +53,26 @@ const styles = StyleSheet.create({
   // 按钮--扫码输入
   // 输入状态按钮样式
   scan_btn_container: {
-    marginVertical:10,
+    // backgroundColor:'red',
+    marginHorizontal: LAYOUT.margingHorizontal,
+    marginVertical:5,
     flexDirection: 'row',
     alignItems: 'center',
   },
 
   // 按钮--扫码状态
-  scanButton: {
+  showscanview: {
+    //backgroundColor:'blue',
     width:100,
     marginRight:10,
     paddingVertical: SPACING.small,
-    alignItems: 'center',
-    borderRadius: 5,
-    backgroundColor:theme.colors.primary
+    alignItems: 'flex-start',
   },
-  scanButtonText: {
-    color: 'white',
+  showscanText: {
+    paddingVertical:5,
+    color: theme.colors.primary,
     fontWeight: 'bold',
-    fontSize: FONT_SIZE.MEDI2,
+    fontSize: FONT_SIZE.BIG1,
   },
   scanLable: {
     flex:1,
@@ -99,12 +101,13 @@ const styles = StyleSheet.create({
     opacity: 0
   },
   textvalue: {
-    height: 40,
-    borderColor: theme.colors.onSurface,
-    borderWidth: 1,
+    paddingVertical:5,
     color: theme.colors.textfontcolorblack,
-    padding: SPACING.small,
-    flex: 1,
+    fontWeight: 'bold',
+    fontSize: FONT_SIZE.BIG1,
+
+    borderColor: theme.colors.onSurface,
+    borderBottomWidth:1
   },
   inputButton: {
     backgroundColor: theme.colors.primary,

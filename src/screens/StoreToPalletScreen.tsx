@@ -83,7 +83,8 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       No: current,
     };
     const currentItems: QRType[] = [...items, newItem];
-    const validateQRArraycode =StoreToPalletHelpers.validateQRArray(currentItems);
+    const validateQRArraycode =
+      StoreToPalletHelpers.validateQRArray(currentItems);
     setcurrentQRe(newItem);
     if (validateQRArraycode == 1) {
       setItems(currentItems);
@@ -171,7 +172,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   useEffect(() => {
     console.log('-------------scanValue:', scanValue);
     if (scanValue) {
-      addItem(scanValue); // 将扫码值添加到列表 
+      addItem(scanValue); // 将扫码值添加到列表
     }
     //获取焦点
     getfoucs();
@@ -198,29 +199,33 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       </View>
       <View style={globalStyles.line_view_tiny}></View>
 
-      {/* part 2: 输入框和列表 */}
-      <View style={styles.mainContainer}>
-        {/* 1 扫码按钮 */}
-        <View style={styles.scan_btn_container}>
-          <TouchableOpacity style={styles.scanButton}>
-            <Text style={styles.scanButtonText}>当前扫入:</Text>
-          </TouchableOpacity>
-          <TextInput
-            ref={inputRefScan}
-            style={[styles.inputBox]}
-            placeholder="等待扫码输入"
-            value={scanValue}
-            onChangeText={setScanValue}
-            editable={true} //可编辑--接受输入的数据
-          />
-
-          {/* 用于显示扫码值的 Text */}
-          <Text style={styles.textvalue}>
-            {currentQR ?  `${currentQR.type}:  ${currentQR.No}` : '等待扫码输入'}
+      {/* part 2: 扫入 */}
+      <View style={styles.scan_btn_container}>
+        <View style={styles.showscanview}>
+          <Text style={styles.showscanText}>
+            当前扫入:
           </Text>
         </View>
+        
+        {/* 用于显示扫码值的 Text */}
+        <Text style={styles.textvalue}>
+          {currentQR ? `${currentQR.type}  ${currentQR.No}` : 'Please scan ...'}
+        </Text>
 
-        {/* 列表部分 */}
+        <TextInput
+          ref={inputRefScan}
+          style={[styles.inputBox]}
+          placeholder="等待扫码输入"
+          value={scanValue}
+          onChangeText={setScanValue}
+          editable={true} //可编辑--接受输入的数据
+        />
+      </View>
+      <View style={globalStyles.lineview}></View>
+
+      {/* part 3: 列表 */}
+      <View style={styles.mainContainer}>
+        {/* 2 列表部分 */}
         <FlatList
           contentContainerStyle={{flexGrow: 1}}
           data={items}

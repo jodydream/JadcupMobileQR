@@ -83,6 +83,13 @@ const globalStyles = StyleSheet.create({
     height: 1,
     backgroundColor: theme.colors.surface,
   },
+
+  // 分割线
+  lineview: {
+    width: '100%',
+    height: 5,
+    backgroundColor: theme.colors.surface,
+  },
 });
 
 export default globalStyles;
