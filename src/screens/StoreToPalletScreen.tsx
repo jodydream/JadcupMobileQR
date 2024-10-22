@@ -296,7 +296,8 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
       {/* 底部按钮 */}
       <View style={styles.footerContainer}>
-        <Text style={styles.total_text}>Total Number: {items.length}</Text>
+        <Text style={styles.total_text}>Pallet Count:{items.length ? 1:0}   Product Count: {(items.length>1) ? items.length-1:0}</Text>
+
         <TouchableOpacity style={styles.saveButton} onPress={savePallet}>
           <Text style={styles.saveButtonText}>Save上托盘</Text>
         </TouchableOpacity>
