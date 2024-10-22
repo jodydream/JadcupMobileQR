@@ -43,6 +43,8 @@ export const putData = async (endpoint: string, data: any) => {
   }
 };
 
+
+
 // 其他页面调用
   // const [loading, setLoading] = useState(false); //加载状态：只记录每一次动态加载前后的状态
   // const handleDale = async () => {

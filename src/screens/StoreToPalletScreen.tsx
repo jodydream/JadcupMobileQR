@@ -44,11 +44,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     });
   };
 
-  // 保存操作
-  const savePallet = async () => {
-    await putBoxtoPlate();
-  };
-
   // 返回上一页
   const goBack = () => {
     navigation.goBack();
@@ -58,16 +53,17 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   //========================part2:自定义函数(除了点击外)========================
   // #region Utility Functions
   // 添加一行数据到列表
-  const addItem = async (currentCodeNumber: string) => {
-    if (!currentCodeNumber) return;
+  const addItem = async (currentCodeNo: string) => {
+    if (!currentCodeNo) return;
 
     // 创建一个 newItem
     let newType;
-    const newtypecode = identifyCode(currentCodeNumber);
+    const newtypecode = identifyCode(currentCodeNo);
     if (newtypecode == 2) {
       newType = 'Pallet';
-      // 判断:托盘是否可用----------
-      const esponse_package = await palletValidInfo(currentCodeNumber);
+      // 获取托盘信息
+      const esponse_package = await palletInfo(currentCodeNo);
+      // 判断: 托盘是否可用----------
       //不在包装区(在=1)-->退出不之后后续
       if (esponse_package == 0) {
         Alert.alert('Pallet not in the packaging area!', '', [
@@ -76,12 +72,14 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         setScanValue('');
         return;
       }
+
     } else if (newtypecode == 1) {
       newType = 'Product';
-      // 判断：货物是不是已经在托盘
+      // 判断：货物
+      // 1 货物是不是已经在托盘
       const isOn = storeToPalletHelpers.isBarcodeInPalletJson(
         palletJson,
-        currentCodeNumber,
+        currentCodeNo,
       );
       if (isOn) {
         Toast.show({
@@ -90,9 +88,55 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
           text2: 'Barcode is aready on this Pallet!!',
           visibilityTime: 3000,
         });
+
         setScanValue('');
         return;
       }
+      // 获取货物信息
+      const product = await productInfo(currentCodeNo);
+      // 2 判断货物状态
+      if(product.status === 1){
+        Toast.show({
+          type: 'error',
+          text1: 'Fail to add',
+          text2: '货物无效。This box is no longer valid.',
+          visibilityTime: 3000,
+        });
+        setScanValue('');
+        return;
+      }
+      if(product.status === 1){
+        Toast.show({
+          type: 'error',
+          text1: 'Fail to add',
+          text2: '货物无效。This box is no longer valid.',
+          visibilityTime: 3000,
+        });
+        setScanValue('');
+        return;
+      }
+      if(product.palletNo === null){
+        Toast.show({
+          type: 'error',
+          text1: 'Fail to add',
+          text2: '货物不在托盘上。This box is no  pallet.',
+          visibilityTime: 3000,
+        });
+        setScanValue('');
+        return;
+      }
+      if(product.position !== null){
+        Toast.show({
+          type: 'error',
+          text1: 'Fail to add',
+          text2: '货物已经在仓库。This box is has been warehoused.',
+          visibilityTime: 3000,
+        });
+        setScanValue('');
+        return;
+      }
+
+
     } else {
       //Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
       Toast.show({
@@ -106,7 +150,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     }
     const newItem: QRType = {
       type: newType,
-      No: currentCodeNumber,
+      No: currentCodeNo,
     };
     setcurrentQRe(newItem); //用于展示当前扫码内容--给用户看
 
@@ -237,8 +281,8 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   //========================part 4:拉取webapi数据-本地处理=======================
   // #region Utility Functions
   // 解释：这了函数调用了Hooks必须在页面(React 组件)之内用，无法剥离出去。
-  // 1 判断托盘是否可用
-  const palletValidInfo = async (palletCode: string) => {
+  // 1 判断托盘
+  const palletInfo = async (palletCode: string) => {
     setLoading(true); // 开启加载状态
     try {
       // 参数--params
@@ -255,7 +299,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     } catch (error) {
       Toast.show({
         type: 'Failed',
-        text1: 'Login Failed',
+        text1: 'Get Data Failed',
         text2: 'Invalid credentials or server error!',
         visibilityTime: 1000,
       });
@@ -264,7 +308,30 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     }
   };
 
-  // 2 上托盘
+  // 2 判断货物
+  const productInfo = async (code: string) => {
+    setLoading(true); // 开启加载状态
+    try {
+      // 参数--params
+      const data = {params: {barCode: code}};
+      // 拉取数据
+      const responsejson = await getData('/api/Box/GetBoxByBarCode',data,);
+      // 返回-在其他地方处理数据
+      return responsejson;
+    } catch (error) {
+      Toast.show({
+        type: 'Failed',
+        text1: 'Get Data Failed',
+        text2: 'Invalid credentials or server error!',
+        visibilityTime: 1000,
+      });
+    } finally {
+      setLoading(false); // 完成加载
+    }
+  };
+
+
+  // 3 上托盘
   const putBoxtoPlate = async () => {
     setLoading(true); // 开启加载状态
     try {
