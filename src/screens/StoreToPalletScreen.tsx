@@ -224,12 +224,12 @@ const palletValidInfo = async (palletCode:string) => {
     const esponse_package = responsejson['data']['package'];
     return esponse_package;
   } catch (error) {
-    // Toast.show({
-    //   type: 'Failed',
-    //   text1: 'Login Failed',
-    //   text2: 'Invalid credentials or server error!',
-    //   visibilityTime: 1000,
-    // });
+    Toast.show({
+      type: 'Failed',
+      text1: 'Login Failed',
+      text2: 'Invalid credentials or server error!',
+      visibilityTime: 1000,
+    });
   } finally {
     setLoading(false); // 完成加载
   }
