@@ -15,7 +15,7 @@ import styles from '../styles/StoreToPalletScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
-import {identifyCode} from '../utils/globalHelpers'; // 根据文件路径导入
+import {identifyCode, getQRItemByCode} from '../utils/globalHelpers'; // 根据文件路径导入
 import Toast from 'react-native-toast-message';
 import {getData} from '../services/api';
 
@@ -39,11 +39,19 @@ const TestScreen = ({navigation, route}: Props) => {
       visibilityTime: 1000,
     });
   };
-
   // 返回上一页
   const goBack = () => {
     navigation.goBack();
   };
+
+  const inputChangeText = (code_nuber:string)=> {
+    console.log("111111111value:", code_nuber);
+    // 设置为新值（清空）
+    setScanValue(code_nuber);
+    const currentItem = getQRItemByCode(code_nuber)
+    setcurrentQRe(currentItem);
+
+  }
   // #endregion
 
   //========================part2:自定义函数(除了点击外)========================
@@ -66,7 +74,12 @@ const TestScreen = ({navigation, route}: Props) => {
 
   //setScanValue后:
   useEffect(() => {
-    console.log('-------------scanValue:', scanValue);
+    //解决嵌套：setScanValue('xxx')传入了值才会执行这一行 
+    if (scanValue) {
+      setScanValue(''); 
+    } 
+
+    console.log('----------useEffect--------');
     //获取焦点
     getfoucs();
   }, [scanValue]);
@@ -165,7 +178,7 @@ const TestScreen = ({navigation, route}: Props) => {
           style={[styles.inputBox]}
           placeholder="等待扫码输入"
           value={scanValue}
-          onChangeText={setScanValue}
+          onChangeText={(text) => {inputChangeText(text);}} //每次输入改变，调用一次(默认传入scanValue值)
           editable={true} //可编辑--接受输入的数据
         />
       </View>

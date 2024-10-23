@@ -136,7 +136,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         return;
       }
 
-
     } else {
       //Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
       Toast.show({
@@ -269,11 +268,13 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   //setScanValue后:
   useEffect(() => {
-    console.log('-------------scanValue:', scanValue);
+    //解决嵌套：setScanValue('xxx')传入了值才会执行这一行 
     if (scanValue) {
       addItem(scanValue); // 将扫码值添加到列表
-      setScanValue('');
+      setScanValue(''); //造成了嵌套？
     }
+
+    console.log('-------------scanValue:', scanValue);
     //获取焦点
     getfoucs();
   }, [scanValue]);
