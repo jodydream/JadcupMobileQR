@@ -1,8 +1,8 @@
 // App.tsx
 
-import React, {RefObject, useEffect} from 'react';
+import React from 'react';
 import AppNavigator from './src/navigation/AppNavigator';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import globalStyles from './src/styles/globalStyles';
 
@@ -11,8 +11,6 @@ const App = () => {
   return (
     <View style={{flex: 1}}>
       <AppNavigator />
-
-      {/* 统一设置Toast */}
       <FlashMessage 
         position="center" 
         style={globalStyles.flashMessageStyle}
@@ -22,3 +20,4 @@ const App = () => {
   );
 };
 
+export default App;
