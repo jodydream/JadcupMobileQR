@@ -64,20 +64,20 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
       case 'Picking List拣货':
         logoSource = require('../../assets/images/Home_PickingList.png');
         break;
-      // case 'Merging Pallets合托盘':
-      //   logoSource = require('../../assets/images/jadcup_logo.png');
-      //   break;
-      // case 'Defect缺陷管理':
-      //   logoSource = require('../../assets/images/jadcup_logo.png');
+        // case 'Merging Pallets合托盘':
+        //   logoSource = require('../../assets/images/jadcup_logo.png');
+        //   break;
+        // case 'Defect缺陷管理':
+        //   logoSource = require('../../assets/images/jadcup_logo.png');
         break;
       default:
         logoSource = require('../../assets/images/Home_ItemScanner.png');
         break;
     }
-  
+
     return logoSource; // 添加这一行来返回 logoSource
   };
-  
+
   //========================part3:框架函数====================================
   //1 renderSection函数：每一项ListRenderItem的类型是Section
   const renderSection: ListRenderItem<MainSection> = ({item}) => (
@@ -99,10 +99,7 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
             size={20}
             color="black"
           /> */}
-          <Image
-            source={LogoSwitcher(subItem)}
-            style={styles.itemImage}
-          />
+          <Image source={LogoSwitcher(subItem)} style={styles.itemImage} />
           <Text style={styles.itemText}>{subItem}</Text>
         </TouchableOpacity>
       ))}
@@ -111,57 +108,62 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
 
   //========================分割线===========================================
   return (
-    <View style={styles.container}>
-      {/* 1 状态栏 */}
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={theme.colors.primary}
-        translucent={false} // 如果不希望内容重叠在状态栏下，关闭透明??
-      />
-
-      {/* 2 标题栏 */}
-      <View style={styles.headerBar}>
-        <View style={styles.logoContainer}>
-          <Image
-            source={require('../../assets/images/jadcup_logo.png')}
-            style={styles.logo}
-          />
-        </View>
-
-        <View style={styles.headerTitleContainer}>
-          <Text style={styles.headerText}>主页</Text>
-        </View>
-
-        <View style={styles.logoContainer}></View>
-      </View>
-
-      {/* 2 用户信息 */}
-      <View style={styles.userInfoSection}>
-        <Image
-          source={require('../../assets/images/head.png')}
-          style={styles.userAvatar}
+    <View style={styles.wholecontainer}>
+      <View style={styles.mainContainer}>
+        {/* 1 状态栏 */}
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={theme.colors.primary}
+          //true:状态栏重叠--->marginTop: LAYOUT.statusBarHeight
+          //false:不重叠
+          // android可设置;ios只能为true
+          translucent={true} // 如果不希望内容重叠在状态栏下，关闭透明??
         />
 
-        <View style={styles.userTextContainer}>
-          <Text style={styles.userNameText}>{userInfo.name}</Text>
-          <Text style={styles.userDetialText}>
-            employeeId: {userInfo.employeeId}
-          </Text>
+        {/* 2 标题栏 */}
+        <View style={styles.titleContainer}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require('../../assets/images/jadcup_logo.png')}
+              style={styles.logo}
+            />
+          </View>
+          <View style={styles.titleTextContainer}>
+            <Text style={styles.headerText}>主页</Text>
+          </View>
+          {/* 占位 */}
+          <View style={styles.logoContainer}></View>
         </View>
-        <TouchableOpacity style={styles.settingbtn} onPress={logout}>
-          <MaterialIcons name="logout" size={20} color="black" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.lineview}></View>
+        {/* ================================================= */}
 
-      {/* 3 FlatList功能列表 */}
-      <FlatList
-        data={sections}
-        renderItem={renderSection}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={[styles.scrollContent, {paddingBottom: 10}]} // 确保有足够的底部填充
-        ListFooterComponent={<View style={{height: 10}} />} // 添加额外的底部空白区域
-      />
+        {/* 2 用户信息 */}
+        <View style={styles.userInfoSection}>
+          <Image
+            source={require('../../assets/images/head.png')}
+            style={styles.userAvatar}
+          />
+
+          <View style={styles.userTextContainer}>
+            <Text style={styles.userNameText}>{userInfo.name}</Text>
+            <Text style={styles.userDetialText}>
+              employeeId: {userInfo.employeeId}
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.settingbtn} onPress={logout}>
+            <MaterialIcons name="logout" size={20} color="black" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.lineview}></View>
+
+        {/* 3 FlatList功能列表 */}
+        <FlatList
+          data={sections}
+          renderItem={renderSection}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={[styles.scrollContent, {paddingBottom: 10}]} // 确保有足够的底部填充
+          ListFooterComponent={<View style={{height: 10}} />} // 添加额外的底部空白区域
+        />
+      </View>
     </View>
   );
 };

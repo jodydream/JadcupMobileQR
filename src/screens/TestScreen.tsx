@@ -19,10 +19,6 @@ import {identifyCode, getQRItemByCode} from '../utils/globalHelpers'; // 根据�
 import Toast from 'react-native-toast-message';
 import {getData} from '../services/api';
 
-
-
-
-
 type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
 const TestScreen = ({navigation, route}: Props) => {
   const [scanValue, setScanValue] = useState<string>(''); // 扫码信息---输入框
@@ -36,64 +32,64 @@ const TestScreen = ({navigation, route}: Props) => {
 
   const barArray = [
     {
-      barCode: "100000364814",
-      productName: "SW4-White",
-      status: "出货中",
+      barCode: '100000364814',
+      productName: 'SW4-White',
+      status: '出货中',
     },
     {
-      barCode: "100000364815",
-      productName: "SW4-Black",
-      status: "出货中",
+      barCode: '100000364815',
+      productName: 'SW4-Black',
+      status: '出货中',
     },
     {
-      barCode: "100000364816",
-      productName: "SW4-Red",
-      status: "出货中",
+      barCode: '100000364816',
+      productName: 'SW4-Red',
+      status: '出货中',
     },
     {
-      barCode: "100000364817",
-      productName: "SW4-Blue",
-      status: "出货中",
+      barCode: '100000364817',
+      productName: 'SW4-Blue',
+      status: '出货中',
     },
     {
-      barCode: "100000364818",
-      productName: "SW4-Green",
-      status: "出货中",
+      barCode: '100000364818',
+      productName: 'SW4-Green',
+      status: '出货中',
     },
     {
-      barCode: "100000364818",
-      productName: "SW4-Green",
-      status: "出货中",
+      barCode: '100000364818',
+      productName: 'SW4-Green',
+      status: '出货中',
     },
     {
-      barCode: "100000364818",
-      productName: "SW4-Green",
-      status: "出货中",
+      barCode: '100000364818',
+      productName: 'SW4-Green',
+      status: '出货中',
     },
     {
-      barCode: "100000364818",
-      productName: "SW4-Green",
-      status: "出货中",
+      barCode: '100000364818',
+      productName: 'SW4-Green',
+      status: '出货中',
     },
     {
-      barCode: "100000364818",
-      productName: "SW4-Green",
-      status: "出货中",
+      barCode: '100000364818',
+      productName: 'SW4-Green',
+      status: '出货中',
     },
     {
-      barCode: "100000364818",
-      productName: "SW4-Green",
-      status: "出货中",
+      barCode: '100000364818',
+      productName: 'SW4-Green',
+      status: '出货中',
     },
     {
-      barCode: "100000364818",
-      productName: "SW4-Green",
-      status: "出货中",
+      barCode: '100000364818',
+      productName: 'SW4-Green',
+      status: '出货中',
     },
     {
-      barCode: "100000364818",
-      productName: "SW4-Green",
-      status: "出货中",
+      barCode: '100000364818',
+      productName: 'SW4-Green',
+      status: '出货中',
     },
   ];
   //========================part1:点击事件处理=================================
@@ -212,25 +208,29 @@ const TestScreen = ({navigation, route}: Props) => {
         <View style={styles.palletContainer}>
           <Text style={styles.palletTitle}>托盘信息</Text>
           <View style={globalStyles.line_view_tiny}></View>
-          <Text style={styles.palletInfo}>托盘编号{palletJson?.data?.plateCode}</Text>
+          <Text style={styles.palletInfo}>
+            托盘编号{palletJson?.data?.plateCode}
+          </Text>
           <View style={globalStyles.line_view_tiny}></View>
           {/* 货物列表 */}
           <Text style={styles.palletSubtitle}>
             货物列表(总计: {barArray.length}件)
           </Text>
           <View style={styles.listHeader}>
-            <Text style={[styles.listHeaderItem, {flex:3}]}>货物编号</Text>
-            <Text style={[styles.listHeaderItem, {flex:3}]}>货物名称</Text>
-            <Text style={[styles.listHeaderItem, {flex:2}]}>货物状态</Text>
+            <Text style={[styles.listHeaderItem, {flex: 3}]}>货物编号</Text>
+            <Text style={[styles.listHeaderItem, {flex: 3}]}>货物名称</Text>
+            <Text style={[styles.listHeaderItem, {flex: 2}]}>货物状态</Text>
           </View>
-          <FlatList 
+          <FlatList
             data={barArray}
             keyExtractor={item => item.barCode}
             renderItem={({item}) => (
               <View style={styles.listRow}>
-                <Text style={[styles.listItem, {flex:3}]}>{item.barCode}</Text>
-                <Text style={[styles.listItem, {flex:3}]}>{item.productName}</Text>
-                <Text style={[styles.listItem, {flex:2}]}>{item.status}</Text>
+                <Text style={[styles.listItem, {flex: 3}]}>{item.barCode}</Text>
+                <Text style={[styles.listItem, {flex: 3}]}>
+                  {item.productName}
+                </Text>
+                <Text style={[styles.listItem, {flex: 2}]}>{item.status}</Text>
               </View>
             )}
           />
@@ -251,7 +251,7 @@ const TestScreen = ({navigation, route}: Props) => {
     } else {
       return (
         <View>
-          <Text>Nothing</Text>
+          <Text></Text>
         </View>
       );
     }
@@ -260,60 +260,64 @@ const TestScreen = ({navigation, route}: Props) => {
 
   return (
     <View style={styles.wholeContaine}>
-      {/* ----------part1: 顶部导航 ----------*/}
-      <View style={styles.top_container}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor={theme.colors.primary}
-          translucent={true}
-        />
-        <View style={styles.nav_container}>
-          {/* 1 返回按钮 */}
-          <View>
-            <TouchableOpacity
-              style={styles.gobackbtonContainer}
-              onPress={goBack}>
-              <AntDesign name="left" size={20} color="white" />
-            </TouchableOpacity>
+      <View style={styles.mainContainer}>
+        {/* ----------part1: 顶部导航 ----------*/}
+        <View style={styles.top_container}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={theme.colors.primary}
+            translucent={true}
+          />
+          <View style={styles.nav_container}>
+            {/* 1 返回按钮 */}
+            <View>
+              <TouchableOpacity
+                style={styles.gobackbtonContainer}
+                onPress={goBack}>
+                <AntDesign name="left" size={20} color="white" />
+              </TouchableOpacity>
+            </View>
+            {/* 2 标题 */}
+            <Text style={styles.nav_title_text}>{route.params.title}</Text>
+            {/* 3 占位view */}
+            <View style={styles.gobackbtonContainer} />
           </View>
-          {/* 2 标题 */}
-          <Text style={styles.nav_title_text}>{route.params.title}</Text>
-          {/* 3 占位view */}
-          <View style={styles.gobackbtonContainer} />
         </View>
-      </View>
-      <View style={globalStyles.line_view_tiny}></View>
+        <View style={globalStyles.line_view_tiny}></View>
 
-      {/* ----------part 2: 扫码区---------- */}
-      <View style={styles.scan_btn_container}>
-        <View style={styles.showscanview}>
-          <Text style={styles.showscanText}>当前扫入:</Text>
+        {/* ----------part 2: 扫码区---------- */}
+        <View style={styles.scan_btn_container}>
+          <View style={styles.showscanview}>
+            <Text style={styles.showscanText}>当前扫入:</Text>
+          </View>
+          {/* 用于显示扫码值的 Text */}
+          <Text style={styles.textvalue}>
+            {currentQR
+              ? `${currentQR.type}  ${currentQR.No}`
+              : 'Please scan ...'}
+          </Text>
+          <TextInput
+            ref={inputRefScan}
+            style={[styles.inputBox]}
+            placeholder="等待扫码输入"
+            value={scanValue}
+            onChangeText={text => {
+              inputChangeText(text);
+            }} //每次输入改变，调用一次(默认传入scanValue值)
+            editable={true} //可编辑--接受输入的数据
+          />
         </View>
-        {/* 用于显示扫码值的 Text */}
-        <Text style={styles.textvalue}>
-          {currentQR ? `${currentQR.type}  ${currentQR.No}` : 'Please scan ...'}
-        </Text>
-        <TextInput
-          ref={inputRefScan}
-          style={[styles.inputBox]}
-          placeholder="等待扫码输入"
-          value={scanValue}
-          onChangeText={text => {
-            inputChangeText(text);
-          }} //每次输入改变，调用一次(默认传入scanValue值)
-          editable={true} //可编辑--接受输入的数据
-        />
-      </View>
-      <View style={globalStyles.lineview}></View>
+        <View style={globalStyles.lineview}></View>
 
-      {/* ----------part 3: 信息展示 ----------*/}
-      <View style={styles.mainContainer}>{renderDisplayView()}</View>
+        {/* ----------part 3: 信息展示 ----------*/}
+        <View style={styles.detialContainer}>{renderDisplayView()}</View>
 
-      {/* ----------part 4: 底部按钮 ----------*/}
-      <View style={styles.footerContainer}>
-        <TouchableOpacity style={styles.resetAllButton} onPress={resetAll}>
-          <Text style={styles.resetAllButtonText}>Clear All重置</Text>
-        </TouchableOpacity>
+        {/* ----------part 4: 底部按钮 ----------*/}
+        <View style={styles.footerContainer}>
+          <TouchableOpacity style={styles.resetAllButton} onPress={resetAll}>
+            <Text style={styles.resetAllButtonText}>Clear All重置</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

@@ -10,19 +10,23 @@ import theme from '../styles/theme/theme'; // 自定义主题
 const styles = StyleSheet.create({
   // 1级别========================================================
   wholeContaine: {
+    flex:1,
+    backgroundColor:theme.colors.primary,
+  },
+
+  mainContainer: {
+    marginTop: LAYOUT.statusBarHeight,
     flex: 1,
-    backgroundColor: '#ffffff',
-    width: '100%',
-    height: '100%',
+    // marginBottom: LAYOUT.marginBottom,
+    backgroundColor: theme.colors.background,
   },
 
   // 2级别========================================================
   top_container: {
-    marginTop: LAYOUT.statusBarHeight,
     backgroundColor: theme.colors.primary,
   },
 
-  mainContainer: {
+  detialContainer: {
     flex: 1, // 沾满剩下的区域
     marginHorizontal:LAYOUT.margingHorizontal
     // paddingHorizontal: LAYOUT.margingHorizontal,
@@ -38,7 +42,7 @@ const styles = StyleSheet.create({
   nav_container: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: LAYOUT.nav_height,
+    height: LAYOUT.mainTitleHeight,
     justifyContent: 'space-between',
   },
   gobackbtonContainer: {

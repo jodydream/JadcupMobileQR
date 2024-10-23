@@ -17,9 +17,8 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
 import * as loginHelpers from '../utils/loginHelpers'; // 导入--整个文件内容
 //import Toast from 'react-native-toast-message';
-import { showMessage } from "react-native-flash-message";
+import {showMessage} from 'react-native-flash-message';
 import {TabRouter, useFocusEffect} from '@react-navigation/native';
-
 
 type Props = StackScreenProps<RootStackParamList, 'LoginScreen'>;
 
@@ -77,14 +76,16 @@ const LoginScreen = ({navigation, route}: Props) => {
         passWord: password,
       };
       // part1 拉取登录数据==================
-      const responsejson: any = await postData( '/api/Employee/EmployeeLogin',data, );
+      const responsejson: any = await postData(
+        '/api/Employee/EmployeeLogin',
+        data,
+      );
       // part2 处理数据====================
       showMessage({
-        message: "Success",
-        description: "Login Success",
-        type:'success',
+        message: 'Success',
+        description: 'Login Success',
+        type: 'success',
       });
-      
 
       // 1 获得Home页面所用的数据
       // 1-1 功能表数量
@@ -102,7 +103,6 @@ const LoginScreen = ({navigation, route}: Props) => {
 
       // 2 跳转到Home页面(传入2获得数据)
       navigation.navigate('MainScreen', {sections, userInfo});
-
     } catch (error) {
       //Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
       // Toast.show({
@@ -148,7 +148,7 @@ const LoginScreen = ({navigation, route}: Props) => {
           translucent={true} // 如果不希望内容重叠在状态栏下，关闭透明??
         />
 
-        {/* 2 标题 */}
+        {/* 2 标题栏 */}
         <View style={styles.titleContainer}>
           <View style={styles.logoContainer}>
             <Image
@@ -156,10 +156,14 @@ const LoginScreen = ({navigation, route}: Props) => {
               style={styles.logo}
             />
           </View>
+          {/* <View style={styles.headerTitleContainer}>
+            <Text style={styles.headerText}>主页</Text>
+          </View> */}
+          <View style={styles.logoContainer}></View>
         </View>
 
+       {/* ================================================= */}
         <Text style={styles.headline}>Staff Login</Text>
-
         {/* 用户名输入框 */}
         <View style={styles.inputContainer}>
           <AntDesign

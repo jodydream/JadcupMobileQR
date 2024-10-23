@@ -10,54 +10,54 @@ import theme from '../styles/theme/theme'; // 自定义主题
 const styles = StyleSheet.create({
   // 1级别
   wholeContaine: {
+    flex:1,
+    backgroundColor:theme.colors.primary,
+  },
+  mainContainer: {
+    marginTop: LAYOUT.statusBarHeight,
     flex: 1,
-    backgroundColor: '#ffffff',
-    width: '100%',
-    height: '100%',
+    // marginBottom: LAYOUT.marginBottom,
+    backgroundColor: theme.colors.background,
   },
 
   // 2级别
   top_container: {
-    marginTop: LAYOUT.statusBarHeight,
-    backgroundColor: theme.colors.primary,
+    //backgroundColor: theme.colors.primary,
+    backgroundColor:'red',
   },
 
-  mainContainer: {
+  listContainer: {
     flex: 1, // 沾满剩下的区域
     marginBottom: LAYOUT.marginBottom,
   },
 
   // =================
-  // 3级别 导航栏
-  nav_container: {
-    //marginHorizontal: LAYOUT.margingHorizontal,
+  // 3级别 标题栏
+  titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: LAYOUT.nav_height,
+    height: LAYOUT.mainTitleHeight,
     justifyContent: 'space-between',
-    // backgroundColor:'blue'
+    backgroundColor:theme.colors.primary,
   },
   gobackbtonContainer: {
     width: 60,
     height: 40,
     justifyContent: 'center', //上下居中
     paddingHorizontal: LAYOUT.margingHorizontal,
-    //alignItems: 'center',   //水平居中
-    // backgroundColor:'red'
   },
-  nav_title_text: {
+  title_text: {
     fontSize: FONT_SIZE.BIG1,
     fontWeight: 'bold',
-    color: 'white',
+    color: theme.colors.background,
   },
 
   // ====================
   // 按钮--扫码输入
   // 输入状态按钮样式
   scan_btn_container: {
-    // backgroundColor:'red',
-    marginHorizontal: LAYOUT.margingHorizontal,
     marginVertical:5,
+    paddingHorizontal: LAYOUT.margingHorizontal,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -174,18 +174,18 @@ const styles = StyleSheet.create({
     color:theme.colors.primary,
     fontWeight: 'bold',
   },
-  //=======
+ 
+  // 底部按钮样式=================================
+  footerContainer: {
+    paddingHorizontal: SPACING.medium,
+    paddingBottom: SPACING.xxxLarge,
+  },
+
   total_text: {
     paddingVertical:10,
     fontSize: FONT_SIZE.BIG1,
-    // fontWeight: 'bold',
     color: 'black',
     alignSelf:'flex-end'
-  },
-  // 底部按钮样式
-  footerContainer: {
-    paddingHorizontal: SPACING.medium,
-    paddingVertical: SPACING.large,
   },
   saveButton: {
     backgroundColor: theme.colors.primary,
@@ -210,22 +210,6 @@ const styles = StyleSheet.create({
     // fontSize: FONT_SIZE.MEDIUM,
     fontWeight: 'bold',
   },
-
-  // ====================
-
-  // // 按钮：手动输入状态
-  // inputButton: {
-  //   flex:1,
-  //   paddingVertical: SPACING.small,
-  //   alignItems: 'center',
-  //   borderRadius: 5,
-
-  // },
-  // inputButtonText: {
-  //   color: 'white',
-  //   fontWeight: 'bold',
-  //   fontSize: FONT_SIZE.MEDI2,
-  // },
 });
 
 export default styles;

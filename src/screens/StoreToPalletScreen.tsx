@@ -72,7 +72,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         //setScanValue('');
         return;
       }
-
     } else if (newtypecode == 1) {
       newType = 'Product';
       // 判断：货物
@@ -95,7 +94,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       // 获取货物信息
       const product = await productInfo(currentCodeNo);
       // 2 判断货物状态
-      if(product.status === 1){
+      if (product.status === 1) {
         Toast.show({
           type: 'error',
           text1: 'Fail to add',
@@ -105,7 +104,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         //setScanValue('');
         return;
       }
-      if(product.status === 1){
+      if (product.status === 1) {
         Toast.show({
           type: 'error',
           text1: 'Fail to add',
@@ -115,7 +114,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         //setScanValue('');
         return;
       }
-      if(product.palletNo === null){
+      if (product.palletNo === null) {
         Toast.show({
           type: 'error',
           text1: 'Fail to add',
@@ -125,7 +124,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         //setScanValue('');
         return;
       }
-      if(product.position !== null){
+      if (product.position !== null) {
         Toast.show({
           type: 'error',
           text1: 'Fail to add',
@@ -135,7 +134,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         //setScanValue('');
         return;
       }
-
     } else {
       //Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
       Toast.show({
@@ -208,7 +206,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   // 删除单个 item
   const deleteItem = (index: number) => {
     const currentItem = items[index];
-    //可删除分支--if (currentItem.type == 'Pallet')  
+    //可删除分支--if (currentItem.type == 'Pallet')
     if (currentItem.type == 'Pallet') {
       setItems([]);
     } else {
@@ -229,9 +227,14 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
     if (item.type === 'Pallet') {
       // 单独处理第一个 item
       return (
-        <View style={[styles.listItemContainer, styles.listItemContainerPallet]}>
-          <Text style={[styles.itemTypeText,styles.itemTextPallet]}>{item.type}</Text>
-          <Text style={[styles.itemNumberText,styles.itemTextPallet]}>{item.No}</Text>
+        <View
+          style={[styles.listItemContainer, styles.listItemContainerPallet]}>
+          <Text style={[styles.itemTypeText, styles.itemTextPallet]}>
+            {item.type}
+          </Text>
+          <Text style={[styles.itemNumberText, styles.itemTextPallet]}>
+            {item.No}
+          </Text>
           {/* <TouchableOpacity
             style={styles.resetButton}
             onPress={() => deleteItem(index)}
@@ -239,7 +242,11 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
             <Text style={styles.resetButtonText}>Clear</Text>
           </TouchableOpacity> */}
           {/* 用resetButtonText保持一致的风格 */}
-          <Text style={[styles.resetButtonText,styles.itemTextPallet]}>{`IsOn: ${palletJson?.data?.plateBox.length}`}</Text>
+          <Text
+            style={[
+              styles.resetButtonText,
+              styles.itemTextPallet,
+            ]}>{`IsOn: ${palletJson?.data?.plateBox.length}`}</Text>
         </View>
       );
     }
@@ -268,7 +275,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   //setScanValue后:
   useEffect(() => {
-    //解决嵌套：setScanValue('xxx')传入了值才会执行这一行 
+    //解决嵌套：setScanValue('xxx')传入了值才会执行这一行
     if (scanValue) {
       addItem(scanValue); // 将扫码值添加到列表
       setScanValue(''); //造成了嵌套？
@@ -317,7 +324,7 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       // 参数--params
       const data = {params: {barCode: code}};
       // 拉取数据
-      const responsejson = await getData('/api/Box/GetBoxByBarCode',data,);
+      const responsejson = await getData('/api/Box/GetBoxByBarCode', data);
       // 返回-在其他地方处理数据
       return responsejson;
     } catch (error) {
@@ -331,7 +338,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       setLoading(false); // 完成加载
     }
   };
-
 
   // 3 上托盘
   const putBoxtoPlate = async () => {
@@ -376,86 +382,95 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
 
   return (
     <View style={styles.wholeContaine}>
-      {/* part1: 顶部导航 */}
-      <View style={styles.top_container}>
+      <View style={styles.mainContainer}>
+        {/* part1:  */}
+
+        {/* 1 状态栏 */}
         <StatusBar
           barStyle="light-content"
           backgroundColor={theme.colors.primary}
           translucent={true}
         />
-        <View style={styles.nav_container}>
+
+        {/* 2 标题栏 */}
+        <View style={styles.titleContainer}>
           {/* 1 返回按钮 */}
           <View>
             <TouchableOpacity
               style={styles.gobackbtonContainer}
               onPress={goBack}>
-              <AntDesign name="left" size={20} color="white" />
+              <AntDesign name="left" size={20} color={theme.colors.background} />
             </TouchableOpacity>
           </View>
-          {/* 2 标题 */}
-          <Text style={styles.nav_title_text}>{route.params.title}</Text>
+          {/* 2 主题 */}
+          <Text style={styles.title_text}>{route.params.title}</Text>
           {/* 3 占位view */}
           <View style={styles.gobackbtonContainer} />
         </View>
-      </View>
-      <View style={globalStyles.line_view_tiny}></View>
+        {/* <View style={globalStyles.line_view_tiny}></View> */}
+        {/* ================================================= */}
 
-      {/* part 2: 扫入 */}
-      <View style={styles.scan_btn_container}>
-        <View style={styles.showscanview}>
-          <Text style={styles.showscanText}>当前扫入:</Text>
+        {/* part 2: 扫入 */}
+        <View style={styles.scan_btn_container}>
+          <View style={styles.showscanview}>
+            <Text style={styles.showscanText}>当前扫入:</Text>
+          </View>
+          {/* 用于显示扫码值的 Text */}
+          <Text style={styles.textvalue}>
+            {currentQR
+              ? `${currentQR.type}  ${currentQR.No}`
+              : 'Please scan ...'}
+          </Text>
+
+          <TextInput
+            ref={inputRefScan}
+            style={[styles.inputBox]}
+            placeholder="等待扫码输入"
+            value={scanValue}
+            onChangeText={setScanValue}
+            editable={true} //可编辑--接受输入的数据
+          />
         </View>
-        {/* 用于显示扫码值的 Text */}
-        <Text style={styles.textvalue}>
-          {currentQR ? `${currentQR.type}  ${currentQR.No}` : 'Please scan ...'}
-        </Text>
+        <View style={globalStyles.lineview}></View>
 
-        <TextInput
-          ref={inputRefScan}
-          style={[styles.inputBox]}
-          placeholder="等待扫码输入"
-          value={scanValue}
-          onChangeText={setScanValue}
-          editable={true} //可编辑--接受输入的数据
-        />
-      </View>
-      <View style={globalStyles.lineview}></View>
+        {/* part 3: 列表 */}
+        <View style={styles.listContainer}>
+          {/* 2 列表部分 */}
+          <FlatList
+            contentContainerStyle={{flexGrow: 1}}
+            data={items}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItem}
+            ListHeaderComponent={() => (
+              <View style={styles.listItemContainer}>
+                <Text style={styles.itemTypeText}>Type</Text>
+                <Text style={[styles.itemNumberText, {fontWeight: 'bold'}]}>
+                  No.
+                </Text>
+                <Text style={[styles.resetButton, {display: 'none'}]}> </Text>
+              </View>
+            )}
+          />
+        </View>
 
-      {/* part 3: 列表 */}
-      <View style={styles.mainContainer}>
-        {/* 2 列表部分 */}
-        <FlatList
-          contentContainerStyle={{flexGrow: 1}}
-          data={items}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItem}
-          ListHeaderComponent={() => (
-            <View style={styles.listItemContainer}>
-              <Text style={styles.itemTypeText}>Type</Text>
-              <Text style={[styles.itemNumberText, {fontWeight: 'bold'}]}>No.</Text>
-              <Text style={[styles.resetButton, {display: 'none'}]}> </Text>
-            </View>
-          )}
-        />
-      </View>
+        {/* 底部按钮 */}
+        <View style={styles.footerContainer}>
+          <Text style={styles.total_text}>
+            Pallet Count:{items.length ? 1 : 0} Product Count:{' '}
+            {items.length > 1 ? items.length - 1 : 0}
+          </Text>
 
-      {/* 底部按钮 */}
-      <View style={styles.footerContainer}>
-        <Text style={styles.total_text}>
-          Pallet Count:{items.length ? 1 : 0} Product Count:{' '}
-          {items.length > 1 ? items.length - 1 : 0}
-        </Text>
-
-        <TouchableOpacity
-          style={styles.saveButton}
-          onPress={async () => {
-            await putBoxtoPlate();
-          }}>
-          <Text style={styles.saveButtonText}>Save上托盘</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.resetAllButton} onPress={resetAll}>
-          <Text style={styles.resetAllButtonText}>Clear All重置</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.saveButton}
+            onPress={async () => {
+              await putBoxtoPlate();
+            }}>
+            <Text style={styles.saveButtonText}>Save上托盘</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.resetAllButton} onPress={resetAll}>
+            <Text style={styles.resetAllButtonText}>Clear All重置</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

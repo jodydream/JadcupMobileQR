@@ -10,6 +10,8 @@ export const SPACING = {
   medium: 16,
   large: 24,
   xLarge: 32,
+  xxLarge: 40,
+  xxxLarge: 56, //底部按钮
 };
 
 // 布局常量
@@ -18,8 +20,7 @@ export const LAYOUT = {
   marginBottom: 10, // 底部边距
 
   statusBarHeight: StatusBar.currentHeight ||44, // 状态栏高度
-  nav_height : 44, //导航栏高度
-  mainTitleHeight : 44,
+  mainTitleHeight : 64,// 就是导航栏
 };
 
 // 图标尺寸(宽高)

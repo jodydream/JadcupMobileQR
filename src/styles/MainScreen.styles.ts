@@ -4,22 +4,29 @@ import { LAYOUT, SPACING, WH, FONT_SIZE} from '../styles/theme/dimensions';
 import theme from '../styles/theme/theme';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, //如果不设置会导致FlatList 最后几项不能滑动到屏幕上。
+  wholecontainer: {
+    backgroundColor:theme.colors.primary,
+    width: '100%',
+    height: '100%',
+  },
+  mainContainer: {
+    marginTop: LAYOUT.statusBarHeight,
+    flex: 1,
+    // marginBottom: LAYOUT.marginBottom,
     backgroundColor: theme.colors.background,
   },
 
+  //=======================================
   // 标题区
-  headerBar: {
-    // backgroundColor:'red',
-    marginHorizontal: SPACING.medium,
+  titleContainer: {
+    paddingHorizontal: SPACING.medium,
+    justifyContent:'space-between',
     flexDirection: 'row', //水平排列
     alignItems: 'center', //子节点：垂直居中
-    justifyContent: 'space-between',
     height:LAYOUT.mainTitleHeight
   },
 
-  headerTitleContainer: {
+  titleTextContainer: {
     // backgroundColor:'blue',
     alignItems: 'center',
     textAlign:'center',
@@ -33,21 +40,6 @@ const styles = StyleSheet.create({
   gobackbtn: {
   },
 
-  settingbtn: {
-    alignSelf:'flex-end',
-    alignItems:'flex-end',
-    paddingLeft:40,
-    paddingTop:40,
-    //backgroundColor:'red',
-  },
-
-  //临时添加
-  titleContainer: {
-    // backgroundColor:'blue',
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: LAYOUT.mainTitleHeight,
-  },
   logoContainer: {
     // backgroundColor:'blue',
     width: WH.logoW,
@@ -61,7 +53,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 
-  // 用户区
+  // 用户区================
   userInfoSection: {
     padding: SPACING.medium,
     flexDirection: 'row',
@@ -84,6 +76,13 @@ const styles = StyleSheet.create({
   },
   userDetialText: {
     fontSize: FONT_SIZE.MEDI2,
+  },
+  settingbtn: {
+    alignSelf:'flex-end',
+    alignItems:'flex-end',
+    paddingLeft:40,
+    paddingTop:40,
+    //backgroundColor:'red',
   },
 
   // 分割线
