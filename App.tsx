@@ -1,34 +1,39 @@
 // App.tsx
 
-import React from 'react';
+import React, {RefObject, useEffect} from 'react';
 import AppNavigator from './src/navigation/AppNavigator';
-import Toast from 'react-native-toast-message';
-import {Keyboard, TouchableWithoutFeedback, View} from 'react-native';
-import {LogBox} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import FlashMessage from 'react-native-flash-message';
+import theme from './src/styles/theme/theme';
+
 
 const App = () => {
-  // 禁用所有日志和错误提示
-  // LogBox.ignoreAllLogs(true);
-  // const hideToastOnTouch = () => {
-  //   // 当页面被触摸时隐藏Toast
-  //   Toast.hide();
-  //   // 也可以隐藏键盘
-  //   Keyboard.dismiss();
-  //   console.log('xxxxx');
-  // };
-
   return (
-    // <TouchableWithoutFeedback onPress={hideToastOnTouch} >
-    //   <View style={{flex: 1,pointerEvents: 'box-none' }}>
-    //     <AppNavigator />
-    //     <Toast />
-    //   </View>
-    // </TouchableWithoutFeedback>
     <View style={{flex: 1}}>
       <AppNavigator />
-      <Toast />
+      {/* <Toast /> */}
+      {/* <Toast config={customToastConfig}/> */}
+      <FlashMessage 
+        position="center" 
+        style={styles.flashMessageStyle}
+        textStyle={{ fontSize: 16, fontWeight: 'bold' }}
+      />
     </View>
   );
 };
 
+
+const styles = StyleSheet.create({
+  flashMessageStyle: {
+    width: '80%',
+    height: 80, 
+    justifyContent:'center',//垂直居中
+    borderRadius: 10,
+    borderWidth: 1, // 边框宽度
+    borderColor: theme.colors.primary, // 边框颜色
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    opacity: 0.8,
+  },
+});
 export default App;

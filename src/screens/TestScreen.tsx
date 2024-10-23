@@ -11,13 +11,16 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import globalStyles from '../styles/globalStyles';
-import styles from '../styles/StoreToPalletScreen.styles';
+import styles from '../styles/TestScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
 import {identifyCode, getQRItemByCode} from '../utils/globalHelpers'; // 根据文件路径导入
 import Toast from 'react-native-toast-message';
 import {getData} from '../services/api';
+
+
+
 
 
 type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
@@ -27,9 +30,72 @@ const TestScreen = ({navigation, route}: Props) => {
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
   const [loading, setLoading] = useState(false); //加载状态：给用户加载数据的UI提示
   const [palletJson, setPalletJson] = useState<null | any>(null);
+  //const [barArray, setbarArrayn] = useState<null | any>(null);
   const [barJson, setBarJson] = useState<null | any>(null);
   const [cellJson, setCellJson] = useState<null | any>(null);
 
+  const barArray = [
+    {
+      barCode: "100000364814",
+      productName: "SW4-White",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364815",
+      productName: "SW4-Black",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364816",
+      productName: "SW4-Red",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364817",
+      productName: "SW4-Blue",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364818",
+      productName: "SW4-Green",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364818",
+      productName: "SW4-Green",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364818",
+      productName: "SW4-Green",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364818",
+      productName: "SW4-Green",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364818",
+      productName: "SW4-Green",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364818",
+      productName: "SW4-Green",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364818",
+      productName: "SW4-Green",
+      status: "出货中",
+    },
+    {
+      barCode: "100000364818",
+      productName: "SW4-Green",
+      status: "出货中",
+    },
+  ];
   //========================part1:点击事件处理=================================
   // #region Utility Functions
   // 重置所有项
@@ -47,14 +113,12 @@ const TestScreen = ({navigation, route}: Props) => {
   };
 
   //【关键函数！】
-
   const inputChangeText = (code_number: string) => {
     console.log('111111111value:', code_number);
 
-    setScanValue(code_number);//自动清空之前的输入
+    setScanValue(code_number); //自动清空之前的输入
     const currentItem = getQRItemByCode(code_number);
     setcurrentQRe(currentItem);
-
   };
   // #endregion
 
@@ -142,15 +206,54 @@ const TestScreen = ({navigation, route}: Props) => {
   //========================part 5:动态UI=======================
   // #region Utility Functions
   const renderDisplayView = () => {
-    console.log("================currentQR?.type:",currentQR?.type);
+    console.log('================currentQR?.type:', currentQR?.type);
     if (currentQR?.type === 'Pallet') {
-      return <View><Text>Pallet</Text></View>;
+      return (
+        <View style={styles.palletContainer}>
+          <Text style={styles.palletTitle}>托盘信息</Text>
+          <View style={globalStyles.line_view_tiny}></View>
+          <Text style={styles.palletInfo}>托盘编号{palletJson?.data?.plateCode}</Text>
+          <View style={globalStyles.line_view_tiny}></View>
+          {/* 货物列表 */}
+          <Text style={styles.palletSubtitle}>
+            货物列表(总计: {barArray.length}件)
+          </Text>
+          <View style={styles.listHeader}>
+            <Text style={[styles.listHeaderItem, {flex:3}]}>货物编号</Text>
+            <Text style={[styles.listHeaderItem, {flex:3}]}>货物名称</Text>
+            <Text style={[styles.listHeaderItem, {flex:2}]}>货物状态</Text>
+          </View>
+          <FlatList 
+            data={barArray}
+            keyExtractor={item => item.barCode}
+            renderItem={({item}) => (
+              <View style={styles.listRow}>
+                <Text style={[styles.listItem, {flex:3}]}>{item.barCode}</Text>
+                <Text style={[styles.listItem, {flex:3}]}>{item.productName}</Text>
+                <Text style={[styles.listItem, {flex:2}]}>{item.status}</Text>
+              </View>
+            )}
+          />
+        </View>
+      );
     } else if (currentQR?.type === 'Cell') {
-      return <View><Text>Cell</Text></View>;
+      return (
+        <View>
+          <Text>Cell</Text>
+        </View>
+      );
     } else if (currentQR?.type === 'Barcode') {
-      return <View><Text>Barcode</Text></View>;
-    } else{
-      return <View><Text>Nothing</Text></View>;
+      return (
+        <View>
+          <Text>Barcode</Text>
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <Text>Nothing</Text>
+        </View>
+      );
     }
   };
   // #endregion

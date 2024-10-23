@@ -8,6 +8,7 @@ import {
   FlatList,
   ListRenderItem,
   StatusBar,
+  ImageSourcePropType,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'; // 引入图标库
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 引入图标库
@@ -27,12 +28,11 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
   const handleItemPress = (item: string) => {
     console.log('Item clicked:', item);
     // 你可以在这里添加导航或其他逻辑
-    if(item == "Store to Pallet上托盘") {
-      navigation.navigate("StoreToPalletScreen", {title:item});
-    } else  if(item == "Item Scanner查条码") {
-      navigation.navigate("TestScreen", {title:item});
+    if (item == 'Store to Pallet上托盘') {
+      navigation.navigate('StoreToPalletScreen', {title: item});
+    } else if (item == 'Item Scanner查条码') {
+      navigation.navigate('TestScreen', {title: item});
     }
-  
   };
 
   // 2 点击-退出登录
@@ -40,7 +40,43 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
     navigation.replace('LoginScreen', {isLogout: true});
   };
   //========================part2:自定义函数(除了点击外)========================
-  // To do ....
+  const LogoSwitcher = (logoType: string): ImageSourcePropType => {
+    let logoSource;
+    switch (logoType) {
+      case 'Confirm Delivery确定交货':
+        logoSource = require('../../assets/images/Home_ConfirmDelivery.png');
+        break;
+      case 'Pallet Relocate移托盘':
+        logoSource = require('../../assets/images/Home_PalletRelocate.png');
+        break;
+      case 'Item Scanner查条码':
+        logoSource = require('../../assets/images/Home_ItemScanner.png');
+        break;
+      case 'Store to Pallet上托盘':
+        logoSource = require('../../assets/images/Home_StoreToPallet.png');
+        break;
+      // case 'Item Relocate移货':
+      //   logoSource = require('../../assets/images/jadcup_logo.png');
+      //   break;
+      case 'Pallet Inbound入仓库':
+        logoSource = require('../../assets/images/Home_PalletInbound.png');
+        break;
+      case 'Picking List拣货':
+        logoSource = require('../../assets/images/Home_PickingList.png');
+        break;
+      // case 'Merging Pallets合托盘':
+      //   logoSource = require('../../assets/images/jadcup_logo.png');
+      //   break;
+      // case 'Defect缺陷管理':
+      //   logoSource = require('../../assets/images/jadcup_logo.png');
+        break;
+      default:
+        logoSource = require('../../assets/images/Home_ItemScanner.png');
+        break;
+    }
+  
+    return logoSource; // 添加这一行来返回 logoSource
+  };
   
   //========================part3:框架函数====================================
   //1 renderSection函数：每一项ListRenderItem的类型是Section
@@ -56,12 +92,16 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
           key={idx}
           style={styles.item}
           onPress={() => handleItemPress(subItem)}
-          activeOpacity={0.1} >
-          <AntDesign
+          activeOpacity={0.1}>
+          {/* <AntDesign
             style={styles.itemIcon}
             name="checkcircleo"
             size={20}
             color="black"
+          /> */}
+          <Image
+            source={LogoSwitcher(subItem)}
+            style={styles.itemImage}
           />
           <Text style={styles.itemText}>{subItem}</Text>
         </TouchableOpacity>
@@ -72,12 +112,12 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
   //========================分割线===========================================
   return (
     <View style={styles.container}>
-        {/* 1 状态栏 */}
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor={theme.colors.primary}
-          translucent={false} // 如果不希望内容重叠在状态栏下，关闭透明??
-        />
+      {/* 1 状态栏 */}
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={theme.colors.primary}
+        translucent={false} // 如果不希望内容重叠在状态栏下，关闭透明??
+      />
 
       {/* 2 标题栏 */}
       <View style={styles.headerBar}>
@@ -87,7 +127,7 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
             style={styles.logo}
           />
         </View>
-        
+
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerText}>主页</Text>
         </View>

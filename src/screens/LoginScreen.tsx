@@ -16,8 +16,10 @@ import {postData} from '../services/api'; // 引入 API 服务
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
 import * as loginHelpers from '../utils/loginHelpers'; // 导入--整个文件内容
-import Toast from 'react-native-toast-message';
+//import Toast from 'react-native-toast-message';
+import { showMessage } from "react-native-flash-message";
 import {TabRouter, useFocusEffect} from '@react-navigation/native';
+
 
 type Props = StackScreenProps<RootStackParamList, 'LoginScreen'>;
 
@@ -77,12 +79,12 @@ const LoginScreen = ({navigation, route}: Props) => {
       // part1 拉取登录数据==================
       const responsejson: any = await postData( '/api/Employee/EmployeeLogin',data, );
       // part2 处理数据====================
-      Toast.show({
-        type: 'success',
-        text1: 'Login Success',
-        text2: 'Go to Home page!',
-        visibilityTime: 1000,
+      showMessage({
+        message: "Success",
+        description: "Login Success",
+        type:'success',
       });
+      
 
       // 1 获得Home页面所用的数据
       // 1-1 功能表数量
@@ -103,12 +105,13 @@ const LoginScreen = ({navigation, route}: Props) => {
 
     } catch (error) {
       //Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
-      Toast.show({
-        type: 'Failed',
-        text1: 'Login Failed',
-        text2: 'Invalid credentials or server error!',
-        visibilityTime: 1000,
-      });
+      // Toast.show({
+      //   type: 'Failed',
+      //   text1: 'Login Failed',
+      //   text2: 'Invalid credentials or server error!',
+      //   visibilityTime: 1000,
+      // });
+      //Toast.show('Login Failed', Toast.CENTER);
     } finally {
       setLoading(false); // 完成加载
     }

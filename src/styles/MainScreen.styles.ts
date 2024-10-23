@@ -104,10 +104,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE.BIG1,
     fontWeight: 'bold',
     marginBottom: SPACING.small,
-    //color: theme.colors.primary,
-    color:theme.colors.onBackground
-
-
+    color:theme.colors.onBackground,
   },
   item: {
     backgroundColor: theme.colors.surface,
@@ -119,9 +116,16 @@ const styles = StyleSheet.create({
   itemIcon: {
     marginRight: 15, // 图标和文字之间的间距
   },
+  itemImage: {
+    width:25,
+    height:25,
+    marginRight: 15, // 图标和文字之间的间距
+    backgroundColor:'red',
+  },
   itemText: {
     fontSize: FONT_SIZE.MEDI2,
     color: theme.colors.textfontcolorgreydark1,
+    alignSelf:'center'
   },
 });
 

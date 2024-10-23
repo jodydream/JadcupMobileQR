@@ -79,9 +79,13 @@ export const convertToSections = (input: string[]): MainSection[] => {
       item.includes('Item Relocate')
     ) {
       sections[1].items.push(item); // 存储货物
-    } else if (item.includes('Picking List')) {
+    } else if (
+      item.includes('Picking List') ||
+      item.includes('Confirm Delivery')) {
       sections[2].items.push(item); // 订单处理中
-    } else if (item.includes('Item Scanner') || item.includes('Defect')) {
+    } else if (
+      item.includes('Item Scanner') || 
+      item.includes('Defect')) {
       sections[3].items.push(item); // 其他
     } else if (
       item.includes('Customers') ||
