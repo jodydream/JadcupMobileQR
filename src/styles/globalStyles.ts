@@ -90,6 +90,17 @@ const globalStyles = StyleSheet.create({
     height: 5,
     backgroundColor: theme.colors.surface,
   },
+
+  //统一Toast样式
+  flashMessageStyle: {
+    width: '80%',
+    height: 80, 
+    justifyContent:'center',//垂直居中
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    opacity: 0.8,
+  },
 });
 
 export default globalStyles;
