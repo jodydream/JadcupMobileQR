@@ -19,14 +19,16 @@ import {identifyCode, getQRItemByCode} from '../utils/globalHelpers'; // 根据�
 import Toast from 'react-native-toast-message';
 import {getData} from '../services/api';
 
-type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
 
+type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
 const TestScreen = ({navigation, route}: Props) => {
-  const [scanValue, setScanValue] = useState<string>(''); // 用于显示的扫码结果
-  const [currentQR, setcurrentQRe] = useState<QRType>(); // 用于Text显示当前扫入的
+  const [scanValue, setScanValue] = useState<string>(''); // 扫码信息---输入框
+  const [currentQR, setcurrentQRe] = useState<QRType>(); // 扫码信息---展示lable
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
   const [loading, setLoading] = useState(false); //加载状态：给用户加载数据的UI提示
   const [palletJson, setPalletJson] = useState<null | any>(null);
+  const [barJson, setBarJson] = useState<null | any>(null);
+  const [cellJson, setCellJson] = useState<null | any>(null);
 
   //========================part1:点击事件处理=================================
   // #region Utility Functions
@@ -44,14 +46,16 @@ const TestScreen = ({navigation, route}: Props) => {
     navigation.goBack();
   };
 
-  const inputChangeText = (code_nuber:string)=> {
-    console.log("111111111value:", code_nuber);
-    // 设置为新值（清空）
-    setScanValue(code_nuber);
-    const currentItem = getQRItemByCode(code_nuber)
+  //【关键函数！】
+
+  const inputChangeText = (code_number: string) => {
+    console.log('111111111value:', code_number);
+
+    setScanValue(code_number);//自动清空之前的输入
+    const currentItem = getQRItemByCode(code_number);
     setcurrentQRe(currentItem);
 
-  }
+  };
   // #endregion
 
   //========================part2:自定义函数(除了点击外)========================
@@ -65,22 +69,19 @@ const TestScreen = ({navigation, route}: Props) => {
   };
   // #endregion
 
-
   //========================part3:框架函数====================================
   // #region Utility Functions
   useEffect(() => {
     getfoucs();
   }, []);
 
-  //setScanValue后:
   useEffect(() => {
-    //解决嵌套：setScanValue('xxx')传入了值才会执行这一行 
+    //解决嵌套：setScanValue('xxx')传入了值才会执行这一行
     if (scanValue) {
-      setScanValue(''); 
-    } 
+      setScanValue('');
+    }
 
     console.log('----------useEffect--------');
-    //获取焦点
     getfoucs();
   }, [scanValue]);
   // #endregion
@@ -122,7 +123,7 @@ const TestScreen = ({navigation, route}: Props) => {
       // 参数--params
       const data = {params: {barCode: code}};
       // 拉取数据
-      const responsejson = await getData('/api/Box/GetBoxByBarCode',data,);
+      const responsejson = await getData('/api/Box/GetBoxByBarCode', data);
       // 返回-在其他地方处理数据
       return responsejson;
     } catch (error) {
@@ -138,9 +139,25 @@ const TestScreen = ({navigation, route}: Props) => {
   };
   // #endregion
 
+  //========================part 5:动态UI=======================
+  // #region Utility Functions
+  const renderDisplayView = () => {
+    console.log("================currentQR?.type:",currentQR?.type);
+    if (currentQR?.type === 'Pallet') {
+      return <View><Text>Pallet</Text></View>;
+    } else if (currentQR?.type === 'Cell') {
+      return <View><Text>Cell</Text></View>;
+    } else if (currentQR?.type === 'Barcode') {
+      return <View><Text>Barcode</Text></View>;
+    } else{
+      return <View><Text>Nothing</Text></View>;
+    }
+  };
+  // #endregion
+
   return (
     <View style={styles.wholeContaine}>
-      {/* part1: 顶部导航 */}
+      {/* ----------part1: 顶部导航 ----------*/}
       <View style={styles.top_container}>
         <StatusBar
           barStyle="light-content"
@@ -163,7 +180,8 @@ const TestScreen = ({navigation, route}: Props) => {
         </View>
       </View>
       <View style={globalStyles.line_view_tiny}></View>
-      {/* part 2: 扫入 */}
+
+      {/* ----------part 2: 扫码区---------- */}
       <View style={styles.scan_btn_container}>
         <View style={styles.showscanview}>
           <Text style={styles.showscanText}>当前扫入:</Text>
@@ -172,23 +190,23 @@ const TestScreen = ({navigation, route}: Props) => {
         <Text style={styles.textvalue}>
           {currentQR ? `${currentQR.type}  ${currentQR.No}` : 'Please scan ...'}
         </Text>
-
         <TextInput
           ref={inputRefScan}
           style={[styles.inputBox]}
           placeholder="等待扫码输入"
           value={scanValue}
-          onChangeText={(text) => {inputChangeText(text);}} //每次输入改变，调用一次(默认传入scanValue值)
+          onChangeText={text => {
+            inputChangeText(text);
+          }} //每次输入改变，调用一次(默认传入scanValue值)
           editable={true} //可编辑--接受输入的数据
         />
       </View>
       <View style={globalStyles.lineview}></View>
 
-      {/* part 3: 列表 */}
-      <View style={styles.mainContainer}>
-      </View>
+      {/* ----------part 3: 信息展示 ----------*/}
+      <View style={styles.mainContainer}>{renderDisplayView()}</View>
 
-      {/* 底部按钮 */}
+      {/* ----------part 4: 底部按钮 ----------*/}
       <View style={styles.footerContainer}>
         <TouchableOpacity style={styles.resetAllButton} onPress={resetAll}>
           <Text style={styles.resetAllButtonText}>Clear All重置</Text>

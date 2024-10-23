@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import styles from '../styles/TestScreen.styles';
+import styles from '../styles/TemplateScreen.styles';
 import globalStyles from '../styles/globalStyles';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
