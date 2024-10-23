@@ -11,8 +11,8 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'; // 引入图标库
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 引入图标库
 import Entypo from 'react-native-vector-icons/Entypo'; // 引入图标库
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // 引入图标库
 import styles from '../styles/MainScreen.styles'; // 样式文件
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
@@ -78,7 +78,7 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
     return logoSource; // 添加这一行来返回 logoSource
   };
 
-  //========================part3:框架函数====================================
+  //=========================part3:框架函数====================================
   //1 renderSection函数：每一项ListRenderItem的类型是Section
   const renderSection: ListRenderItem<MainSection> = ({item}) => (
     <View style={styles.section}>
@@ -87,18 +87,11 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
 
       {/* 2 功能项目 */}
       {item.items.map((subItem, idx) => (
-        //原本的容器view改成TouchableOpacity
-        <TouchableOpacity
+        <TouchableOpacity//原本的容器view改成TouchableOpacity
           key={idx}
           style={styles.item}
           onPress={() => handleItemPress(subItem)}
           activeOpacity={0.1}>
-          {/* <AntDesign
-            style={styles.itemIcon}
-            name="checkcircleo"
-            size={20}
-            color="black"
-          /> */}
           <Image source={LogoSwitcher(subItem)} style={styles.itemImage} />
           <Text style={styles.itemText}>{subItem}</Text>
         </TouchableOpacity>
@@ -106,7 +99,7 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
     </View>
   );
 
-  //========================分割线===========================================
+  //============================分割线===========================================
   return (
     <View style={styles.wholecontainer}>
       <View style={styles.mainContainer}>
@@ -166,6 +159,7 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
       </View>
     </View>
   );
+
 };
 
 export default MainScreen;

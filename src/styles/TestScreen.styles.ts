@@ -59,43 +59,38 @@ const styles = StyleSheet.create({
 
   // ----------part 2: 扫码区----------
   // 按钮--扫码输入
-  // 输入状态按钮样式
-  scan_btn_container: {
+  // 输入模块
+  scan_container: {
     marginHorizontal: LAYOUT.margingHorizontal,
     marginVertical: 5,
     flexDirection: 'row',
     alignItems: 'center',
   },
 
-  // 按钮--扫码状态
-  showscanview: {
-    width: 100,
-    marginRight: 10,
-    paddingVertical: SPACING.small,
-    alignItems: 'flex-start',
-  },
-  showscanText: {
-    paddingVertical: 5,
+  show_scan_lable: {
+    paddingRight: SPACING.medium,
+    paddingVertical: SPACING.medium,
     color: theme.colors.primary,
     fontWeight: 'bold',
     fontSize: FONT_SIZE.BIG1,
   },
+
   // 输入框view
-  inputContainer: {
-    marginVertical: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+  // input_container: {
+  //   marginVertical: 10,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  // },
 
   //隐藏UI
   inputBox: {
-    height: 1,
-    width: 1,
+    height: 40,
+    flex:1,
     borderColor: theme.colors.onSurface,
     borderWidth: 1,
-    opacity: 0,
+    opacity: 1,
   },
-  textvalue: {
+  show_text_value_lable: {
     paddingVertical: 5,
     color: theme.colors.textfontcolorblack,
     fontWeight: 'bold',

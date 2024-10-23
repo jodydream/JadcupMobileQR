@@ -15,12 +15,12 @@ import styles from '../styles/TestScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
-import {identifyCode, getQRItemByCode} from '../utils/globalHelpers'; // 根据文件路径导入
+import {getQRItemByCode,processScanValue} from '../utils/globalHelpers'; // 根据文件路径导入
 import {showMessage} from 'react-native-flash-message';
 import {getData} from '../services/api';
 
 type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
-const TestScreen = ({navigation, route}: Props) => {toast
+const TestScreen = ({navigation, route}: Props) => {
   const [scanValue, setScanValue] = useState<string>(''); // 扫码信息---输入框
   const [currentQR, setcurrentQRe] = useState<QRType>(); // 扫码信息---展示lable
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
@@ -58,37 +58,37 @@ const TestScreen = ({navigation, route}: Props) => {toast
       status: '出货中',
     },
     {
-      barCode: '100000364818',
+      barCode: '100000364819',
       productName: 'SW4-Green',
       status: '出货中',
     },
     {
-      barCode: '100000364818',
+      barCode: '100000364820',
       productName: 'SW4-Green',
       status: '出货中',
     },
     {
-      barCode: '100000364818',
+      barCode: '100000364821',
       productName: 'SW4-Green',
       status: '出货中',
     },
     {
-      barCode: '100000364818',
+      barCode: '100000364822',
       productName: 'SW4-Green',
       status: '出货中',
     },
     {
-      barCode: '100000364818',
+      barCode: '100000364823',
       productName: 'SW4-Green',
       status: '出货中',
     },
     {
-      barCode: '100000364818',
+      barCode: '100000364824',
       productName: 'SW4-Green',
       status: '出货中',
     },
     {
-      barCode: '100000364818',
+      barCode: '100000364825',
       productName: 'SW4-Green',
       status: '出货中',
     },
@@ -110,11 +110,18 @@ const TestScreen = ({navigation, route}: Props) => {toast
 
   //【关键函数！】
   const inputChangeText = (code_number: string) => {
-    console.log('111111111value:', code_number);
-
-    setScanValue(code_number); //自动清空之前的输入
-    const currentItem = getQRItemByCode(code_number);
-    setcurrentQRe(currentItem);
+    //清空输入框内的老数据
+    let new_code_number;
+    if(currentQR && currentQR.No) {
+      new_code_number = processScanValue(currentQR.No,code_number)
+    } else {
+      new_code_number = code_number
+    }
+    const new_currentQR= getQRItemByCode(new_code_number);
+    
+    //用新数据，重置关联的值
+    setScanValue(new_code_number);  
+    setcurrentQRe(new_currentQR);
   };
   // #endregion
 
@@ -136,12 +143,15 @@ const TestScreen = ({navigation, route}: Props) => {toast
   }, []);
 
   useEffect(() => {
-    //解决嵌套：setScanValue('xxx')传入了值才会执行这一行
-    if (scanValue) {
-      setScanValue('');
-    }
+    //解决嵌套:
+    //set非空值，就会自动触发清空------------打印两次
+    //set空值，不会再触发清空(不会循环清空)
+    // if (scanValue) {
+    //   setScanValue(''); 
+    //   console.log('----------useEffect--------in');
+    // }
 
-    console.log('----------useEffect--------');
+    console.log('----------useEffect--------out');
     getfoucs();
   }, [scanValue]);
   // #endregion
@@ -219,9 +229,10 @@ const TestScreen = ({navigation, route}: Props) => {toast
             <Text style={[styles.listHeaderItem, {flex: 3}]}>货物名称</Text>
             <Text style={[styles.listHeaderItem, {flex: 2}]}>货物状态</Text>
           </View>
+
           <FlatList
             data={barArray}
-            keyExtractor={item => item.barCode}
+            //keyExtractor={item => item.barCode} //barCode 可能不唯一todo...
             renderItem={({item}) => (
               <View style={styles.listRow}>
                 <Text style={[styles.listItem, {flex: 3}]}>{item.barCode}</Text>
@@ -256,6 +267,7 @@ const TestScreen = ({navigation, route}: Props) => {toast
   };
   // #endregion
 
+  //=============================================================================
   return (
     <View style={styles.wholeContaine}>
       <View style={styles.mainContainer}>
@@ -284,24 +296,22 @@ const TestScreen = ({navigation, route}: Props) => {toast
         <View style={globalStyles.line_view_tiny}></View>
 
         {/* ----------part 2: 扫码区---------- */}
-        <View style={styles.scan_btn_container}>
-          <View style={styles.showscanview}>
-            <Text style={styles.showscanText}>当前扫入:</Text>
-          </View>
+        <View style={styles.scan_container}>
+          <Text style={styles.show_scan_lable}>当前扫入:</Text>
+
           {/* 用于显示扫码值的 Text */}
-          <Text style={styles.textvalue}>
+          {/* <Text style={styles.show_text_value_lable}>
             {currentQR
               ? `${currentQR.type}  ${currentQR.No}`
               : 'Please scan ...'}
-          </Text>
+          </Text> */}
+
           <TextInput
             ref={inputRefScan}
             style={[styles.inputBox]}
             placeholder="等待扫码输入"
-            value={scanValue}
-            onChangeText={text => {
-              inputChangeText(text);
-            }} //每次输入改变，调用一次(默认传入scanValue值)
+            value={scanValue} //展示在输入框里的值
+            onChangeText={text => {inputChangeText(text); }} //每次输入改变调用(默认传入scanValue值)
             editable={true} //可编辑--接受输入的数据
           />
         </View>

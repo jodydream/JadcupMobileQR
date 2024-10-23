@@ -38,3 +38,15 @@ export const getQRItemByCode = (currentCodeNo: string) => {
 
   return currentItem;
 }
+
+//删除scan_value中包含的current_value
+export function processScanValue(current_value:string, scan_value:string) {
+  // 检查 scan_value 中是否包含 current_value
+  if (scan_value.includes(current_value)) {
+    // 使用 replace 方法删除 current_value，并返回剩下的值
+    return scan_value.replace(current_value, '');
+  } else {
+    // 如果不包含 current_value，直接返回 scan_value
+    return scan_value;
+  }
+}
