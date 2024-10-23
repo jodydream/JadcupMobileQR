@@ -16,11 +16,11 @@ import theme from '../styles/theme/theme'; // 自定义主题
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
 import {identifyCode, getQRItemByCode} from '../utils/globalHelpers'; // 根据文件路径导入
-import Toast from 'react-native-toast-message';
+import {showMessage} from 'react-native-flash-message';
 import {getData} from '../services/api';
 
 type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
-const TestScreen = ({navigation, route}: Props) => {
+const TestScreen = ({navigation, route}: Props) => {toast
   const [scanValue, setScanValue] = useState<string>(''); // 扫码信息---输入框
   const [currentQR, setcurrentQRe] = useState<QRType>(); // 扫码信息---展示lable
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
@@ -29,6 +29,7 @@ const TestScreen = ({navigation, route}: Props) => {
   //const [barArray, setbarArrayn] = useState<null | any>(null);
   const [barJson, setBarJson] = useState<null | any>(null);
   const [cellJson, setCellJson] = useState<null | any>(null);
+
 
   const barArray = [
     {
@@ -96,11 +97,10 @@ const TestScreen = ({navigation, route}: Props) => {
   // #region Utility Functions
   // 重置所有项
   const resetAll = () => {
-    Toast.show({
+    showMessage({
+      message: 'Clear Success',
+      description: 'All items have been cleared!',
       type: 'success',
-      text1: 'Clear Success',
-      text2: 'All items have been cleared!',
-      visibilityTime: 1000,
     });
   };
   // 返回上一页
@@ -165,11 +165,10 @@ const TestScreen = ({navigation, route}: Props) => {
       // 返回-在其他地方处理数据
       return esponse_package;
     } catch (error) {
-      Toast.show({
-        type: 'Failed',
-        text1: 'Get Data Failed',
-        text2: 'Invalid credentials or server error!',
-        visibilityTime: 1000,
+      showMessage({
+        message: 'Failed',
+        description: 'Get Data Failed!',
+        type:'warning'
       });
     } finally {
       setLoading(false); // 完成加载
@@ -187,11 +186,10 @@ const TestScreen = ({navigation, route}: Props) => {
       // 返回-在其他地方处理数据
       return responsejson;
     } catch (error) {
-      Toast.show({
-        type: 'Failed',
-        text1: 'Get Data Failed',
-        text2: 'Invalid credentials or server error!',
-        visibilityTime: 1000,
+      showMessage({
+        message: 'Failed',
+        description: 'Get Data Failed',
+        type: 'warning',
       });
     } finally {
       setLoading(false); // 完成加载

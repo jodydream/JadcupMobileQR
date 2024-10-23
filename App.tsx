@@ -11,8 +11,6 @@ const App = () => {
   return (
     <View style={{flex: 1}}>
       <AppNavigator />
-      {/* <Toast /> */}
-      {/* <Toast config={customToastConfig}/> */}
       <FlashMessage 
         position="center" 
         style={styles.flashMessageStyle}
@@ -29,8 +27,8 @@ const styles = StyleSheet.create({
     height: 80, 
     justifyContent:'center',//垂直居中
     borderRadius: 10,
-    borderWidth: 1, // 边框宽度
-    borderColor: theme.colors.primary, // 边框颜色
+    // borderWidth: 1, // 边框宽度
+    // borderColor: theme.colors.primary, // 边框颜色
     paddingHorizontal: 15,
     paddingVertical: 10,
     opacity: 0.8,

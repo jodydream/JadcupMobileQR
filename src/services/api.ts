@@ -1,5 +1,7 @@
 // src/services/api.ts
 import axios from 'axios';
+import { useState } from 'react';
+import {showMessage} from 'react-native-flash-message';
 
 // 配置API基础URL
 const API_BASE_URL = 'https://api.nzcups.co.nz/'; // 替换为你的API地址
@@ -54,12 +56,12 @@ export const putData = async (endpoint: string, data: any) => {
   //     const responsejson: any = await postData( '/api/Employee/EmployeeLogin','', );
   //     // part2 处理数据====================
   //   } catch (error) {
-  //     Toast.show({
-  //       type: 'Failed',
-  //       text1: 'Login Failed',
-  //       text2: 'Invalid credentials or server error!',
-  //       visibilityTime: 1000,
+  //     showMessage({
+  //       message: 'Failed',
+  //       description: 'Get Data Failed!',
+  //       type:'warning'
   //     });
+      
   //   } finally {
   //     setLoading(false); // 完成加载
   //   }

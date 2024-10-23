@@ -16,7 +16,6 @@ import {postData} from '../services/api'; // 引入 API 服务
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
 import * as loginHelpers from '../utils/loginHelpers'; // 导入--整个文件内容
-//import Toast from 'react-native-toast-message';
 import {showMessage} from 'react-native-flash-message';
 import {TabRouter, useFocusEffect} from '@react-navigation/native';
 
@@ -104,14 +103,12 @@ const LoginScreen = ({navigation, route}: Props) => {
       // 2 跳转到Home页面(传入2获得数据)
       navigation.navigate('MainScreen', {sections, userInfo});
     } catch (error) {
-      //Alert.alert('Login Failed', 'Invalid credentials or server error'); // 失败提示
-      // Toast.show({
-      //   type: 'Failed',
-      //   text1: 'Login Failed',
-      //   text2: 'Invalid credentials or server error!',
-      //   visibilityTime: 1000,
-      // });
-      //Toast.show('Login Failed', Toast.CENTER);
+      showMessage({
+        message: 'Failed',
+        description: 'Login Failed',
+        type: 'warning',
+      });
+      
     } finally {
       setLoading(false); // 完成加载
     }

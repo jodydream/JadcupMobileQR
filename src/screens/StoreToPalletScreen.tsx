@@ -17,7 +17,8 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
 import {identifyCode} from '../utils/globalHelpers'; // 根据文件路径导入
 import * as storeToPalletHelpers from '../utils/storeToPalletHelpers';
-import Toast from 'react-native-toast-message';
+import {showMessage} from 'react-native-flash-message';
+
 import {getData, putData} from '../services/api';
 
 type Props = StackScreenProps<RootStackParamList, 'StoreToPalletScreen'>;
@@ -36,11 +37,10 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
   const resetAll = () => {
     setItems([]);
     //Alert.alert('Clear All', 'All items have been reset.', [{ text: 'OK', onPress: getfoucs }]);
-    Toast.show({
+    showMessage({
+      message: 'Clear Success',
+      description: 'All items have been cleared!',
       type: 'success',
-      text1: 'Clear Success',
-      text2: 'All items have been cleared!',
-      visibilityTime: 1000,
     });
   };
 
@@ -81,11 +81,10 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
         currentCodeNo,
       );
       if (isOn) {
-        Toast.show({
-          type: 'error',
-          text1: 'Fail to add',
-          text2: 'Barcode is aready on this Pallet!!',
-          visibilityTime: 3000,
+        showMessage({
+          message: 'Fail to add',
+          description: 'Barcode is aready on this Pallet!!',
+          type: 'warning',
         });
 
         //setScanValue('');
@@ -95,52 +94,47 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       const product = await productInfo(currentCodeNo);
       // 2 判断货物状态
       if (product.status === 1) {
-        Toast.show({
-          type: 'error',
-          text1: 'Fail to add',
-          text2: '货物无效。This box is no longer valid.',
-          visibilityTime: 3000,
+        showMessage({
+          message: 'Fail to add',
+          description: '货物无效。This box is no longer valid.',
+          type: 'warning',
         });
         //setScanValue('');
         return;
       }
       if (product.status === 1) {
-        Toast.show({
-          type: 'error',
-          text1: 'Fail to add',
-          text2: '货物无效。This box is no longer valid.',
-          visibilityTime: 3000,
+        showMessage({
+          message: 'Fail to add',
+          description: '货物无效。This box is no longer valid!',
+          type: 'warning',
         });
         //setScanValue('');
         return;
       }
       if (product.palletNo === null) {
-        Toast.show({
-          type: 'error',
-          text1: 'Fail to add',
-          text2: '货物不在托盘上。This box is no  pallet.',
-          visibilityTime: 3000,
+        showMessage({
+          message: 'Fail to add',
+          description: '货物不在托盘上。This box is no  pallet.!',
+          type: 'warning',
         });
         //setScanValue('');
         return;
       }
       if (product.position !== null) {
-        Toast.show({
-          type: 'error',
-          text1: 'Fail to add',
-          text2: '货物已经在仓库。This box is has been warehoused.',
-          visibilityTime: 3000,
+        showMessage({
+          message: 'Fail to add',
+          description: '货物已经在仓库。This box is has been warehoused.',
+          type: 'warning',
         });
         //setScanValue('');
         return;
       }
     } else {
       //Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
-      Toast.show({
-        type: 'error',
-        text1: 'Fail to add',
-        text2: 'Please enter the correct QR code!',
-        visibilityTime: 1000,
+      showMessage({
+        message: 'Fail to add',
+        description: 'Please enter the correct QR code!',
+        type: 'warning',
       });
       //setScanValue('');
       return;
@@ -162,35 +156,31 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       setItems(currentItems);
     } else if (validateQRArraycode == 2) {
       //Alert.alert('Please sweep into the Pallet', '', [{ text: 'OK', onPress: getfoucs }]);
-      Toast.show({
-        type: 'error',
-        text1: 'Fail to add',
-        text2: 'Please sweep into the Pallet!',
-        visibilityTime: 1000,
+      showMessage({
+        message: 'Fail to add',
+        description: 'Please sweep into the Pallet!',
+        type: 'warning',
       });
     } else if (validateQRArraycode == 3) {
       //Alert.alert('Please sweep into the product', '', [{ text: 'OK', onPress: getfoucs }]);
-      Toast.show({
-        type: 'error',
-        text1: 'Fail to add',
-        text2: 'Please sweep into the product!',
-        visibilityTime: 1000,
+      showMessage({
+        message: 'Fail to add',
+        description: 'Please sweep into the product!',
+        type: 'warning',
       });
     } else if (validateQRArraycode == 4) {
       //Alert.alert('No repeat sweeps', '', [{ text: 'OK', onPress: getfoucs }]);
-      Toast.show({
-        type: 'error',
-        text1: 'Fail to add',
-        text2: 'No repeat sweeps!',
-        visibilityTime: 1000,
+      showMessage({
+        message: 'Fail to add',
+        description: 'No repeat sweeps!',
+        type: 'warning',
       });
     } else {
       //Alert.alert('Please enter the correct QR code', '', [{ text: 'OK', onPress: getfoucs }]);
-      Toast.show({
-        type: 'error',
-        text1: 'Fail to add',
-        text2: 'Please enter the correct QR code!',
-        visibilityTime: 1000,
+      showMessage({
+        message: 'Fail to add',
+        description: 'Please enter the correct QR code!!',
+        type: 'warning',
       });
     }
     //setScanValue('');
@@ -213,11 +203,10 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       const updatedItems = items.filter((_, i) => i !== index);
       setItems(updatedItems);
       //Alert.alert('Clear', `${currentItem.type}: ${currentItem.No} has been cleared.`, [{ text: 'OK', onPress: getfoucs }]);
-      Toast.show({
+      showMessage({
+        message: 'Clear success',
+        description: `${currentItem.type}: ${currentItem.No} has been cleared.`,
         type: 'success',
-        text1: 'Clear success ',
-        text2: `${currentItem.type}: ${currentItem.No} has been cleared.`,
-        visibilityTime: 1000,
       });
     }
   };
@@ -306,11 +295,10 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       // 返回-在其他地方处理数据
       return esponse_package;
     } catch (error) {
-      Toast.show({
-        type: 'Failed',
-        text1: 'Get Data Failed',
-        text2: 'Invalid credentials or server error!',
-        visibilityTime: 1000,
+      showMessage({
+        message: 'Get Data Failed',
+        description: 'Invalid credentials or server error!',
+        type: 'warning',
       });
     } finally {
       setLoading(false); // 完成加载
@@ -328,11 +316,10 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       // 返回-在其他地方处理数据
       return responsejson;
     } catch (error) {
-      Toast.show({
-        type: 'Failed',
-        text1: 'Get Data Failed',
-        text2: 'Invalid credentials or server error!',
-        visibilityTime: 1000,
+      showMessage({
+        message: 'Get Data Failed',
+        description: 'Invalid credentials or server error!',
+        type: 'warning',
       });
     } finally {
       setLoading(false); // 完成加载
@@ -366,12 +353,6 @@ const StoreToPalletScreen = ({navigation, route}: Props) => {
       }
       // part2 处理数据====================
     } catch (error) {
-      // Toast.show({
-      //   type: 'Failed',
-      //   text1: 'Login Failed',
-      //   text2: 'Invalid credentials or server error!',
-      //   visibilityTime: 1000,
-      // });
       Alert.alert('Save Failed!', '', [{text: 'OK', onPress: getfoucs}]);
     } finally {
       setLoading(false); // 完成加载
