@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     width:25,
     height:25,
     marginRight: 15, // 图标和文字之间的间距
-    backgroundColor:'red',
+    // backgroundColor:'red',
   },
   itemText: {
     fontSize: FONT_SIZE.MEDI2,

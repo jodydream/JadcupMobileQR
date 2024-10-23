@@ -15,7 +15,7 @@ import styles from '../styles/TestScreen.styles';
 import theme from '../styles/theme/theme'; // 自定义主题
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../navigation/AppNavigator'; // 导入导航类型
-import {getQRItemByCode,processScanValue} from '../utils/globalHelpers'; // 根据文件路径导入
+import {getQRItemByCode, processScanValue} from '../utils/globalHelpers'; // 根据文件路径导入
 import {showMessage} from 'react-native-flash-message';
 import {getData} from '../services/api';
 
@@ -29,7 +29,6 @@ const TestScreen = ({navigation, route}: Props) => {
   //const [barArray, setbarArrayn] = useState<null | any>(null);
   const [barJson, setBarJson] = useState<null | any>(null);
   const [cellJson, setCellJson] = useState<null | any>(null);
-
 
   const barArray = [
     {
@@ -112,15 +111,15 @@ const TestScreen = ({navigation, route}: Props) => {
   const inputChangeText = (code_number: string) => {
     //清空输入框内的老数据
     let new_code_number;
-    if(currentQR && currentQR.No) {
-      new_code_number = processScanValue(currentQR.No,code_number)
+    if (currentQR && currentQR.No) {
+      new_code_number = processScanValue(currentQR.No, code_number);
     } else {
-      new_code_number = code_number
+      new_code_number = code_number;
     }
-    const new_currentQR= getQRItemByCode(new_code_number);
-    
+    const new_currentQR = getQRItemByCode(new_code_number);
+
     //用新数据，重置关联的值
-    setScanValue(new_code_number);  
+    setScanValue(new_code_number);
     setcurrentQRe(new_currentQR);
   };
   // #endregion
@@ -147,7 +146,7 @@ const TestScreen = ({navigation, route}: Props) => {
     //set非空值，就会自动触发清空------------打印两次
     //set空值，不会再触发清空(不会循环清空)
     // if (scanValue) {
-    //   setScanValue(''); 
+    //   setScanValue('');
     //   console.log('----------useEffect--------in');
     // }
 
@@ -178,7 +177,7 @@ const TestScreen = ({navigation, route}: Props) => {
       showMessage({
         message: 'Failed',
         description: 'Get Data Failed!',
-        type:'warning'
+        type: 'warning',
       });
     } finally {
       setLoading(false); // 完成加载
@@ -214,16 +213,22 @@ const TestScreen = ({navigation, route}: Props) => {
     if (currentQR?.type === 'Pallet') {
       return (
         <View style={styles.palletContainer}>
-          <Text style={styles.palletTitle}>托盘信息</Text>
+          <Text style={styles.pallet_main_title}>托盘信息</Text>
           <View style={globalStyles.line_view_tiny}></View>
-          <Text style={styles.palletInfo}>
-            托盘编号{palletJson?.data?.plateCode}
-          </Text>
+
+          <View style={styles.pallet_subtitle_container}>
+            <Text style={styles.pallet_subtitle}>托盘编号</Text>
+            <Text style={styles.pallet_subtitle_value}>{currentQR.No}</Text>
+          </View>
+
           <View style={globalStyles.line_view_tiny}></View>
+
           {/* 货物列表 */}
-          <Text style={styles.palletSubtitle}>
-            货物列表(总计: {barArray.length}件)
-          </Text>
+          <View style={styles.pallet_subtitle_container}>
+            <Text style={styles.pallet_subtitle}>货物列表</Text>
+            <Text style={styles.pallet_subtitle_value}>总计{barArray.length}件</Text>
+          </View>
+
           <View style={styles.listHeader}>
             <Text style={[styles.listHeaderItem, {flex: 3}]}>货物编号</Text>
             <Text style={[styles.listHeaderItem, {flex: 3}]}>货物名称</Text>
@@ -311,7 +316,9 @@ const TestScreen = ({navigation, route}: Props) => {
             style={[styles.inputBox]}
             placeholder="等待扫码输入"
             value={scanValue} //展示在输入框里的值
-            onChangeText={text => {inputChangeText(text); }} //每次输入改变调用(默认传入scanValue值)
+            onChangeText={text => {
+              inputChangeText(text);
+            }} //每次输入改变调用(默认传入scanValue值)
             editable={true} //可编辑--接受输入的数据
           />
         </View>

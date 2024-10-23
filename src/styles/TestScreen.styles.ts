@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     flex:1,
     marginTop:15
   },
-  palletTitle: {
+  pallet_main_title: {
     textAlign: 'center',
     fontSize: FONT_SIZE.BIG1,
     fontWeight: 'bold',
@@ -114,21 +114,27 @@ const styles = StyleSheet.create({
     // backgroundColor:'red',
     //paddingVertical:10,
   },
-  palletInfo: {
+
+  pallet_subtitle_container: {
+    flexDirection:'row'
+  },
+  pallet_subtitle: {
     fontSize: FONT_SIZE.MEDI2,
     fontWeight: 'bold',
     color: 'black',
-    marginBottom: SPACING.small,
-    paddingTop:10,
+
+    alignSelf:'center',
+    paddingVertical:10,
   },
-  palletSubtitle: {
-    fontSize: FONT_SIZE.MEDI2,
-    color: 'black',
-    marginTop: SPACING.small,
-    marginBottom: SPACING.small,
-    fontWeight: 'bold',
-    paddingTop:10,
+
+  pallet_subtitle_value: {
+    marginLeft:20,
+    alignSelf:'center',
+
+    fontSize: FONT_SIZE.SMALL1,
+    color: theme.colors.textfontcolorgreydark1,
   },
+
   listHeader: {
     backgroundColor: theme.colors.textfontcolorgreylight,
     flexDirection: 'row',
@@ -141,9 +147,8 @@ const styles = StyleSheet.create({
   listHeaderItem: {
     fontWeight: 'bold',
     fontSize: FONT_SIZE.SMALL1,
-    color: theme.colors.textfontcolorgreydark2,
+    color: theme.colors.textfontcolorgreydark1,
     textAlign:'center',
-    
   },
   listRow: {
     //backgroundColor:'red',
@@ -155,10 +160,8 @@ const styles = StyleSheet.create({
   },
   listItem: {
     textAlign:'center',
-    // backgroundColor:'red',
-    fontSize: FONT_SIZE.MEDI2,
-    color: theme.colors.textfontcolorgreydark2,
-
+    fontSize: FONT_SIZE.SMALL1,
+    color: theme.colors.textfontcolorgreydark1,
   },
   //  ----------part 4: 底部按钮 ----------
   resetAllButton: {
