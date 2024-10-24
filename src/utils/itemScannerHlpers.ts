@@ -1,3 +1,5 @@
+
+// Pallet区域--产品数组
 export const getProducts = (productsOfPalletJson: any): BoxType[] => {
   // 检查传入的数据是否符合要求
   if (!productsOfPalletJson || !Array.isArray(productsOfPalletJson.data)) {
@@ -31,4 +33,31 @@ export const getProducts = (productsOfPalletJson: any): BoxType[] => {
   });
 
   return productsArray;
+};
+
+
+//Barcode区域
+export const getBarcodeViewInfo = (productsJson: any): BarType => {
+  // 检查传入数据的结构是否符合要求
+  if (!productsJson || !productsJson.data) {
+    throw new Error("Invalid productsJson structure");
+  }
+
+  const data = productsJson.data;
+
+  // 提取数据
+  const barCode = data.barCode;
+  const productCode = data.product ? data.product.productCode : null;
+  const quantity = data.quantity;
+  const palletNo = data.palletNo;
+  const position = data.position ? data.position : 'Packaging';
+
+  // 返回符合 BarType 类型的对象
+  return {
+    barCode,
+    productCode,
+    quantity,
+    palletNo,
+    position
+  };
 };

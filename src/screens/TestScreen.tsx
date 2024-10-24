@@ -19,15 +19,16 @@ import {getQRItemByCode, processScanValue} from '../utils/globalHelpers'; // 根
 import {showMessage} from 'react-native-flash-message';
 import {getData} from '../services/api';
 import * as itemScannerHlpers from '../utils/itemScannerHlpers';
-
+import * as globalHelpers from '../utils/globalHelpers';
 
 type Props = StackScreenProps<RootStackParamList, 'TestScreen'>;
 const TestScreen = ({navigation, route}: Props) => {
   const [scanValue, setScanValue] = useState<string>(''); // 扫码信息---输入框
-  const [currentQR, setCurrentQR] = useState<QRType>(); // 扫码信息---展示lable
+  const [currentQR, setCurrentQR] = useState<QRType>(); // 扫码信息---展示Detial区域
   const inputRefScan = useRef<TextInput>(null); // TextInput 的引用
   const [loading, setLoading] = useState(false); //加载状态：给用户加载数据的UI提示
-  const [barArray, setbarArray] = useState<BoxType[]>([]); // 托盘view
+  const [barArray, setbarArray] = useState<BoxType[]>([]); // 托盘view-数据
+  const [barcodeInfo, setBarcodeInfo] = useState<BarType>(); // 托盘view-数据
 
   // const barArray = [
   //   {
@@ -95,6 +96,9 @@ const TestScreen = ({navigation, route}: Props) => {
   // #region Utility Functions
   // 重置所有项
   const resetAll = () => {
+    showAll('');
+
+    //本地清除，一定会成功。
     showMessage({
       message: 'Clear Success',
       description: 'All items have been cleared!',
@@ -108,49 +112,67 @@ const TestScreen = ({navigation, route}: Props) => {
 
   //【关键函数！】--- 整体触发逻辑
   const inputChangeText = (code_number: string) => {
-    //1 获取新输入数据 
-    let new_code_number; //清空输入框内的老数据，后的可用数据
-    if (currentQR && currentQR.No) {
-      new_code_number = processScanValue(currentQR.No, code_number);
-    } else {
-      new_code_number = code_number;
-    }
-
-    //2 展示页面
-    // 2-1 公共区域信息
-    const new_currentQR = getQRItemByCode(new_code_number)
-    setCurrentQR(new_currentQR);
-
-    // 2-2detialview信息
-    setScanValue(new_code_number); //后续连续操作：effect内
+    showAll(code_number);
   };
   // #endregion
 
   //========================part2:自定义函数(除了点击外)========================
   // #region Utility Functions
-  // 1 功能：设置保持焦点但隐藏键盘
+  /***********解释整个流程************
+  1 扫码数据,传入showAll内：
+    1-1 得到可用No. new_code_number
+    1-2 setScanValue(new_code_number)：new_code_number传递给 Effect
+  2 Effect内：
+    2-1:显示外部主数据---------------直接显示,用scanValue
+    2-2:显示各个不同type的view-------拉取数据,用
+        a.托盘：barArray
+        b.货物：
+        c.货架：
+  */
+  // 1 展示view：整个页面
+  const showAll = (code_number: string) => {
+    //1 清空输入框内的老数据后的，可用扫入数据
+    let new_code_number;
+    if (currentQR && currentQR.No) {
+      new_code_number = processScanValue(currentQR.No, code_number);
+    } else {
+      new_code_number = code_number;
+    }
+    //2 刷新--整个页面数据
+    setScanValue(new_code_number); //后续连续操作effect内-->ShowPalletView()
+  };
+
+  // 2-1 展示view：Pallet view
+  const ShowPalletView = async (platteNo: string) => {
+    if (!platteNo) return;
+    const palletJson = await getPalletJson(platteNo);
+    if (!palletJson) return;
+    const plateId = palletJson['data']['plateId'];
+    if (!plateId) return;
+
+    const productsOfPalletJson = await getProductsOnPlate(plateId); //数组
+    const productsArray = itemScannerHlpers.getProducts(productsOfPalletJson);
+
+    setbarArray(productsArray);
+  };
+
+  // 2-2 展示view：货物 view
+  const ShowBarCodeView = async (barcode: string) => {
+    if (!barcode) return;
+    const barcodeJson = await getBarcodeJson(barcode);
+    const newbarcode = itemScannerHlpers.getBarcodeViewInfo(barcodeJson);
+    setBarcodeInfo(newbarcode);
+  };
+
+  // 2-3 展示view: cell view
+
+  //功能：设置保持焦点但隐藏键盘
   const getfoucs = () => {
     inputRefScan.current?.focus();
     setTimeout(() => {
       Keyboard.dismiss(); // 延迟隐藏键盘
     }, 100); // 延迟100毫秒（这个值可以根据实际效果调整）
   };
-
-  // 2 展示Pallet页面：获取数据
-  const ShowPalletView = async (platteNo:string)=> {
-    if(! platteNo) return;
-
-    const palletJson = await palletInfo(platteNo);
-    const plateId = palletJson['data']['plateId']
-    if(!plateId) return;
-
-    const productsOfPalletJson = await productsOnPlate(plateId); //数组
-    const productsArray = itemScannerHlpers.getProducts(productsOfPalletJson)
-    console.log("-------barArrayFowshow--------:",productsArray);
-    
-    setbarArray(productsArray);
-  }
-
   // #endregion
 
   //========================part3:框架函数====================================
@@ -159,11 +181,25 @@ const TestScreen = ({navigation, route}: Props) => {
     getfoucs();
   }, []);
 
+  // 刷新整个页面
   useEffect(() => {
     getfoucs();
+    // 1展示--外部主要数据
+    const new_currentQR = getQRItemByCode(scanValue);
+    setCurrentQR(new_currentQR);
 
-    //展示
-    ShowPalletView(scanValue);
+    // 2展示--内部Detial区域
+    const codeType = globalHelpers.identifyCode(scanValue);
+    if (codeType == 1) {
+      //'Barcode'
+      ShowBarCodeView(scanValue);
+    } else if (codeType == 2) {
+      //'Pallet Code'
+      ShowPalletView(scanValue);
+    } else if (codeType == 3) {
+      //'Cell Code'
+    } else {
+    }
   }, [scanValue]);
   // #endregion
 
@@ -171,7 +207,7 @@ const TestScreen = ({navigation, route}: Props) => {
   // #region Utility Functions
   // 解释：调用了Hooks的函数，必须在页面(React组件)之内用，无法剥离出去。
   // 1 get：托盘
-  const palletInfo = async (palletCode: string) => {
+  const getPalletJson = async (palletCode: string) => {
     setLoading(true); // 开启加载状态
     try {
       // 参数--params
@@ -194,15 +230,11 @@ const TestScreen = ({navigation, route}: Props) => {
   };
 
   // 2 get: 货物--1个
-  const productInfo = async (code: string) => {
+  const getBarcodeJson = async (code: string) => {
     setLoading(true); // 开启加载状态
     try {
-      // 参数--params
       const data = {params: {barCode: code}};
-      // 拉取数据
       const responsejson = await getData('/api/Box/GetBoxByBarCode', data);
-
-      // 返回
       return responsejson;
     } catch (error) {
       showMessage({
@@ -216,7 +248,7 @@ const TestScreen = ({navigation, route}: Props) => {
   };
 
   // 3 get: 货物--一组(某托盘上的)
-  const productsOnPlate = async (code: string) => {
+  const getProductsOnPlate = async (code: string) => {
     setLoading(true); // 开启加载状态
     try {
       // 参数--params
@@ -241,10 +273,18 @@ const TestScreen = ({navigation, route}: Props) => {
   //========================part 5:动态UI=======================
   // #region Utility Functions
   const renderDisplayView = () => {
+    const barcodeInfoFields = [
+      {label: '货物编号', value: barcodeInfo?.barCode},
+      {label: '产品名称', value: barcodeInfo?.productCode},
+      {label: '产品数量', value: barcodeInfo?.quantity},
+      {label: '托盘编号', value: barcodeInfo?.palletNo},
+      {label: '产品位置', value: barcodeInfo?.position},
+    ];
+
     if (currentQR?.type === 'Pallet') {
       return (
-        <View style={styles.palletContainer}>
-          <Text style={styles.pallet_main_title}>托盘信息</Text>
+        <View style={styles.detialInerViewContainer}>
+          <Text style={styles.detial_main_title}>托盘信息</Text>
           <View style={globalStyles.line_view_tiny}></View>
 
           <View style={styles.pallet_subtitle_container}>
@@ -257,7 +297,9 @@ const TestScreen = ({navigation, route}: Props) => {
           {/* 货物列表 */}
           <View style={styles.pallet_subtitle_container}>
             <Text style={styles.pallet_subtitle}>货物列表</Text>
-            <Text style={styles.pallet_subtitle_value}>总计{barArray.length}件</Text>
+            <Text style={styles.pallet_subtitle_value}>
+              总计{barArray.length}件
+            </Text>
           </View>
 
           <View style={styles.listHeader}>
@@ -289,8 +331,18 @@ const TestScreen = ({navigation, route}: Props) => {
       );
     } else if (currentQR?.type === 'Barcode') {
       return (
-        <View>
-          <Text>Barcode</Text>
+        <View style={styles.detialInerViewContainer}>
+          <Text style={styles.detial_main_title}>货物信息</Text>
+          <View style={globalStyles.line_view_tiny}></View>
+          {barcodeInfoFields.map((field, index) => (
+            <React.Fragment key={index}>
+              <View style={styles.pallet_subtitle_container}>
+                <Text style={styles.pallet_subtitle}>{field.label}</Text>
+                <Text style={styles.pallet_subtitle_value}>{field.value}</Text>
+              </View>
+              <View style={globalStyles.line_view_tiny}></View>
+            </React.Fragment>
+          ))}
         </View>
       );
     } else {

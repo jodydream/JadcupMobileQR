@@ -101,11 +101,11 @@ const styles = StyleSheet.create({
 
   //----------part 3: 信息展示 -------------
   // 托盘信息Container
-  palletContainer: {
+  detialInerViewContainer: {
     flex:1,
     marginTop:15
   },
-  pallet_main_title: {
+  detial_main_title: {
     textAlign: 'center',
     fontSize: FONT_SIZE.BIG1,
     fontWeight: 'bold',

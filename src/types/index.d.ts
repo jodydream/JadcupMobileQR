@@ -76,13 +76,20 @@ interface Box {
   product: Product | null; // 可能为 null
 }
 
-
-
-//页面：扫码------------------------------------------
-//Pallet页面--产品数组
+//页面：'Item Scanner查条码'============================================
+//Pallet区域--产品数组
 interface BoxType {
   barCode: string;
   productCode: string | null;
   status: string | number;
+}
+
+//Barcode区域
+interface BarType {
+  barCode: string;
+  productCode: string | null;
+  quantity: string | number;
+  palletNo: string | number;
+  position: string | number;
 }
 
