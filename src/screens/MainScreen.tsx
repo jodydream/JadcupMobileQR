@@ -31,7 +31,7 @@ const MainScreen: React.FC<Props> = ({navigation, route}) => {
     if (item == 'Store to Pallet上托盘') {
       navigation.navigate('StoreToPalletScreen', {title: item});
     } else if (item == 'Item Scanner查条码') {
-      navigation.navigate('TestScreen', {title: item});
+      navigation.navigate('ItemScannerScreen', {title: item});
     }
   };
 

@@ -7,6 +7,7 @@ const { width, height } = Dimensions.get('window');
 // 行距---暂时没用
 export const SPACING = {
   small: 8,
+  small2: 12,
   medium: 16,
   large: 24,
   xLarge: 32,

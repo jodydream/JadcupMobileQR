@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   item: {
     backgroundColor: theme.colors.surface,
-    padding: SPACING.medium,
+    padding: SPACING.small2,
     borderRadius: 5,
     marginBottom: SPACING.small,
     flexDirection:'row',
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     marginRight: 15, // 图标和文字之间的间距
   },
   itemImage: {
-    width:25,
-    height:25,
+    width:30,
+    height:30,
     marginRight: 15, // 图标和文字之间的间距
     // backgroundColor:'red',
   },

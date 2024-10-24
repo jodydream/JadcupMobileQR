@@ -156,7 +156,7 @@ const TestScreen = ({navigation, route}: Props) => {
     setbarArray(productsArray);
   };
 
-  // 2-2 展示view：货物 view
+  // 2-2 展示view：货物view
   const ShowBarCodeView = async (barcode: string) => {
     if (!barcode) return;
     const barcodeJson = await getBarcodeJson(barcode);
@@ -164,7 +164,7 @@ const TestScreen = ({navigation, route}: Props) => {
     setBarcodeInfo(newbarcode);
   };
 
-  // 2-3 展示view: cell view
+  // 2-3 展示view: 货架view
 
   //功能：设置保持焦点但隐藏键盘
   const getfoucs = () => {

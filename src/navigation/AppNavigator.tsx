@@ -4,8 +4,9 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
-import MainScreen from '../screens/MainScreen'; // 导入主屏幕
-import StoreToPalletScreen from '../screens/StoreToPalletScreen'; // 导入主屏幕
+import MainScreen from '../screens/MainScreen';
+import StoreToPalletScreen from '../screens/StoreToPalletScreen'; 
+import ItemScannerScreen from '../screens/ItemScannerScreen'; 
 
 import TemplateScreen from '../screens/TemplateScreen';
 import TestScreen from '../screens/TestScreen';
@@ -15,7 +16,8 @@ export type RootStackParamList = {
   LoginScreen: {isLogout: boolean};
   MainScreen: {sections: MainSection[]; userInfo: any}; //传递的参数名，必须是sections
   StoreToPalletScreen: {title: string | null};
-
+  ItemScannerScreen: {title: string | null};
+  
   TemplateScreen: undefined;
   TestScreen: {title: string | null};
 };
@@ -43,6 +45,11 @@ const AppNavigator = () => {
           component={StoreToPalletScreen}
           options={{headerShown: false}} // 隐藏系统导航栏
         />
+         <Stack.Screen
+          name="ItemScannerScreen"
+          component={ItemScannerScreen}
+          options={{headerShown: false}} // 隐藏系统导航栏
+        />       
 
         <Stack.Screen
           name="TemplateScreen"
