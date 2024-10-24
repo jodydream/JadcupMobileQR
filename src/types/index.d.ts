@@ -76,3 +76,13 @@ interface Box {
   product: Product | null; // 可能为 null
 }
 
+
+
+//页面：扫码------------------------------------------
+//Pallet页面--产品数组
+interface BoxType {
+  barCode: string;
+  productCode: string | null;
+  status: string | number;
+}
+
